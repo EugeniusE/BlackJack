@@ -24,7 +24,7 @@ object PlayingField {
     
     builder.toString()
   }
-  
+  //main calls generate field
   def main(args: Array[String]): Unit = {
     val fieldString = generateField()
     println(fieldString)
