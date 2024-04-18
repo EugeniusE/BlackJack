@@ -1,5 +1,5 @@
 import scala.util.Random
-object DeckOfCards  {
+object Decks  {
 
   //clumsy enumeration definition
   
@@ -24,8 +24,8 @@ object DeckOfCards  {
   case object King extends Rank
   case object Ace extends Rank
 
-  val suites = Set(Spade, Heart, Club, Diamond)
-  val ranks = List(Two, Three, Four, Five, Six, Seven, Eight, Nine, Ten, Jack, Queen, King, Ace)
+  private val suites = Set(Spade, Heart, Club, Diamond)
+  private val ranks = List(Two, Three, Four, Five, Six, Seven, Eight, Nine, Ten, Jack, Queen, King, Ace)
 
   //the interesting part
   case class Card(rank: Rank, suite: Suite)
@@ -34,12 +34,12 @@ object DeckOfCards  {
 
     def shuffle() = new Deck(Random.shuffle(cards))
 
-    def pullFromTop() = (cards.head, new Deck(cards.tail))
+    def pullFromTop(): (Card, Deck) = (cards.head, new Deck(cards.tail))
 
     def addToTop(card: Card) = new Deck(card :: cards)
 
     def addToTop(cardsToAdd: List[Card]) = new Deck(cardsToAdd ::: cards)
 
-
+    def size  : Int = cards.length
   }
 }
