@@ -7,10 +7,8 @@ lazy val root = project
     version := "0.1.0-SNAPSHOT",
 
     scalaVersion := scala3Version,
-    libraryDependencies ++= Seq(
-      "org.scalameta" %% "munit" % "0.7.29" ,
-      "org.scalafx" %% "scalafx" % "16.0.0-R24"
-      // Add other dependencies as needed
-    )
-    
+    libraryDependencies += "org.scalameta" %% "munit" % "0.7.29",
+    libraryDependencies += "org.scalactic" %% "scalactic" % "3.2.14",
+    libraryDependencies += "org.scalatest" %% "scalatest" % "3.2.14" % "test"
+
   )
