@@ -1,4 +1,5 @@
 import scala.util.Random
+main
 import Decks.Rank._
 import Decks.Suite._
 object Decks  {
