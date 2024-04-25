@@ -14,7 +14,7 @@ object Decks  {
   private val suites = List(Spade, Heart, Club, Diamond)
   private val ranks = List(Two,Three,Four,Five,Six,Seven,Eight,Nine,Ten,Jack,Queen,King,Ace)
 
-  //the interesting part
+  //Methods for the deck
   case class Card(rank: Rank, suite: Suite)
 
   class Deck(cards: List[Card] = for (r <- ranks; s <- suites) yield Card(r, s)) {
