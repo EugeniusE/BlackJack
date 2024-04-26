@@ -51,9 +51,9 @@ Value: 2
       tuiCard.cards += Card(King, Spade)
       val expectedValue = 21  // Ass (11) + König (10)
       tuiCard.cards.foreach { card =>
-        tuiCard.valueMap.getOrElse(card.rank, 0) should be > 0  // Überprüfen, dass die Werte korrekt zugeordnet sind
+        card.rank.getRankValue should be > 0  // Überprüfen, dass die Werte korrekt zugeordnet sind
       }
-      val totalValue = tuiCard.cards.map(card => tuiCard.valueMap(card.rank)).sum
+      val totalValue = tuiCard.cards.map(card => card.rank.getRankValue).sum
       totalValue shouldEqual expectedValue
     }
   }
