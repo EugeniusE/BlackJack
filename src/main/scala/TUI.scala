@@ -12,7 +12,7 @@ class TUI {
     println("Bitte Hit (h) or stand (s) beenden (q)")
     val chars = readLine().toCharArray()
 
-    if (chars.length > 1) {
+    if (chars.length != 1) {
       println("falsche eingabe")
       getInputAndLoop(hand)
     }
@@ -22,7 +22,8 @@ class TUI {
       case 'h' =>
         hand.drawCard()
         getInputAndLoop(hand)
-      case 's' =>
+      case 's' => println("Dealer ist am Zug .......TODO Implementierung")
+      case _ => println("falsche eingabe") 
       // Implement dealer's turn here
     }
   }
