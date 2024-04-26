@@ -33,6 +33,7 @@ class TuiCardTest extends AnyWordSpec with Matchers {
 |            | 
 ============== 
 
+
 Value: 2
 =================================================="""
       tuiCard.cards.clear()
