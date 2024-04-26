@@ -2,6 +2,8 @@ import org.scalatest.wordspec.AnyWordSpec
 import org.scalatest.matchers.should.Matchers
 import Decks.Rank._
 import Decks.Suite._
+import org.scalatest.prop.TableDrivenPropertyChecks._
+
 class CardsValueTest extends AnyWordSpec with Matchers{
     "A deck" should {
       val deck = Decks.Deck()
@@ -54,10 +56,4 @@ class CardsValueTest extends AnyWordSpec with Matchers{
       }
     }
 
-
-
-
-  }
-    
-
-
+}

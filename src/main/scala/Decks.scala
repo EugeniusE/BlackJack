@@ -6,10 +6,9 @@ object Decks  {
   
   enum Suite:
     case Spade, Heart, Club, Diamond
-    def fromString(str:String) = Suite.valueOf(str)
+  
   enum Rank:
     case Two,Three,Four,Five,Six,Seven,Eight,Nine,Ten,Jack,Queen,King,Ace
-    def fromString(str:String) = Suite.valueOf(str)
 
   private val suites = List(Spade, Heart, Club, Diamond)
   private val ranks = List(Two,Three,Four,Five,Six,Seven,Eight,Nine,Ten,Jack,Queen,King,Ace)
