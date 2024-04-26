@@ -11,27 +11,12 @@ class TuiCard {
 
 
   // Define the dimensions of the playing field
-  val valueMap = Map(
-  Two -> 2,
-  Three -> 3,
-  Four -> 4,
-  Five -> 5,
-  Six -> 6,
-  Seven -> 7,
-  Eight -> 8,
-  Nine -> 9,
-  Ten -> 10,
-  Jack -> 10,
-  Queen -> 10,
-  King -> 10,
-  Ace -> 11
-)
-    val height = 5
+    val maxStingSize = 366 // nach vierter karte zeilenumbrunch
   // Method to generate Ascci cards and count the value
     var deck = new Deck
     val cards = ArrayBuffer[Card]()
     var deck2 = new Deck
-    deck = deck2.shuffle()
+    //deck = deck2.shuffle()
 
     def drawCard(): Unit = {
         var (c,deck2) = deck.pullFromTop()
@@ -55,9 +40,9 @@ class TuiCard {
       "=============="
     )
 
-        
         for(a <- 0 to 5){
           for(card <-cards ){
+              
             a match
               case 2 => builder2.append(String.format(cardTemplate.apply(2),card.rank)+" ")
               case 3 => builder2.append(String.format(cardTemplate.apply(3),card.suite)+" ")
@@ -71,11 +56,11 @@ class TuiCard {
         
         var value = 0
         for(card <- cards){
-            var b = valueMap.getOrElse(card.rank,0)
+            val b = card.rank.getRankValue
             value += b
 
         }
-        builder2.append(String.format("\n\nValue: %d\n\n",value))
+        builder2.append(String.format("\n\nValue: %d size String : %d\n\n",value,builder2.length))
         builder2.append("==================================================")
 
   
