@@ -27,14 +27,15 @@ class TuiCardTest extends AnyWordSpec with Matchers {
       tuiCard.drawCard()
 
       val expectedOutput = """
-==============
-|            |
-|  Two       |
-|  Spade     |
-|            |
-==============
-Value: 2
+============== 
+|            | 
+|  Two       | 
+|  Spade     | 
+|            | 
+============== 
 
+
+Value: 2
 =================================================="""
       tuiCard.cards.clear()
       tuiCard.cards += Card(Two, Spade)  // Ein einzelnes Ass der Herzen direkt zu den Karten hinzufügen
@@ -49,7 +50,18 @@ Value: 2
       val tuiCard = new TuiCard
       tuiCard.cards += Card(Ace, Heart)
       tuiCard.cards += Card(King, Spade)
-      val expectedValue = 21  // Ass (11) + König (10)
+      tuiCard.cards += Card(Queen, Spade)
+      tuiCard.cards += Card(Jack, Spade)
+      tuiCard.cards += Card(Ten, Spade)
+      tuiCard.cards += Card(Nine, Spade)
+      tuiCard.cards += Card(Eight, Spade)
+      tuiCard.cards += Card(Seven, Spade)
+      tuiCard.cards += Card(Six, Spade)
+      tuiCard.cards += Card(Five, Spade)
+      tuiCard.cards += Card(Four, Spade)
+      tuiCard.cards += Card(Three, Spade)
+      tuiCard.cards += Card(Two, Spade)
+      val expectedValue = 95
       tuiCard.cards.foreach { card =>
         card.rank.getRankValue should be > 0  // Überprüfen, dass die Werte korrekt zugeordnet sind
       }
