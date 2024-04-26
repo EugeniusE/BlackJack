@@ -1,9 +1,7 @@
 import org.scalatest.wordspec.AnyWordSpec
 import org.scalatest.matchers.should.Matchers
-import Decks.Deck
-import Decks.Spade
-import Decks.Ace
-
+import Decks.Rank._
+import Decks.Suite._
 class CardsValueTest extends AnyWordSpec with Matchers{
     "A deck" should {
       val deck = Decks.Deck()
@@ -31,7 +29,7 @@ class CardsValueTest extends AnyWordSpec with Matchers{
 
     "Cards added to Top" should{
       val deck = Decks.Deck()
-      val c1 = new Decks.Card(Decks.Ace,Decks.Spade)
+      val c1 = new Decks.Card(Ace,Spade)
       val c2 = deck.pullFromTop()
       val deck2 = deck.addToTop(c1)
       "be on top " in{
@@ -42,8 +40,8 @@ class CardsValueTest extends AnyWordSpec with Matchers{
 
     "List of cards added " should{
       val deck = Decks.Deck()
-      val c1 = new Decks.Card(Decks.Ace,Decks.Spade)
-      val c2 = new Decks.Card(Decks.King,Decks.Spade)
+      val c1 = new Decks.Card(Ace,Spade)
+      val c2 = new Decks.Card(King,Spade)
       val cL = List(c1,c2)
       val (d2,deck2) = deck.pullFromTop()
       val(d1,deck3) = deck.pullFromTop()
