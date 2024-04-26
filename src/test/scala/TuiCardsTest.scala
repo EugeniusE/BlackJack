@@ -4,7 +4,6 @@ import Decks.Rank._
 import Decks.Suite._
 import Decks.Deck
 import Decks.Card
-import scala.collection.mutable.ArrayBuffer
 
 class TuiCardTest extends AnyWordSpec with Matchers {
   
