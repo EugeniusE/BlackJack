@@ -10,7 +10,7 @@ class TuiCard {
 
 
 
-  // Define the dimensions of the playing field
+  //auto Scaling TODO:
     val maxStingSize = 366 // nach vierter karte zeilenumbrunch
   // Method to generate Ascci cards and count the value
     var deck = new Deck
