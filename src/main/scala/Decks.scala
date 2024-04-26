@@ -6,9 +6,23 @@ object Decks  {
   
   enum Suite:
     case Spade, Heart, Club, Diamond
-  
   enum Rank:
     case Two,Three,Four,Five,Six,Seven,Eight,Nine,Ten,Jack,Queen,King,Ace
+    def getRankValue : Int = this match{
+      case   Two => 2
+      case  Three => 3
+      case  Four => 4
+      case  Five => 5
+      case  Six => 6
+      case  Seven => 7
+      case  Eight => 8
+      case  Nine => 9
+      case  Ten => 10
+      case  Jack => 10
+      case  Queen => 10
+      case  King => 10
+      case  Ace => 11
+    }
 
   private val suites = List(Spade, Heart, Club, Diamond)
   private val ranks = List(Two,Three,Four,Five,Six,Seven,Eight,Nine,Ten,Jack,Queen,King,Ace)
