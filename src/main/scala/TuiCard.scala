@@ -60,7 +60,7 @@ class TuiCard {
             value += b
 
         }
-        builder2.append(String.format("\n\nValue: %d size String : %d\n\n",value,builder2.length))
+        builder2.append(String.format("\n\nValue: %d\n",value))
         builder2.append("==================================================")
 
   
