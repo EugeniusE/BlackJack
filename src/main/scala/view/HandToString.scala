@@ -3,35 +3,15 @@ import scala.collection.mutable.ArrayBuffer
 import Decks.Suite._
 import Decks.Card
 import Decks.Deck
-import scala.collection.mutable.Map
-
-class TuiCard {
-
-
-
-
-  //auto Scaling TODO:
-    val maxStingSize = 366 // nach vierter karte zeilenumbrunch
-  // Method to generate Ascci cards and count the value
-    var deck = new Deck
-    val cards = ArrayBuffer[Card]()
-    var deck2 = new Deck
-    //deck = deck2.shuffle()
-
-    def drawCard(): Unit = {
-        var (c,deck2) = deck.pullFromTop()
-        deck = deck2  
-        cards += c
-        print_ascii_cards(cards)
-    }
+object HandToString {
 
     
     
-    def print_ascii_cards(cards: ArrayBuffer[Card]): Unit = {
+    def print_ascii_cards(cards: ArrayBuffer[Card]): String = {
 
     val builder = new StringBuilder() 
     val builder2 = new StringBuilder()
-    val cardTemplate = List(
+    val cardTemplate2 = List(
       "==============",
       "|            |",
       "|  %-10s|",
@@ -39,13 +19,19 @@ class TuiCard {
       "|            |",
       "=============="
     )
+    val cardTemplate = List(
+      "==============",
+      "|  %-10s|",
+      "|  %-10s|",
+      "=============="
+    )
 
-        for(a <- 0 to 5){
+        for(a <- 0 to 3){
           for(card <-cards ){
               
             a match
-              case 2 => builder2.append(String.format(cardTemplate.apply(2),card.rank)+" ")
-              case 3 => builder2.append(String.format(cardTemplate.apply(3),card.suite)+" ")
+              case 1 => builder2.append(String.format(cardTemplate.apply(1),card.rank)+" ")
+              case 2 => builder2.append(String.format(cardTemplate.apply(2),card.suite)+" ")
               case _ => builder2.append(cardTemplate.apply(a)+" ")
             }
             builder2.append("\n")
@@ -60,12 +46,10 @@ class TuiCard {
             value += b
 
         }
-        builder2.append(String.format("\n\nValue: %d\n",value))
-        builder2.append("==================================================")
-
-  
+        
       //println(builder)
-      println(builder2)
+      //Return builder
+      builder2.toString()
   }
 
 // vertikaler builder fals erwünscht

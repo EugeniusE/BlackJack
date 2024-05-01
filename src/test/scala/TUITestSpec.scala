@@ -2,7 +2,7 @@ import org.scalatest.wordspec.AnyWordSpec
 import org.scalatest.matchers.should.Matchers
 import java.io.{ByteArrayInputStream, ByteArrayOutputStream, PrintStream}
 
-class TUITest extends AnyWordSpec with Matchers {
+class TUITestSpec extends AnyWordSpec with Matchers {
   "TUI" should {
     "handle incorrect input and prompt again" in {
       val in = new ByteArrayInputStream("x\nq\n".getBytes)
