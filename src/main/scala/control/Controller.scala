@@ -7,7 +7,7 @@ import Decks.Deck
 
 enum Ergebnis:
         case PlayerWin, DealerWin, Draw
-        
+
 class Controller {
     
 
@@ -22,35 +22,31 @@ class Controller {
     }
     //TODO: mehrer Spielrunden
 
-    def newRound():Unit = {
+    // def newRound():Unit = {
 
 
-    }
+    // }
 
 
     // Regeln für Spieler Hit
     def hit():Boolean = {
 
+        val card = drawNewCard()
 
-       if(table.deck.size == 0){
-        table.deck = new Deck().shuffle()
-       }
-       val (card,remainingDeck) = table.deck.pullFromTop()
-       table.deck = remainingDeck
-       table.player.addCard(card)
+        table.player.addCard(card)
 
-       if(evaluateHand(table.player.getHand()) > 21){
-         false
-       }   
-       else {
-        true
+        if(evaluateHand(table.player.getHand()) > 21){
+            false
+        }   
+        else {
+            true
        }
 
     }
 
 
 
-    // Dealer actionen
+    // Dealer actionen es TODO alle regeln implementieren vielleicht mit extra function 
     def stand():Ergebnis = {
         while (evaluateHand(table.getDealerHand()) < 17){
             val card = drawNewCard()
@@ -80,9 +76,9 @@ class Controller {
     }
 
     // Aufräumen Speichern von State der Klassen des Spiels (Noch nicht implementiert)
-    def quit():Boolean = {
-        true
-    }
+    // def quit():Boolean = {
+    //     true
+    // }
 
 
 
