@@ -1,8 +1,14 @@
 import scala.io.StdIn.readLine
+import util.Observer
 
-class TUI {
+ class TUI extends Observer {
+
+  var log:String = ""
+  def update: Unit = log.concat("Updated Observer")
 
   val controller = new Controller
+
+  controller.add(this)
   def start(): Unit = {
     controller.newGame()
     printZwischenStand()
@@ -19,7 +25,7 @@ class TUI {
     }
 
     val eingabe = chars(0).toLower match {
-      case 'q' => None
+      case 'q' => controller.remove(this)
       case 'h' => {
                     val continue = controller.hit()
                     printZwischenStand()
