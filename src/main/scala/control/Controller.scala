@@ -3,12 +3,14 @@ import Decks.Rank._
 import Decks.Suite._
 import scala.collection.mutable.ArrayBuffer
 import Decks.Deck
+import util.Observer
+import util.Observable
 
 
 enum Ergebnis:
         case PlayerWin, DealerWin, Draw
 
-class Controller {
+class Controller extends Observable{
     
 
     val table = new Table
@@ -19,6 +21,7 @@ class Controller {
         val c2 = drawNewCard()
         table.player.addCard(c1)
         table.addDealerHand(c2)
+        notifyObservers
     }
     //TODO: mehrer Spielrunden
 
@@ -28,12 +31,13 @@ class Controller {
     // }
 
 
-    // Regeln für Spieler Hit
+    // Regeln für Spieler Hit gibt false zürück fals nicht weiter gespielt wird sonst true
     def hit():Boolean = {
 
         val card = drawNewCard()
 
         table.player.addCard(card)
+        notifyObservers
 
         if(evaluateHand(table.player.getHand()) > 21){
             false
@@ -54,6 +58,7 @@ class Controller {
         }
         val dealerScore = evaluateHand(table.getDealerHand())
         val playerScore = evaluateHand(table.player.getHand())
+        notifyObservers
         if(dealerScore > 21 || dealerScore < playerScore){
             Ergebnis.PlayerWin
         }
@@ -72,6 +77,7 @@ class Controller {
 
         val (card,remainingDeck) = table.deck.pullFromTop()
         table.deck = remainingDeck
+        notifyObservers
         card
     }
 

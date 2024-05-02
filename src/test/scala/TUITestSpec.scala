@@ -30,5 +30,9 @@ class TUITestSpec extends AnyWordSpec with Matchers {
       val output = out.toString
       output should include("Dealer ist am Zug .......TODO Implementierung")
     }
+
+
+
+
   }
 }
