@@ -1,32 +1,38 @@
-# This workflow uses actions that are not certified by GitHub.
-# They are provided by a third-party and are governed by
-# separate terms of service, privacy policy, and support
-# documentation.
+      name: Scala CI
 
-name: Scala CI
-
-on:
-  push:
-    branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
-
-permissions:
-  contents: read
-
-jobs:
-  build:
-
-    runs-on: ubuntu-latest
-
-    steps:
-    - uses: actions/checkout@v4
-    - name: Set up JDK 11
-      uses: actions/setup-java@v3
-      with:
-        java-version: '11'
-        distribution: 'temurin'
-        cache: 'sbt'
-    - name: Run tests
-      run: sbt test
-      # Optional: This step uploads information to the GitHub dependency graph and unblocking Dependabot alerts for the repository
+      on:
+        push:
+          branches: [ "main" ]
+        pull_request:
+          branches: [ "main" ]
+      
+      permissions:
+        contents: read
+      
+      jobs:
+        build_and_test:
+          runs-on: ubuntu-latest
+          steps:
+          - uses: actions/checkout@v4
+          - name: Set up JDK 11
+            uses: actions/setup-java@v3
+            with:
+              java-version: '11'
+              distribution: 'temurin'
+              cache: 'sbt'
+        
+          - name: Coveralls GitHub Action
+            uses: coverallsapp/github-action@v2.3.0
+          
+          - name: Compile project
+            run: sbt compile
+      
+          - name: Run tests and coverage
+            env:
+              COVERALLS_REPO_TOKEN: ${{ secrets.COVERALLS_REPO_TOKEN }}
+            run: |
+              sbt clean test coverageReport coverageAggregate
+              sbt coveralls
+      
+        # Additional job for Jacoco might be redundant if you are already using scoverage for coverage reports. If needed, modify or remove accordingly.
+      
