@@ -1,7 +1,7 @@
 CorverageStatus:
 [![BuildStatus](https://github.com/EugeniusE/BlackJack/actions/workflows/scala.yml/badge.svg)](https://github.com/EugeniusE/BlackJack/actions/workflows/scala.yml)
 
-
+[![Coverage Status](https://coveralls.io/repos/github/EugeniusE/BlackJack/badge.svg)](https://coveralls.io/github/EugeniusE/BlackJack)
 
 ## sbt project compiled with Scala 3
 
