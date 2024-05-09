@@ -2,7 +2,10 @@ import org.scalatest.wordspec.AnyWordSpec
 import org.scalatest.matchers.should.Matchers
 import Decks.Rank._
 import Decks.Suite._
-class CardsValueTest extends AnyWordSpec with Matchers{
+import org.scalatest.prop.TableDrivenPropertyChecks._
+import Decks.Card
+
+class CardsValueTestSpec extends AnyWordSpec with Matchers{
     "A deck" should {
       val deck = Decks.Deck()
       "have size 52" in{
@@ -54,10 +57,32 @@ class CardsValueTest extends AnyWordSpec with Matchers{
       }
     }
 
+      "A Controller" should {
+        "calculate the total value correctly with multiple cards" in {
+          var tuiCard = List[Card](
+            Card(Ace, Heart),
+            Card(King, Spade),
+            Card(Queen, Spade),
+            Card(Jack, Spade),
+            Card(Ten, Spade),
+            Card(Nine, Spade),
+            Card(Eight, Spade),
+            Card(Seven, Spade),
+            Card(Six, Spade),
+            Card(Five, Spade),
+            Card(Four, Spade),
+            Card(Three, Spade),
+            Card(Two, Spade)
+          )
 
+          val expectedValue = 95
 
+          tuiCard.foreach { card =>
+            card.rank.getRankValue should be > 0  // Check that the values are correctly assigned
+          }
 
-  }
-    
-
-
+          val totalValue = tuiCard.map(_.rank.getRankValue).sum
+          totalValue shouldEqual expectedValue
+      }
+    }
+}

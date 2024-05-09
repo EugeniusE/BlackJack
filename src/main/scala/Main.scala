@@ -1,33 +1,21 @@
-// @main def hello(): Unit =
-//   println("Hello world!")
-//   println(msg)
-
- 
-object PlayingField {
-  // Define the dimensions of the playing field
-  val width = 10
-  val height = 5
-  
-  // Method to generate the string representation of the playing field
-  def generateField(): String = {
-    val builder = new StringBuilder()
-    
-    for (y <- 0 until height) {
-      for (x <- 0 until width) {
-        
-        builder.append('.')
-      }
-      
-      builder.append('\n')
-    }
-    
-    
-    builder.toString()
-  }
-  //main calls generate field
+import scala.collection.mutable.ArrayBuffer
+import Decks.Card
+import Decks.Rank._
+import Decks.Suite._
+object Main {
   def main(args: Array[String]): Unit = {
-    val fieldString = generateField()
-    println(fieldString)
+    // Call the generateField method from the TuiCard object
+
+    val controller = new Controller()
+    val tui = new TUI()
+    tui.start()
+    // val nums = Seq(1,2,3,4,5,6)
+    // for( a <- 0 to 0){
+    //      tuiCard.drawCard();
+    //   }
+    // val tui = new TUI
+    // tui.start()
+    // Print or use the generated field string
+    //println(field)
   }
 }
-
