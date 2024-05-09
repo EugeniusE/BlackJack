@@ -1,3 +1,8 @@
+CorverageStatus:
+[![Scala CI](https://github.com/EugeniusE/BlackJack/actions/workflows/scala.yml/badge.svg)](https://github.com/EugeniusE/BlackJack/actions/workflows/scala.yml)
+
+
+
 ## sbt project compiled with Scala 3
 
 ### Usage
