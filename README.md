@@ -1,5 +1,5 @@
 CorverageStatus:
-[![Scala CI](https://github.com/EugeniusE/BlackJack/actions/workflows/scala.yml/badge.svg)](https://github.com/EugeniusE/BlackJack/actions/workflows/scala.yml)
+[![BuildStatus](https://github.com/EugeniusE/BlackJack/actions/workflows/scala.yml/badge.svg)](https://github.com/EugeniusE/BlackJack/actions/workflows/scala.yml)
 
 
 
