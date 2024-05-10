@@ -1,6 +1,7 @@
 
 
-![alt text]([(https://github.com/EugeniusE/BlackJack/edit/main/src/main/scala/resources/Zeichnung.png/image.png?raw=true)
+![alt text](https://github.com/EugeniusE/BlackJack/edit/main/src/main/scala/resources/Zeichnung.png/image.png?raw=true)
+
 
 Test Status
 [![BuildStatus](https://github.com/EugeniusE/BlackJack/actions/workflows/scala.yml/badge.svg)](https://github.com/EugeniusE/BlackJack/actions/workflows/scala.yml)
