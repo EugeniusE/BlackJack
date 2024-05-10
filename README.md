@@ -1,7 +1,5 @@
 
-![Zeichnung](https://github.com/EugeniusE/BlackJack/assets/118937027/7388a59e-679f-4574-8866-e53f14040aed)
-
-
+![Zeichnung](https://github.com/EugeniusE/BlackJack/assets/118937027/dd2bddb3-87d1-4f2c-93a9-b84f02462b93)
 
 Test Status
 [![BuildStatus](https://github.com/EugeniusE/BlackJack/actions/workflows/scala.yml/badge.svg)](https://github.com/EugeniusE/BlackJack/actions/workflows/scala.yml)
