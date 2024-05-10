@@ -1,6 +1,7 @@
 
+![Zeichnung](https://github.com/EugeniusE/BlackJack/assets/118937027/fb99bfec-6ef8-4ea6-9a83-29c58027bea2)
 
-![alt text](https://github.com/EugeniusE/BlackJack/edit/main/src/main/scala/resources/Zeichnung.png/image.png?raw=true)
+
 
 
 Test Status
