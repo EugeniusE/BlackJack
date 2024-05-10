@@ -1,5 +1,6 @@
 
-![Zeichnung](https://github.com/EugeniusE/BlackJack/assets/118937027/eeb3242c-4d69-4b38-b5b1-f792d8eeac70)
+![Zeichnung](https://github.com/EugeniusE/BlackJack/assets/118937027/7388a59e-679f-4574-8866-e53f14040aed)
+
 
 
 Test Status
