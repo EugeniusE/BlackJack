@@ -23,7 +23,7 @@ import util.Observer
       println("falsche eingabe")
       getInputAndLoop()
     }
-
+    //nicht als println sondern string dann kann man den string testen
     val eingabe = chars(0).toLower match {
       case 'q' => controller.remove(this)
       case 'h' => {

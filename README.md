@@ -1,3 +1,12 @@
+
+![Zeichnung](https://github.com/EugeniusE/BlackJack/assets/118937027/7e714177-a3fe-4244-a607-18e91f327393)
+
+
+Test Status
+[![BuildStatus](https://github.com/EugeniusE/BlackJack/actions/workflows/scala.yml/badge.svg)](https://github.com/EugeniusE/BlackJack/actions/workflows/scala.yml)
+
+Coverage Status [![Coverage Status](https://coveralls.io/repos/github/EugeniusE/BlackJack/badge.svg?branch=main)](https://coveralls.io/github/EugeniusE/BlackJack?branch=main)
+
 ## sbt project compiled with Scala 3
 
 ### Usage
