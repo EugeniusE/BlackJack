@@ -1,13 +1,13 @@
 import Decks.Card
-import Decks.Rank._
-import Decks.Suite._
-import scala.collection.mutable.ArrayBuffer
 import Decks.Deck
 import util.Observer
 import util.Observable
 
-enum Ergebnis:
-  case PlayerWin, DealerWin, Draw
+object Ergebnis extends Enumeration {
+  type Ergebnis = Value
+  val PlayerWin, DealerWin, Draw = Value
+}
+import Ergebnis._
 
 class Controller(val evaluate: EvaluationStrategy) extends Observable {
 
@@ -23,8 +23,8 @@ class Controller(val evaluate: EvaluationStrategy) extends Observable {
   }
 
   def hit(): Boolean = {
-    val card = drawNewCard()
-    table.player.addCard(card)
+    val command = new HitCommand(table.player, this)
+    command.execute()
     notifyObservers
 
     if (evaluate.evaluateHand(table.player.getHand()) > 21) {
@@ -35,10 +35,8 @@ class Controller(val evaluate: EvaluationStrategy) extends Observable {
   }
 
   def stand(): Ergebnis = {
-    while (evaluate.evaluateHand(table.getDealerHand()) < 17) {
-      val card = drawNewCard()
-      table.addDealerHand(card)
-    }
+    val command = new StandCommand(this)
+    command.execute()
     val dealerScore = evaluate.evaluateHand(table.getDealerHand())
     val playerScore = evaluate.evaluateHand(table.player.getHand())
     notifyObservers

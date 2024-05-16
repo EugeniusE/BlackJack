@@ -1,9 +1,9 @@
 import scala.io.StdIn.readLine
 import util.Observer
 
- class TUI extends Observer {
+class TUI extends Observer {
 
-  var log:String = ""
+  var log: String = ""
   def update: Unit = log.concat("Updated Observer")
   val evalStrat = new HighStakes
   val controller = new Controller(evalStrat)
@@ -23,64 +23,43 @@ import util.Observer
       println("falsche eingabe")
       getInputAndLoop()
     }
-    //nicht als println sondern string dann kann man den string testen
     val eingabe = chars(0).toLower match {
       case 'q' => controller.remove(this)
       case 'h' => {
-                    val continue = controller.hit()
-                    printZwischenStand()
-                    if(continue){
-                      getInputAndLoop()
-                    }
-                    else 
-                      //Geld abziehen
-                      println("Spieler Verloren")
-                
-                  }
+        val continue = controller.hit()
+        printZwischenStand()
+        if (continue) {
+          getInputAndLoop()
+        } else {
+          println("Spieler Verloren")
+        }
+      }
       case 's' => {
-                    println("Dealer ist am Zug .......TODO Implementierung")
-                    val ergebis = controller.stand()
-                    printZwischenStand()
-                    ergebis match
-                      case Ergebnis.PlayerWin => {
-                        
-                        println("Spieler hat gewonnen Gratulation")
-                        //Todo Wetteinsatz auszahlen
-
-                      }
-                      case Ergebnis.DealerWin => {
-                        println("Dealer hat gewonnen")
-                        //Wetteinsatz abziehen
-
-
-                      }
-                      case Ergebnis.Draw => {
-                        println("Unentschieden")
-                        //Jeder Behält sein geld
-
-                      }
-                    
-                  
-                  }
-      case _ => { 
-                  println("falsche eingabe") 
-                  getInputAndLoop()
-                  
-                }
-      // Implement dealer's turn here
+        println("Dealer ist am Zug .......")
+        val ergebnis = controller.stand()
+        printZwischenStand()
+        ergebnis match {
+          case Ergebnis.PlayerWin => println("Spieler hat gewonnen Gratulation")
+          case Ergebnis.DealerWin => println("Dealer hat gewonnen")
+          case Ergebnis.Draw => println("Unentschieden")
+        }
+      }
+      case _ => {
+        println("falsche eingabe")
+        getInputAndLoop()
+      }
     }
   }
 
-  def printZwischenStand():Unit = {
-    println(controller.table.player.name+" :")
+  def printZwischenStand(): Unit = {
+    println(controller.table.player.name + " :")
     println(HandToString.print_ascii_cards(controller.table.player.getHand()))
     println("Score: " + controller.evaluate.evaluateHand(controller.table.player.getHand()))
-    println("%50s".format(" ").replace(" ","="))
+    println("%50s".format(" ").replace(" ", "="))
 
     println("Dealer: ")
     println(HandToString.print_ascii_cards(controller.table.getDealerHand()))
     println("Score: " + controller.evaluate.evaluateHand(controller.table.getDealerHand()))
-    println("%50s".format(" ").replace(" ","="))
-
+    println("%50s".format(" ").replace(" ", "="))
   }
 }
