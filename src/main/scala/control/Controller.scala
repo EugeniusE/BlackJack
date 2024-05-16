@@ -6,123 +6,59 @@ import Decks.Deck
 import util.Observer
 import util.Observable
 
-
 enum Ergebnis:
-        case PlayerWin, DealerWin, Draw
+  case PlayerWin, DealerWin, Draw
 
-class Controller extends Observable{
-    
+class Controller(val evaluate: EvaluationStrategy) extends Observable {
 
-    val table = new Table
+  val table = new Table
 
-    def newGame():Unit = {
-        table.deck = table.deck.shuffle()
-        val c1 = drawNewCard()
-        val c2 = drawNewCard()
-        table.player.addCard(c1)
-        table.addDealerHand(c2)
-        notifyObservers
+  def newGame(): Unit = {
+    table.deck = table.deck.shuffle()
+    val c1 = drawNewCard()
+    val c2 = drawNewCard()
+    table.player.addCard(c1)
+    table.addDealerHand(c2)
+    notifyObservers
+  }
+
+  def hit(): Boolean = {
+    val card = drawNewCard()
+    table.player.addCard(card)
+    notifyObservers
+
+    if (evaluate.evaluateHand(table.player.getHand()) > 21) {
+      false
+    } else {
+      true
     }
-    //TODO: mehrer Spielrunden
+  }
 
-    // def newRound():Unit = {
-
-
-    // }
-
-
-    // Regeln für Spieler Hit gibt false zürück fals nicht weiter gespielt wird sonst true
-    def hit():Boolean = {
-
-        val card = drawNewCard()
-
-        table.player.addCard(card)
-        notifyObservers
-
-        if(evaluateHand(table.player.getHand()) > 21){
-            false
-        }   
-        else {
-            true
-       }
-
+  def stand(): Ergebnis = {
+    while (evaluate.evaluateHand(table.getDealerHand()) < 17) {
+      val card = drawNewCard()
+      table.addDealerHand(card)
     }
+    val dealerScore = evaluate.evaluateHand(table.getDealerHand())
+    val playerScore = evaluate.evaluateHand(table.player.getHand())
+    notifyObservers
+    if (dealerScore > 21 || dealerScore < playerScore) {
+      Ergebnis.PlayerWin
+    } else if (dealerScore == playerScore) {
+      Ergebnis.Draw
+    } else {
+      Ergebnis.DealerWin
+    }
+  }
 
-
-
-    // Dealer actionen es TODO alle regeln implementieren vielleicht mit extra function 
-    def stand():Ergebnis = {
-        while (evaluateHand(table.getDealerHand()) < 17){
-            val card = drawNewCard()
-            table.addDealerHand(card)
-        }
-        val dealerScore = evaluateHand(table.getDealerHand())
-        val playerScore = evaluateHand(table.player.getHand())
-        notifyObservers
-        if(dealerScore > 21 || dealerScore < playerScore){
-            Ergebnis.PlayerWin
-        }
-        else if(dealerScore == playerScore){
-            Ergebnis.Draw
-        }
-        else
-            Ergebnis.DealerWin
-        
+  def drawNewCard(): Card = {
+    if (table.deck.size == 0) {
+      table.deck = new Deck().shuffle()
     }
 
-    def drawNewCard():Card = {
-        if(table.deck.size == 0){
-        table.deck = new Deck().shuffle()
-        }
-
-        val (card,remainingDeck) = table.deck.pullFromTop()
-        table.deck = remainingDeck
-        notifyObservers
-        card
-    }
-
-    // Aufräumen Speichern von State der Klassen des Spiels (Noch nicht implementiert)
-    // def quit():Boolean = {
-    //     true
-    // }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    // Die Idee ist dass ersmal alle Werte Summiert werden (Asse mit Wert 11)
-    // Dann wenn der Wert zu hoch ist, werden solange Asse auf 1 gesetzt bis es entweder keine Asse mehr in der Hand gibt oder 
-    // der Wert der Hand unter 21 liegt 
-
-    def evaluateHand(hand:ArrayBuffer[Card]):Int = {
-        
-        var score = hand.map(_.rank.getRankValue).sum
-
-        if(score > 21 ){
-            var aceCount = hand.count(_.rank == Ace)
-
-            while (score > 21 && aceCount > 0){
-                score -= 10
-                aceCount -= 1 
-            }
-            }
-        
-
-        score
-    }
-  
+    val (card, remainingDeck) = table.deck.pullFromTop()
+    table.deck = remainingDeck
+    notifyObservers
+    card
+  }
 }
