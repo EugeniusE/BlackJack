@@ -7,6 +7,7 @@ object Main {
     // Call the generateField method from the TuiCard object
 
     val tui = new TUI()
+    println(tui.controller.table.deck.size)
     tui.start()
     // val nums = Seq(1,2,3,4,5,6)
     // for( a <- 0 to 0){

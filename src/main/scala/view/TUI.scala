@@ -5,7 +5,7 @@ class TUI extends Observer {
 
   var log: String = ""
   def update: Unit = log.concat("Updated Observer")
-  val evalStrat = new HighStakes
+  val evalStrat = new StandardEvaluationStrategy // Es können verschiedene Evaluations-Regeln hier ausgewählt werden
   val controller = new Controller(evalStrat)
 
   controller.add(this)

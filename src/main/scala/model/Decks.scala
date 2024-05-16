@@ -41,5 +41,28 @@ object Decks  {
     def addToTop(cardsToAdd: List[Card]) = new Deck(cardsToAdd ::: cards)
 
     def size  : Int = cards.length
+
+    def getCards : List[Card] = cards
+  }
+}
+
+trait DeckFactory {
+  def createDeck(): Decks.Deck
+}
+
+class StandardDeckFactory extends DeckFactory {
+  override def createDeck(): Decks.Deck = {new Decks.Deck().shuffle()}
+}
+
+class SixDeckGame extends DeckFactory {
+  override def createDeck(): Decks.Deck = {
+    val sixDecks: List[Decks.Deck] = List.fill(5)(new Decks.Deck())
+    var finalDeck: Decks.Deck = new Decks.Deck()
+    
+    for(deck <- sixDecks){
+      finalDeck = finalDeck.addToTop(deck.getCards)
+    }
+    finalDeck.shuffle()
+   
   }
 }

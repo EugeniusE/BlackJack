@@ -47,6 +47,8 @@ class ControllerSpec extends AnyWordSpec {
         controller.table.player.addCard(new Card(Rank.Ace, Suite.Spade))
         controller.table.player.addCard(new Card(Rank.Nine, Suite.Heart))
         controller.table.addDealerHand(new Card(Rank.Ten, Suite.Club))
+        controller.table.addDealerHand(new Card(Rank.Ten, Suite.Club))
+        controller.table.addDealerHand(new Card(Rank.Five, Suite.Club))
 
         controller.stand() shouldEqual Ergebnis.PlayerWin
       }
@@ -93,6 +95,14 @@ class ControllerSpec extends AnyWordSpec {
             }
         c.table.deck.size shouldEqual 51
 
+      }
+    }
+
+    "A high stakes Game " should{
+      val eval = new HighStakes
+      val hand= ArrayBuffer(new Card(Rank.Ace, Suite.Spade), new Card(Rank.Ace, Suite.Spade))
+      "evaluate 2 aces as 22" in {
+        eval.evaluateHand(hand) shouldEqual 22
       }
     }
 
