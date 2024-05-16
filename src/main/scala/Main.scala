@@ -6,7 +6,6 @@ object Main {
   def main(args: Array[String]): Unit = {
     // Call the generateField method from the TuiCard object
 
-    val controller = new Controller()
     val tui = new TUI()
     tui.start()
     // val nums = Seq(1,2,3,4,5,6)

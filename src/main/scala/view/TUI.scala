@@ -5,8 +5,8 @@ import util.Observer
 
   var log:String = ""
   def update: Unit = log.concat("Updated Observer")
-
-  val controller = new Controller
+  val evalStrat = new HighStakes
+  val controller = new Controller(evalStrat)
 
   controller.add(this)
   def start(): Unit = {
@@ -74,12 +74,12 @@ import util.Observer
   def printZwischenStand():Unit = {
     println(controller.table.player.name+" :")
     println(HandToString.print_ascii_cards(controller.table.player.getHand()))
-    println("Score: " + controller.evaluateHand(controller.table.player.getHand()))
+    println("Score: " + controller.evaluate.evaluateHand(controller.table.player.getHand()))
     println("%50s".format(" ").replace(" ","="))
 
     println("Dealer: ")
     println(HandToString.print_ascii_cards(controller.table.getDealerHand()))
-    println("Score: " + controller.evaluateHand(controller.table.getDealerHand()))
+    println("Score: " + controller.evaluate.evaluateHand(controller.table.getDealerHand()))
     println("%50s".format(" ").replace(" ","="))
 
   }
