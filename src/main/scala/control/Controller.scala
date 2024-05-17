@@ -51,7 +51,7 @@ class Controller(val evaluate: EvaluationStrategy) extends Observable {
 
   def drawNewCard(): Card = {
     if (table.deck.size == 0) {
-      table.deck = table.DeckFactory.createDeck()
+      table.deck = DeckFactory(FactoryType.StandartDeck).createDeck()
     }
 
     val (card, remainingDeck) = table.deck.pullFromTop()

@@ -50,11 +50,11 @@ trait DeckFactory {
   def createDeck(): Decks.Deck
 }
 
-class StandardDeckFactory extends DeckFactory {
+private class StandardDeckFactory extends DeckFactory {
   override def createDeck(): Decks.Deck = {new Decks.Deck().shuffle()}
 }
 
-class SixDeckGame extends DeckFactory {
+private class SixDeckGame extends DeckFactory {
   override def createDeck(): Decks.Deck = {
     val sixDecks: List[Decks.Deck] = List.fill(5)(new Decks.Deck())
     var finalDeck: Decks.Deck = new Decks.Deck()
@@ -65,4 +65,17 @@ class SixDeckGame extends DeckFactory {
     finalDeck.shuffle()
    
   }
+}
+
+enum FactoryType:
+  case SixDecks, StandartDeck
+
+object DeckFactory{
+def apply(factoryKind: FactoryType) = factoryKind match{
+
+  case FactoryType.SixDecks => new SixDeckGame()
+  case FactoryType.StandartDeck => new StandardDeckFactory()
+
+}
+
 }

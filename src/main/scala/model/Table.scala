@@ -3,9 +3,9 @@ import Decks.Card
 import scala.collection.mutable.ArrayBuffer
 import org.hamcrest.Factory
 class Table {
-  val DeckFactory = new StandardDeckFactory // Deck factory zum erstellen von verschiedenen arten von Decks 
+  var deck = DeckFactory(FactoryType.StandartDeck).createDeck() // Deck factory zum erstellen von verschiedenen arten von Decks 
 
-  var deck = DeckFactory.createDeck()
+  //var deck = DeckFactory.createDeck()
   private val dealerHand = new ArrayBuffer[Card]
 
   val player = new Player(500,"Spieler1")
