@@ -19,6 +19,17 @@ class ControllerSpec extends AnyWordSpec {
       }
     }
 
+    "a new round is started each players should " should {
+      "initialize a new round " in {
+      val controller = new Controller(evalStrat)
+      controller.newGame()
+      controller.nextRound()
+        controller.table.deck.size should be > 0
+        controller.table.player.getHand() should not be empty
+        controller.table.getDealerHand() should not be empty
+      }
+    } 
+
     "hitting" should {
       "add a card to the player's hand" in {
         val controller = new Controller(evalStrat)
@@ -83,6 +94,12 @@ class ControllerSpec extends AnyWordSpec {
             val controller = new Controller(evalStrat)
             controller.table.clearDealerhand()
             controller.table.getDealerHand().size shouldEqual 0
+        }
+        "get Cards" in {
+          val controller = new Controller(evalStrat)
+          controller.table.player.addCard(new Card(Rank.Ace, Suite.Spade))
+          controller.stand()
+          controller.table.getDealerHand().size should  be > 1
         }
     }
 
