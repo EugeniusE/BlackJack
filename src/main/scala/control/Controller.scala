@@ -22,6 +22,13 @@ class Controller(val evaluate: EvaluationStrategy) extends Observable {
     notifyObservers
   }
 
+  def nextRound(): Unit = {
+    table.player.clearHand()
+    table.clearDealerhand()
+    table.player.addCard(drawNewCard())
+    table.addDealerHand(drawNewCard())
+  }
+
   def hit(): Boolean = {
     val command = new HitCommand(table.player, this)
     command.execute()
@@ -40,6 +47,7 @@ class Controller(val evaluate: EvaluationStrategy) extends Observable {
     val dealerScore = evaluate.evaluateHand(table.getDealerHand())
     val playerScore = evaluate.evaluateHand(table.player.getHand())
     notifyObservers
+
     if (dealerScore > 21 || dealerScore < playerScore) {
       Ergebnis.PlayerWin
     } else if (dealerScore == playerScore) {

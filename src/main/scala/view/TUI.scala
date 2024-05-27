@@ -15,8 +15,10 @@ class TUI extends Observer {
     getInputAndLoop()
   }
 
+  
+
   def getInputAndLoop(): Unit = {
-    println("Bitte Hit (h) or stand (s) beenden (q)")
+    print("Bitte Hit (h) or stand (s) beenden (q) \n> ")
     val chars = readLine().toCharArray()
 
     if (chars.length != 1) {
@@ -32,6 +34,7 @@ class TUI extends Observer {
           getInputAndLoop()
         } else {
           println("Spieler Verloren")
+          nextRound()
         }
       }
       case 's' => {
@@ -40,14 +43,39 @@ class TUI extends Observer {
         printZwischenStand()
         ergebnis match {
           case Ergebnis.PlayerWin => println("Spieler hat gewonnen Gratulation")
-          case Ergebnis.DealerWin => println("Dealer hat gewonnen")
+          case Ergebnis.DealerWin => {println("Dealer hat gewonnen")}
           case Ergebnis.Draw => println("Unentschieden")
         }
+        nextRound()
       }
       case _ => {
         println("falsche eingabe")
         getInputAndLoop()
       }
+    }
+  }
+
+
+
+
+  def nextRound(): Unit = {
+    print("Weiterspielen? y/n \n> ")
+    val chars = readLine().toCharArray()
+    if(chars.length != 1){
+      println("Falsche eingabe")
+      nextRound()
+    }
+    chars(0).toLower match {
+      case 'y' => {  
+                    controller.nextRound()
+                    printZwischenStand()
+                    getInputAndLoop()
+                  }
+      case 'n' => controller.remove(this)
+      case _  => {
+                  println("Falsche Eingabe")
+                  nextRound()
+                  } 
     }
   }
 
