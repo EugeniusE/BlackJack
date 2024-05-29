@@ -3,7 +3,7 @@ import scala.collection.mutable.ArrayBuffer
 import Decks.Card
 class Player (private var money:Int,val name :String){
     
-    private val hand = new ArrayBuffer[Card]
+    val hand = new ArrayBuffer[Card]
 
     def addCard(card:Card):Unit ={
         hand.addOne(card)

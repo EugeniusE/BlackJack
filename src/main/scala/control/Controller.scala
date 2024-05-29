@@ -12,6 +12,7 @@ import Ergebnis._
 class Controller(val evaluate: EvaluationStrategy) extends Observable {
 
   val table = new Table
+  private val commandManager = new CommandManager()
 
   def newGame(): Unit = {
     table.deck = table.deck.shuffle()
@@ -30,8 +31,9 @@ class Controller(val evaluate: EvaluationStrategy) extends Observable {
   }
 
   def hit(): Boolean = {
-    val command = new HitCommand(table.player, this)
-    command.execute()
+    // val command = new HitCommand(table.player, this)
+    // command.execute()
+    executeCommand(new HitCommand(table.player,this))
     notifyObservers
 
     if (evaluate.evaluateHand(table.player.getHand()) > 21) {
@@ -42,8 +44,10 @@ class Controller(val evaluate: EvaluationStrategy) extends Observable {
   }
 
   def stand(): Ergebnis = {
-    val command = new StandCommand(this)
-    command.execute()
+    // val command = new StandCommand(this)
+    // command.execute()
+    executeCommand(new StandCommand(this))
+    
     val dealerScore = evaluate.evaluateHand(table.getDealerHand())
     val playerScore = evaluate.evaluateHand(table.player.getHand())
     notifyObservers
@@ -67,4 +71,20 @@ class Controller(val evaluate: EvaluationStrategy) extends Observable {
     notifyObservers
     card
   }
+    def executeCommand(command: Command): Unit = {
+    commandManager.executeCommand(command)
+    notifyObservers
+  }
+
+  def undoLastCommand(): Unit = {
+    commandManager.undoLastCommand()
+    notifyObservers
+  }
+
+  def redoLastUndoneCommand(): Unit = {
+    commandManager.redoLastUndoneCommand()
+    notifyObservers
+  }
 }
+
+
