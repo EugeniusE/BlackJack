@@ -8,7 +8,7 @@ trait Command {
 }
 
 class HitCommand(player: Player, controller: Controller) extends Command {
-  private var card : Option[Card] = None
+  var card : Option[Card] = None
 
   override def execute(): Try[Unit] = Try{
     card  = Some(controller.drawNewCard())
@@ -20,7 +20,6 @@ class HitCommand(player: Player, controller: Controller) extends Command {
     card match{
       case Some(card) =>
         val index = controller.table.player.hand.indexOf(card)
-        if(index != -1)
         controller.table.player.hand.remove(index)
       case None => //keine karte entfernen
     }
@@ -44,7 +43,9 @@ class StandCommand(controller: Controller) extends Command {
     dealerInitHand match{
       case Some(value) =>
          controller.table.clearDealerhand()
-         dealerInitHand.foreach(n => n.foreach(card => controller.table.addDealerHand(card)))
+         for(card <- value){
+          controller.table.addDealerHand(card)
+         }
 
       case None => //kein undo 
 

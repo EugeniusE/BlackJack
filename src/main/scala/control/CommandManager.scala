@@ -3,8 +3,8 @@ import scala.util.Success
 import scala.util.Failure
 
 class CommandManager {
-  private val executedCommands: Stack[Command] = Stack()
-  private val undoneCommands    : Stack[Command] = Stack()
+  val executedCommands: Stack[Command] = Stack()
+  val undoneCommands    : Stack[Command] = Stack()
 
 
 
@@ -29,10 +29,8 @@ class CommandManager {
             case Failure(exception) => 
                 println(s"error undo command failure undoing : ${exception.getMessage()}")
         } 
-
-
-
-        }  // else nichts zu tun
+        }   else
+            println("No commands to undo")
     }
     def redoLastUndoneCommand(): Unit = {
         if (undoneCommands.nonEmpty) {
@@ -40,6 +38,7 @@ class CommandManager {
             lastUndoneCommand.execute() match {
             case scala.util.Success(_) => executedCommands.push(lastUndoneCommand)
             case scala.util.Failure(exception) => println(s"Error redoing command: ${exception.getMessage}")
+            undoneCommands.push(lastUndoneCommand) // Push the failed command back to undoneCommands
             }
         } else 
             {

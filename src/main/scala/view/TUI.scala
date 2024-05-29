@@ -6,11 +6,11 @@ class TUI extends Observer {
 
   var log: String = ""
   def update: Unit = log.concat("Updated Observer")
-  val evalStrat =
-    new StandardEvaluationStrategy // Es können verschiedene Evaluations-Regeln hier ausgewählt werden
+  val evalStrat = new StandardEvaluationStrategy // Different evaluation strategies can be chosen here
   val controller = new Controller(evalStrat)
 
   controller.add(this)
+
   def start(): Unit = {
     controller.newGame()
     printZwischenStand()
@@ -18,7 +18,7 @@ class TUI extends Observer {
   }
 
   def getInputAndLoop(): Unit = {
-    print("Bitte Hit (h) or stand (s) beenden (q) \n> ")
+    print("Bitte Hit (h), Stand (s), Undo (u), Redo (r), oder Quit (q) \n> ")
     val input = readLine()
 
     if (input.isEmpty) {
@@ -27,7 +27,7 @@ class TUI extends Observer {
     } else {
       val char = input.toLowerCase.charAt(0) // Convert input to lowercase and get the first character
 
-      val eingabe = char match {
+      char match {
         case 'q' => controller.remove(this)
         case 'h' => {
           val continue = controller.hit()
@@ -44,15 +44,24 @@ class TUI extends Observer {
           val ergebnis = controller.stand()
           printZwischenStand()
           ergebnis match {
-            case Ergebnis.PlayerWin =>
-              println("Spieler hat gewonnen Gratulation")
+            case Ergebnis.PlayerWin => println("Spieler hat gewonnen Gratulation")
             case Ergebnis.DealerWin => println("Dealer hat gewonnen")
-            case Ergebnis.Draw      => println("Unentschieden")
+            case Ergebnis.Draw => println("Unentschieden")
           }
           nextRound()
         }
+        case 'u' => {
+          controller.undoLastCommand()
+          printZwischenStand()
+          getInputAndLoop()
+        }
+        case 'r' => {
+          controller.redoLastUndoneCommand()
+          printZwischenStand()
+          getInputAndLoop()
+        }
         case _ => {
-          println("falsche eingabe Bitte versuchen Sie es erneut.")
+          println("Falsche Eingabe. Bitte versuchen Sie es erneut.")
           getInputAndLoop() // Prompt for input again
         }
       }
@@ -60,9 +69,9 @@ class TUI extends Observer {
   }
 
   def nextRound(): Unit = {
-    print("Weiterspielen? y/n \n> ")
+    print("Weiterspielen? (y), Undo (u), Redo (r), oder Quit (q) \n> ")
     val input = readLine()
-
+    
     if (input.isEmpty()) {
       println("Keine Eingabe. Bitte versuchen Sie es erneut.")
       nextRound() // Prompt for input again
@@ -75,10 +84,20 @@ class TUI extends Observer {
           printZwischenStand()
           getInputAndLoop()
         }
-        case 'n' =>
+        case 'u' => {
+          controller.undoLastCommand()
+          printZwischenStand()
+          getInputAndLoop() // Prompt for input again
+        }
+        case 'r' => {
+          controller.redoLastUndoneCommand()
+          printZwischenStand()
+          getInputAndLoop() // Prompt for input again
+        }
+        case 'q' => controller.remove(this)
         case _ => {
           println("Falsche Eingabe")
-          nextRound()
+          nextRound() // Prompt for input again
         }
       }
     }
