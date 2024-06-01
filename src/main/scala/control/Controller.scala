@@ -9,9 +9,9 @@ object Ergebnis extends Enumeration {
 }
 import Ergebnis._
 
-class Controller(val evaluate: EvaluationStrategy) extends Observable {
+class Controller(val game: GameType) extends Observable {
 
-  val table = new Table
+  val table = new Table(game)
   private val commandManager = new CommandManager()
 
   def newGame(): Unit = {
@@ -36,7 +36,7 @@ class Controller(val evaluate: EvaluationStrategy) extends Observable {
     executeCommand(new HitCommand(table.player,this))
     notifyObservers
 
-    if (evaluate.evaluateHand(table.player.getHand()) > 21) {
+    if (game.evalStrat.evaluateHand(table.player.getHand()) > 21) {
       false
     } else {
       true
@@ -48,8 +48,8 @@ class Controller(val evaluate: EvaluationStrategy) extends Observable {
     // command.execute()
     executeCommand(new StandCommand(this))
     
-    val dealerScore = evaluate.evaluateHand(table.getDealerHand())
-    val playerScore = evaluate.evaluateHand(table.player.getHand())
+    val dealerScore = game.evalStrat.evaluateHand(table.getDealerHand())
+    val playerScore = game.evalStrat.evaluateHand(table.player.getHand())
     notifyObservers
 
     if (dealerScore > 21 || dealerScore < playerScore) {

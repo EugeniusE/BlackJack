@@ -5,13 +5,15 @@ import org.hamcrest.Matcher
 import scala.util.Try
 import scala.util.Failure
 import scala.util.Success
+import Decks.Deck
 
 class CommandTestSpec extends AnyWordSpec with Matchers {
+  val game = new GameType(new StandardEvaluationStrategy,FactoryType.StandartDeck,new Player(500,"Spieler1"))
    "A CommandManager" when {
     "undoing the last action" should {
       "restore the previous state" in {
         // Create a mock Controller
-        val controller = new Controller(new StandardEvaluationStrategy())
+        val controller = new Controller(game)
 
         // Perform some actions (for example, hitting)
         controller.hit()
@@ -28,7 +30,7 @@ class CommandTestSpec extends AnyWordSpec with Matchers {
       "redoing the previously undone action" should {
       "reapply the undone action" in {
         // Create a mock Controller
-        val controller = new Controller(new StandardEvaluationStrategy())
+        val controller = new Controller(game)
 
         // Perform some actions (for example, hitting)
         controller.hit()
@@ -49,7 +51,7 @@ class CommandTestSpec extends AnyWordSpec with Matchers {
 
     "undoing when doing nothing" should {
         "do nothing when hit and stand" in{
-            val controller = new Controller(new StandardEvaluationStrategy())
+            val controller = new Controller(game)
             val iph = controller.table.player.hand
             val idh = controller.table.getDealerHand()
             val hitCommand = new HitCommand(controller.table.player,controller)
@@ -63,7 +65,10 @@ class CommandTestSpec extends AnyWordSpec with Matchers {
     }
     "undoing stand" should {
         "undo stand" in {
-            val controller = new Controller(new StandardEvaluationStrategy())   
+          val gameBuilder = new StandardGameBuilder
+          gameBuilder.setEvaluationStrategy(new StandardEvaluationStrategy)
+          gameBuilder.setDeckFactoryType(FactoryType.StandartDeck)
+            val controller = new Controller(game)   
             controller.newGame()
             val initialDealerHand = controller.table.getDealerHand()
             controller.stand() // Execute stand command

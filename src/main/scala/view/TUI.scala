@@ -7,7 +7,11 @@ class TUI extends Observer {
   var log: String = ""
   def update: Unit = log.concat("Updated Observer")
   val evalStrat = new StandardEvaluationStrategy // Different evaluation strategies can be chosen here
-  val controller = new Controller(evalStrat)
+  //val controller = new Controller(evalStrat)
+  val gameBuilder = new StandardGameBuilder
+  gameBuilder.setPlayer("Spieler1",500)
+  val game =  gameBuilder.build()
+  val controller = new Controller(game)
 
   controller.add(this)
 
@@ -107,7 +111,7 @@ class TUI extends Observer {
     println(controller.table.player.name + " :")
     println(HandToString.print_ascii_cards(controller.table.player.getHand()))
     println(
-      "Score: " + controller.evaluate.evaluateHand(
+      "Score: " + controller.game.evalStrat.evaluateHand(
         controller.table.player.getHand()
       )
     )
@@ -116,7 +120,7 @@ class TUI extends Observer {
     println("Dealer: ")
     println(HandToString.print_ascii_cards(controller.table.getDealerHand()))
     println(
-      "Score: " + controller.evaluate.evaluateHand(
+      "Score: " + controller.game.evalStrat.evaluateHand(
         controller.table.getDealerHand()
       )
     )

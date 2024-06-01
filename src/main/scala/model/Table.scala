@@ -2,13 +2,14 @@ import Decks.Deck
 import Decks.Card
 import scala.collection.mutable.ArrayBuffer
 import org.hamcrest.Factory
-class Table {
+import Ergebnis.PlayerWin
+class Table (game: GameType){
   var deck = DeckFactory(FactoryType.StandartDeck).createDeck() // Deck factory zum erstellen von verschiedenen arten von Decks 
 
   //var deck = DeckFactory.createDeck()
   private val dealerHand = new ArrayBuffer[Card]
 
-  val player = new Player(500,"Spieler1")
+  val player = new Player(game.player.getMoney,game.player.name)
 
   var playerBet = 0
 
