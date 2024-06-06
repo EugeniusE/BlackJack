@@ -2,8 +2,7 @@ import scala.collection.mutable.ArrayBuffer
 import Decks.Card
 import Decks.Rank._
 import Decks.Suite._
-import scala.concurrent.{Await,Future}
-import javafx.application.Application
+import scala.io.StdIn.readLine
 
 object Main{
   
@@ -22,12 +21,19 @@ object Main{
     controller.add(tui)
 
   def main(args: Array[String]): Unit = {
+    var input = "" 
     new Thread(() => {gui.main(Array.empty)}).start()
-    controller.add(tui)
     //controller.add(gui) 
 
     controller.newGame()
+
     
+    while(input!= "q"){
+     input = readLine()
+     if(input!= "q")
+        tui.getInputAndLoop(input)
     }
   
+}
+
 }
