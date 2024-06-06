@@ -2,22 +2,12 @@ import scala.io.StdIn.readLine
 import util.Observer
 import scala.io.StdIn
 
-class TUI extends Observer {
+class TUI(controller: Controller) extends Observer {
 
   var log: String = ""
 
   //checkt den aktuellen status nach jeder änderung und gibt dementsprechend auch input output
 
-
-  val evalStrat =
-    new StandardEvaluationStrategy // Different evaluation strategies can be chosen here
-  // val controller = new Controller(evalStrat)
-  val gameBuilder = new StandardGameBuilder
-  gameBuilder.setPlayer("Spieler1", 500)
-  val game = gameBuilder.build()
-  val controller = new Controller(game)
-
-  controller.add(this)
 
   def start(): Unit = {
     controller.newGame()
@@ -36,7 +26,7 @@ class TUI extends Observer {
       ) // Convert input to lowercase and get the first character
 
       char match {
-        case 'q' => controller.remove(this)
+        case 'q' => System.exit(0)
         case 'h' => {
           controller.hit()
         }
