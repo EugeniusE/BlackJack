@@ -12,6 +12,8 @@ class Controller(val game: GameType) extends Observable {
   private val commandManager = new CommandManager()
 
   def newGame(): Unit = {
+    table.player.clearHand()
+    table.clearDealerhand()
     table.deck = table.deck.shuffle()
     val c1 = drawNewCard()
     val c2 = drawNewCard()

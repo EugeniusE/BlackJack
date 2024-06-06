@@ -86,22 +86,23 @@ class TUI(controller: Controller) extends Observer {
     controller.table.outcome match
       case Ergebnis.PlayerWin => {
         println(controller.table.player.name + " hat gewonnen ")
-        nextRound("")
+
 
       }
       case Ergebnis.DealerWin => {
         println("Dealer hat gewonnen")
-        nextRound("")
+
 
       }
       case Ergebnis.Draw => {
         println("Unentschieden")
-        nextRound("")
+  
 
       }
       case Ergebnis.Undecided => {
-        getInputAndLoop("")
+
       }
+      getInputAndLoop("")
 
   }
 
