@@ -53,11 +53,13 @@ class GUI(controller: Controller) extends JFXApp3 with util.Observer {
   }
 
   override def update: Unit = {
-      updateGameUI()
-    
+
+    updateGameUI()
+
   }
 
   private def updateGameUI(): Unit = {
+
     val (message, buttons) = controller.table.outcome match {
       case Ergebnis.Undecided =>
         ("Game is ongoing, make your move.", continueButtons)
@@ -70,24 +72,27 @@ class GUI(controller: Controller) extends JFXApp3 with util.Observer {
     }
 
     if (stage != null && stage.scene() != null) {
-      stage.scene().root = new VBox {
-        prefWidth = 800
-        prefHeight = 600
-        alignment = Pos.Center
-        spacing = 10
-        children = Seq(
-          new Label("Welcome to Blackjack!"),
-          playerCardImages,
-          playerScoreLabel,
-          dealerCardImages,
-          dealerScoreLabel,
-          new Label(message)
-        ) ++ buttons
-      }
+      Platform.runLater { ()=>          //wichtig fals der andere thread aufruft sonst error wegen thread verletzung
+        stage.scene().root = new VBox {
+          prefWidth = 800
+          prefHeight = 600
+          alignment = Pos.Center
+          spacing = 10
+          children = Seq(
+            new Label("Welcome to Blackjack!"),
+            playerCardImages,
+            playerScoreLabel,
+            dealerCardImages,
+            dealerScoreLabel,
+            new Label(message)
+          ) ++ buttons
+        }
 
-      updateCardImages()
-      updateScores()
+        updateCardImages()
+        updateScores()
+      }
     }
+
   }
 
   private def updateCardImages(): Unit = {
@@ -95,8 +100,10 @@ class GUI(controller: Controller) extends JFXApp3 with util.Observer {
     dealerCardImages.children.clear()
 
     controller.table.player.hand.foreach { card =>
-      val inputStream: InputStream = new FileInputStream(s"src/main/scala/resources/cards2.0/${cardPath(card)}.png") 
-      val cardImage = new ImageView(new Image(inputStream)){
+      val inputStream: InputStream = new FileInputStream(
+        s"src/main/scala/resources/cards2.0/${cardPath(card)}.png"
+      )
+      val cardImage = new ImageView(new Image(inputStream)) {
         fitHeight = 200
         fitWidth = 140
       }
@@ -104,8 +111,10 @@ class GUI(controller: Controller) extends JFXApp3 with util.Observer {
     }
 
     controller.table.getDealerHand().foreach { card =>
-      val inputStream: InputStream = new FileInputStream(s"src/main/scala/resources/cards2.0/${cardPath(card)}.png") 
-      val cardImage = new ImageView(new Image(inputStream)){
+      val inputStream: InputStream = new FileInputStream(
+        s"src/main/scala/resources/cards2.0/${cardPath(card)}.png"
+      )
+      val cardImage = new ImageView(new Image(inputStream)) {
         fitHeight = 200
         fitWidth = 140
       }
@@ -114,8 +123,10 @@ class GUI(controller: Controller) extends JFXApp3 with util.Observer {
   }
 
   private def updateScores(): Unit = {
-    playerScoreLabel.text = s"Player Score: ${controller.game.evalStrat.evaluateHand(controller.table.player.hand)}"
-    dealerScoreLabel.text = s"Dealer Score: ${controller.game.evalStrat.evaluateHand(controller.table.getDealerHand())}"
+    playerScoreLabel.text =
+      s"Player Score: ${controller.game.evalStrat.evaluateHand(controller.table.player.hand)}"
+    dealerScoreLabel.text =
+      s"Dealer Score: ${controller.game.evalStrat.evaluateHand(controller.table.getDealerHand())}"
   }
 
   def makeButtons(): (Seq[Button], Seq[Button]) = {
