@@ -78,4 +78,17 @@ def apply(factoryKind: FactoryType) = factoryKind match{
 
 }
 
+
+}
+def cardPath(card:Decks.Card):String = {
+  var path:String = ""
+  card.rank match {
+    case Queen => path = path.appended('Q')
+    case Ace => path = path.appended('A')
+    case King => path = path.appended('K')
+    case Jack => path = path.appended('J')
+    case _ => path = path + s"${card.rank.getRankValue}"
+  }
+    path = path + s"${card.suite.toString().charAt(0)}"
+    path
 }
