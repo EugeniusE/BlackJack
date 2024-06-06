@@ -5,20 +5,22 @@ import scala.io.StdIn
 class TUI extends Observer {
 
   var log: String = ""
-  def update: Unit = log.concat("Updated Observer")
-  val evalStrat = new StandardEvaluationStrategy // Different evaluation strategies can be chosen here
-  //val controller = new Controller(evalStrat)
+
+  //checkt den aktuellen status nach jeder änderung und gibt dementsprechend auch input output
+
+
+  val evalStrat =
+    new StandardEvaluationStrategy // Different evaluation strategies can be chosen here
+  // val controller = new Controller(evalStrat)
   val gameBuilder = new StandardGameBuilder
-  gameBuilder.setPlayer("Spieler1",500)
-  val game =  gameBuilder.build()
+  gameBuilder.setPlayer("Spieler1", 500)
+  val game = gameBuilder.build()
   val controller = new Controller(game)
 
   controller.add(this)
 
   def start(): Unit = {
     controller.newGame()
-    printZwischenStand()
-    getInputAndLoop()
   }
 
   def getInputAndLoop(): Unit = {
@@ -29,40 +31,24 @@ class TUI extends Observer {
       println("Keine Eingabe. Bitte versuchen Sie es erneut.")
       getInputAndLoop() // Prompt for input again
     } else {
-      val char = input.toLowerCase.charAt(0) // Convert input to lowercase and get the first character
+      val char = input.toLowerCase.charAt(
+        0
+      ) // Convert input to lowercase and get the first character
 
       char match {
         case 'q' => controller.remove(this)
         case 'h' => {
-          val continue = controller.hit()
-          printZwischenStand()
-          if (continue) {
-            getInputAndLoop()
-          } else {
-            println("Spieler Verloren")
-            nextRound()
-          }
+          controller.hit()
         }
         case 's' => {
-          println("Dealer ist am Zug .......")
-          val ergebnis = controller.stand()
-          printZwischenStand()
-          ergebnis match {
-            case Ergebnis.PlayerWin => println("Spieler hat gewonnen Gratulation")
-            case Ergebnis.DealerWin => println("Dealer hat gewonnen")
-            case Ergebnis.Draw => println("Unentschieden")
-          }
-          nextRound()
+          controller.stand()
         }
         case 'u' => {
           controller.undoLastCommand()
-          printZwischenStand()
-          getInputAndLoop()
         }
         case 'r' => {
           controller.redoLastUndoneCommand()
-          printZwischenStand()
-          getInputAndLoop()
+
         }
         case _ => {
           println("Falsche Eingabe. Bitte versuchen Sie es erneut.")
@@ -71,32 +57,49 @@ class TUI extends Observer {
       }
     }
   }
+    def update: Unit = {
+    printZwischenStand()
+    controller.table.outcome match
+      case Ergebnis.PlayerWin => {
+        println(controller.table.player.name + " hat gewonnen ")
+        nextRound()
+      }
+      case Ergebnis.DealerWin => {
+        println("Dealer hat gewonnen")
+        nextRound()
+
+      }
+      case Ergebnis.Draw => {
+        println("Unentschieden")
+        nextRound()
+      }
+      case Ergebnis.Undecided =>{
+        getInputAndLoop()
+      }
+
+  }
 
   def nextRound(): Unit = {
     print("Weiterspielen? (y), Undo (u), Redo (r), oder Quit (q) \n> ")
     val input = readLine()
-    
+
     if (input.isEmpty()) {
       println("Keine Eingabe. Bitte versuchen Sie es erneut.")
       nextRound() // Prompt for input again
     } else {
-      val char = input.toLowerCase.charAt(0) // Convert input to lowercase and get the first character
+      val char = input.toLowerCase.charAt(
+        0
+      ) // Convert input to lowercase and get the first character
 
       char match {
         case 'y' => {
           controller.nextRound()
-          printZwischenStand()
-          getInputAndLoop()
         }
         case 'u' => {
           controller.undoLastCommand()
-          printZwischenStand()
-          getInputAndLoop() // Prompt for input again
         }
         case 'r' => {
           controller.redoLastUndoneCommand()
-          printZwischenStand()
-          getInputAndLoop() // Prompt for input again
         }
         case 'q' => controller.remove(this)
         case _ => {

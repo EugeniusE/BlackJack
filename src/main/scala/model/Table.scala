@@ -5,7 +5,7 @@ import org.hamcrest.Factory
 import Ergebnis.PlayerWin
 class Table (game: GameType){
   var deck = DeckFactory(FactoryType.StandartDeck).createDeck() // Deck factory zum erstellen von verschiedenen arten von Decks 
-
+  var outcome: Ergebnis = Ergebnis.Undecided
   //var deck = DeckFactory.createDeck()
   private val dealerHand = new ArrayBuffer[Card]
 

@@ -3,11 +3,8 @@ import Decks.Deck
 import util.Observer
 import util.Observable
 
-object Ergebnis extends Enumeration {
-  type Ergebnis = Value
-  val PlayerWin, DealerWin, Draw = Value
-}
-import Ergebnis._
+enum Ergebnis:
+  case PlayerWin,DealerWin,Draw,Undecided
 
 class Controller(val game: GameType) extends Observable {
 
@@ -24,41 +21,31 @@ class Controller(val game: GameType) extends Observable {
   }
 
   def nextRound(): Unit = {
+    table.outcome = Ergebnis.Undecided
     table.player.clearHand()
     table.clearDealerhand()
     table.player.addCard(drawNewCard())
     table.addDealerHand(drawNewCard())
+    notifyObservers
   }
 
-  def hit(): Boolean = {
+  def hit(): Unit = {
     // val command = new HitCommand(table.player, this)
     // command.execute()
     executeCommand(new HitCommand(table.player,this))
-    notifyObservers
+    
 
-    if (game.evalStrat.evaluateHand(table.player.getHand()) > 21) {
-      false
-    } else {
-      true
-    }
+    println(table.outcome)
+    notifyObservers
   }
 
-  def stand(): Ergebnis = {
+  def stand(): Unit = {
     // val command = new StandCommand(this)
     // command.execute()
     executeCommand(new StandCommand(this))
     
-    val dealerScore = game.evalStrat.evaluateHand(table.getDealerHand())
-    val playerScore = game.evalStrat.evaluateHand(table.player.getHand())
+    println(table.outcome)
     notifyObservers
-
-    if (dealerScore > 21 || dealerScore < playerScore) {
-      Ergebnis.PlayerWin
-    } else if (dealerScore == playerScore) {
-      Ergebnis.Draw
-    } else {
-      Ergebnis.DealerWin
-    }
   }
 
   def drawNewCard(): Card = {
@@ -68,12 +55,10 @@ class Controller(val game: GameType) extends Observable {
 
     val (card, remainingDeck) = table.deck.pullFromTop()
     table.deck = remainingDeck
-    notifyObservers
     card
   }
     def executeCommand(command: Command): Unit = {
     commandManager.executeCommand(command)
-    notifyObservers
   }
 
   def undoLastCommand(): Unit = {
