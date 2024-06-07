@@ -3,6 +3,8 @@ import Decks.Card
 import Decks.Rank._
 import Decks.Suite._
 import scala.io.StdIn.readLine
+import scalafx.application.Platform
+import scalafx.stage.WindowEvent
 
 object Main{
   
@@ -22,17 +24,21 @@ object Main{
 
   def main(args: Array[String]): Unit = {
     var input = "" 
-    new Thread(() => {gui.main(Array.empty)}).start()
-    //controller.add(gui) 
+    val guiThread = new Thread(() => {gui.main(Array.empty)})
+    guiThread.setDaemon(true)
+    guiThread.start()
+
 
     controller.newGame()
-
+    
+    // Add onCloseRequest handler
     
     while(input!= "q"){
      input = readLine()
      if(input!= "q")
         tui.getInputAndLoop(input)
     }
+    Platform.exit()
   
 }
 

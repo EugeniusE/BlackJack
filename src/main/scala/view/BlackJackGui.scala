@@ -10,9 +10,11 @@ import javax.print.DocFlavor.INPUT_STREAM
 import java.io.FileInputStream
 import java.io.InputStream
 import javafx.css.Style
+import javafx.stage.WindowEvent
 
 class GUI(controller: Controller) extends JFXApp3 with util.Observer {
-  val style1: String = "-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: white;" 
+  val style1: String =
+    "-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: white;"
 
   private var continueButtons: Seq[Button] = _
   private var nextRoundButtons: Seq[Button] = _
@@ -22,8 +24,8 @@ class GUI(controller: Controller) extends JFXApp3 with util.Observer {
   private var dealerScoreLabel: Label = _
 
   override def start(): Unit = {
-    playerScoreLabel = new Label("Player Score: 0"){style = style1}
-    dealerScoreLabel = new Label("Dealer Score: 0"){style = style1}
+    playerScoreLabel = new Label("Player Score: 0") { style = style1 }
+    dealerScoreLabel = new Label("Dealer Score: 0") { style = style1 }
 
     val (continueBtns, nextRoundBtns) = makeButtons()
     continueButtons = continueBtns
@@ -40,9 +42,9 @@ class GUI(controller: Controller) extends JFXApp3 with util.Observer {
           children = Seq(
             new Label("Welcome to Blackjack!"),
             playerCardImages,
-            playerScoreLabel,
+            // playerScoreLabel,
             dealerCardImages,
-            dealerScoreLabel,
+            // dealerScoreLabel,
             new Button("Start Game") {
               onAction = _ => {
                 controller.newGame()
@@ -50,6 +52,10 @@ class GUI(controller: Controller) extends JFXApp3 with util.Observer {
             }
           )
         }
+      }
+      onCloseRequest = (e: WindowEvent) => {
+        println("Window closed")
+        System.exit(0)
       }
     }
   }
@@ -74,30 +80,34 @@ class GUI(controller: Controller) extends JFXApp3 with util.Observer {
     }
 
     if (stage != null && stage.scene() != null) {
-      Platform.runLater { ()=>          //wichtig fals der andere thread aufruft sonst error wegen thread verletzung
-        stage.scene().root = new VBox {
-          style = "-fx-background-color: green;"
-          prefWidth = 1400
-          prefHeight = 600
-          alignment = Pos.Center
-          spacing = 10
-          children = Seq(
-            new Label("Welcome to Blackjack!"){},
-            playerCardImages,
-            playerScoreLabel,
-            dealerCardImages,
-            dealerScoreLabel,
-            new Label(message){style = "-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: red;"},
-            new HBox{
-              alignment =  Pos.Center
-              spacing = 10
-              children = buttons
-            }
-          ) //++ buttons
-        }
+      Platform.runLater {
+        () => // wichtig fals der andere thread aufruft sonst error wegen thread verletzung
+          stage.scene().root = new VBox {
+            style = "-fx-background-color: green;"
+            prefWidth = 1400
+            prefHeight = 600
+            alignment = Pos.Center
+            spacing = 10
+            children = Seq(
+              new Label("Welcome to Blackjack!") {},
+              playerCardImages,
+              playerScoreLabel,
+              dealerCardImages,
+              dealerScoreLabel,
+              new Label(message) {
+                style =
+                  "-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: red;"
+              },
+              new HBox {
+                alignment = Pos.Center
+                spacing = 10
+                children = buttons
+              }
+            ) // ++ buttons
+          }
 
-        updateCardImages()
-        updateScores()
+          updateCardImages()
+          updateScores()
       }
     }
 
