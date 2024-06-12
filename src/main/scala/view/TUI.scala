@@ -16,12 +16,12 @@ class TUI(controller: Controller) extends Observer {
     controller.table.outcome match
       case Ergebnis.Undecided => {
 
-        print(
-          "Bitte Hit (h), Stand (s), Undo (u), Redo (r), oder Quit (q) \n> "
-        )
-
         if (input.isEmpty) {
           // Prompt for input again
+          println("Keine Eingabe!")
+          print(
+            "Bitte Hit (h), Stand (s), Undo (u), Redo (r), oder Quit (q) \n> "
+          )
         } else {
           val char = input.toLowerCase.charAt(
             0
@@ -43,7 +43,10 @@ class TUI(controller: Controller) extends Observer {
 
             }
             case _ => {
-              // println("Falsche Eingabe. Bitte versuchen Sie es erneut.")
+              println("Falsche Eingabe. Bitte versuchen Sie es erneut.")
+              print(
+                "Bitte Hit (h), Stand (s), Undo (u), Redo (r), oder Quit (q) \n> "
+              )
               // Prompt for input again
             }
           }
@@ -51,9 +54,10 @@ class TUI(controller: Controller) extends Observer {
 
       }
       case _ => {
-        print("Weiterspielen? (y), Undo (u), Redo (r), oder Quit (q) \n> ")
 
         if (input.isEmpty()) {
+          println("Keine Eingabe!")
+          print("Weiterspielen? (y), Undo (u), Redo (r), oder Quit (q) \n> ")
           // Prompt for input again
         } else {
           val char = input.toLowerCase.charAt(
@@ -73,6 +77,7 @@ class TUI(controller: Controller) extends Observer {
             case 'q' => controller.remove(this)
             case _ => {
               println("Falsche Eingabe")
+              print("Weiterspielen? (y), Undo (u), Redo (r), oder Quit (q) \n> ")
               // Prompt for input again
             }
           }
@@ -86,53 +91,28 @@ class TUI(controller: Controller) extends Observer {
     controller.table.outcome match
       case Ergebnis.PlayerWin => {
         println(controller.table.player.name + " hat gewonnen ")
-
+        print("Weiterspielen? (y), Undo (u), Redo (r), oder Quit (q) \n> ")
 
       }
       case Ergebnis.DealerWin => {
         println("Dealer hat gewonnen")
-
+        print("Weiterspielen? (y), Undo (u), Redo (r), oder Quit (q) \n> ")
 
       }
       case Ergebnis.Draw => {
         println("Unentschieden")
-  
+        print("Weiterspielen? (y), Undo (u), Redo (r), oder Quit (q) \n> ")
 
       }
       case Ergebnis.Undecided => {
+        print(
+          "Bitte Hit (h), Stand (s), Undo (u), Redo (r), oder Quit (q) \n> "
+        )
 
       }
-      getInputAndLoop("")
 
-  }
+      // getInputAndLoop("")
 
-  def nextRound(input: String): Unit = {
-    print("Weiterspielen? (y), Undo (u), Redo (r), oder Quit (q) \n> ")
-
-    if (input.isEmpty()) {
-      // Prompt for input again
-    } else {
-      val char = input.toLowerCase.charAt(
-        0
-      ) // Convert input to lowercase and get the first character
-
-      char match {
-        case 'y' => {
-          controller.nextRound()
-        }
-        case 'u' => {
-          controller.undoLastCommand()
-        }
-        case 'r' => {
-          controller.redoLastUndoneCommand()
-        }
-        case 'q' => controller.remove(this)
-        case _ => {
-          println("Falsche Eingabe")
-          // Prompt for input again
-        }
-      }
-    }
   }
 
   def printZwischenStand(): Unit = {
