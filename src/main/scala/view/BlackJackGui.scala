@@ -37,8 +37,8 @@ class GUI(controller: Controller) extends JFXApp3 with util.Observer {
       title = "Blackjack"
       scene = new Scene {
         root = new VBox {
-          prefWidth = 1400
-          prefHeight = 600
+          prefWidth = 1600
+          prefHeight = 900
           alignment = Pos.Center
           spacing = 10
           children = Seq(
