@@ -9,7 +9,7 @@ enum Ergebnis:
 
 class Controller(val game: GameType) extends ControllerInterface {
 
-  val table = new Table(game)
+  private val table = new Table(game)
   private val commandManager = new CommandManager()
 
   override def newGame(): Unit = {
@@ -90,4 +90,6 @@ class Controller(val game: GameType) extends ControllerInterface {
   // override def clearPlayerHand(): Unit = table.clearPlayerHand()
   // override def getDeck(): Deck = table.getDeck()
   override def getPlayerName():String = table.getPlayerName()
+
+  override def getDeck():Deck = table.getDeck()
 }

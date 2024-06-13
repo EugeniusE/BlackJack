@@ -23,5 +23,6 @@ trait ControllerInterface extends Observable {
   def addPlayerHand(card: Card): Unit
   def removePlayerHand(card: Card): Unit
   def getPlayerName(): String
+  def getDeck():Deck
 }
 

@@ -41,7 +41,7 @@ class StandCommand(controller: Controller) extends Command {
   override def execute(): Try[Unit] = Try{
     dealerInitHand = Some(controller.getDealerHand().toList)
 
-    while (controller.evaluateHand(controller.table.getDealerHand()) < 17) {
+    while (controller.evaluateHand(controller.getDealerHand()) < 17) {
       val card = controller.drawNewCard()
       controller.addDealerHand(card)
     }

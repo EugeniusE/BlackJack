@@ -117,7 +117,7 @@ class TUI(controller: Controller) extends Observer {
 
   def printZwischenStand(): Unit = {
     println(controller.getPlayerName() + " :")
-    println(HandToString.print_ascii_cards(controller.table.player.getHand()))
+    println(HandToString.print_ascii_cards(controller.getPlayerHand()))
     println(
       "Score: " + controller.evaluateHand(
         controller.getPlayerHand()

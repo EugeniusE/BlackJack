@@ -76,7 +76,7 @@ class GUI(controller: Controller) extends JFXApp3 with util.Observer {
       case Ergebnis.DealerWin =>
         ("Dealer wins!", nextRoundButtons)
       case Ergebnis.PlayerWin =>
-        (s"${controller.table.player.name} wins!", nextRoundButtons)
+        (s"${controller.getPlayerName()} wins!", nextRoundButtons)
       case Ergebnis.Draw =>
         ("It's a draw!", nextRoundButtons)
     }
@@ -96,7 +96,7 @@ class GUI(controller: Controller) extends JFXApp3 with util.Observer {
                 spacing = 500
                 children = Seq(new Label("Black Jack !!!!"),remainingCardImages)
               },
-              new Label(s"Remaining Cards : ${controller.table.getDeck().size}"),
+              new Label(s"Remaining Cards : ${controller.getDeck().size}"),
               playerCardImages,
               playerScoreLabel,
               dealerCardImages,
@@ -215,7 +215,7 @@ class GUI(controller: Controller) extends JFXApp3 with util.Observer {
     }
 
     // Add multiple instances of the ImageView to the StackPane
-    controller.table.getDeck().getCards.zipWithIndex.foreach {
+    controller.getDeck().getCards.zipWithIndex.foreach {
       case (_, index) =>
         val cardImage = new ImageView(cardBackImage) {
           fitHeight = cardBackImageView.fitHeight()
