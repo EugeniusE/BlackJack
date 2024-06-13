@@ -68,7 +68,7 @@ class GUI(controller: Controller) extends JFXApp3 with util.Observer {
 
   private def updateGameUI(): Unit = {
 
-    val (message, buttons) = controller.table.outcome match {
+    val (message, buttons) = controller.getOutcome() match {
       case Ergebnis.Undecided =>
         ("Game is ongoing, make your move.", continueButtons)
       case Ergebnis.DealerWin =>
@@ -117,7 +117,7 @@ class GUI(controller: Controller) extends JFXApp3 with util.Observer {
     playerCardImages.children.clear()
     dealerCardImages.children.clear()
 
-    controller.table.player.hand.foreach { card =>
+    controller.getPlayerHand().foreach { card =>
       val inputStream: InputStream = new FileInputStream(
         s"src/main/scala/resources/cards2.0/${cardPath(card)}.png"
       )
@@ -128,7 +128,7 @@ class GUI(controller: Controller) extends JFXApp3 with util.Observer {
       playerCardImages.children.add(cardImage)
     }
 
-    controller.table.getDealerHand().foreach { card =>
+    controller.getDealerHand().foreach { card =>
       val inputStream: InputStream = new FileInputStream(
         s"src/main/scala/resources/cards2.0/${cardPath(card)}.png"
       )
@@ -142,9 +142,9 @@ class GUI(controller: Controller) extends JFXApp3 with util.Observer {
 
   private def updateScores(): Unit = {
     playerScoreLabel.text =
-      s"Player Score: ${controller.game.evalStrat.evaluateHand(controller.table.player.hand)}"
+      s"Player Score: ${controller.game.evalStrat.evaluateHand(controller.getPlayerHand())}"
     dealerScoreLabel.text =
-      s"Dealer Score: ${controller.game.evalStrat.evaluateHand(controller.table.getDealerHand())}"
+      s"Dealer Score: ${controller.game.evalStrat.evaluateHand(controller.getDealerHand())}"
   }
 
   def makeButtons(): (Seq[Button], Seq[Button]) = {

@@ -52,7 +52,7 @@ class ControllerSpec extends AnyWordSpec {
         controller.table.player.addCard(Card(Rank.Queen,Suite.Spade))
         controller.table.player.addCard(Card(Rank.Jack,Suite.Spade))
         controller.hit()
-        controller.table.outcome shouldEqual Ergebnis.DealerWin
+        controller.getOutcome() shouldEqual Ergebnis.DealerWin
 
       }
     }
@@ -67,7 +67,7 @@ class ControllerSpec extends AnyWordSpec {
         controller.table.addDealerHand(new Card(Rank.Five, Suite.Club))
 
         controller.stand()
-        controller.table.outcome shouldEqual Ergebnis.PlayerWin
+        controller.getOutcome() shouldEqual Ergebnis.PlayerWin
       }
       "return the correct Ergebnis DealerWin" in {
         val controller = new Controller(game)
@@ -75,7 +75,7 @@ class ControllerSpec extends AnyWordSpec {
         controller.table.addDealerHand(new Card(Rank.Nine, Suite.Heart))
         controller.table.addDealerHand(new Card(Rank.Ten, Suite.Club))
         controller.stand()
-        controller.table.outcome shouldEqual Ergebnis.DealerWin
+        controller.getOutcome() shouldEqual Ergebnis.DealerWin
       }
       "return the correct Ergebnis Draw" in {
         val controller = new Controller(game)
@@ -84,7 +84,7 @@ class ControllerSpec extends AnyWordSpec {
         controller.table.addDealerHand(new Card(Rank.Ten, Suite.Heart))
         controller.table.addDealerHand(new Card(Rank.Eight, Suite.Club))
         controller.stand()
-        controller.table.outcome shouldEqual Ergebnis.Draw
+        controller.getOutcome() shouldEqual Ergebnis.Draw
       }
     }
 

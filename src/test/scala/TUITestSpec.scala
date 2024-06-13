@@ -72,19 +72,6 @@ class TUITestSpec extends AnyWordSpec with Matchers {
       output should include("No commands to undo")
     }
 
-    // "process 's' input correctly, indicating dealer's turn" in {
-    //   val in = new ByteArrayInputStream("s\nq\n".getBytes)
-    //   val out = new ByteArrayOutputStream()
-    //   Console.withIn(in) {
-    //     Console.withOut(new PrintStream(out)) {
-    //       val tui = new TUI()
-    //       tui.start()
-    //     }
-    //   }
-    //   val output = out.toString
-    //   output should include("Dealer ist am Zug .......")
-    // }
-
   }
   def mockMain() :  Unit = {
   var input = ""

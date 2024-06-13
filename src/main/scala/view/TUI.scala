@@ -13,7 +13,7 @@ class TUI(controller: Controller) extends Observer {
   }
 
   def getInputAndLoop(input: String): Unit = {
-    controller.table.outcome match
+    controller.getOutcome() match
       case Ergebnis.Undecided => {
 
         if (input.isEmpty) {
@@ -88,7 +88,7 @@ class TUI(controller: Controller) extends Observer {
   }
   def update: Unit = {
     printZwischenStand()
-    controller.table.outcome match
+    controller.getOutcome() match
       case Ergebnis.PlayerWin => {
         println(controller.table.player.name + " hat gewonnen ")
         print("Weiterspielen? (y), Undo (u), Redo (r), oder Quit (q) \n> ")
