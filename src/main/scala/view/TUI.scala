@@ -2,112 +2,117 @@ import scala.io.StdIn.readLine
 import util.Observer
 import scala.io.StdIn
 
-class TUI extends Observer {
+class TUI(controller: Controller) extends Observer {
 
   var log: String = ""
 
-  //checkt den aktuellen status nach jeder änderung und gibt dementsprechend auch input output
-
-
-  val evalStrat =
-    new StandardEvaluationStrategy // Different evaluation strategies can be chosen here
-  // val controller = new Controller(evalStrat)
-  val gameBuilder = new StandardGameBuilder
-  gameBuilder.setPlayer("Spieler1", 500)
-  val game = gameBuilder.build()
-  val controller = new Controller(game)
-
-  controller.add(this)
+  // checkt den aktuellen status nach jeder änderung und gibt dementsprechend auch input output
 
   def start(): Unit = {
     controller.newGame()
   }
 
-  def getInputAndLoop(): Unit = {
-    print("Bitte Hit (h), Stand (s), Undo (u), Redo (r), oder Quit (q) \n> ")
-    val input = readLine()
+  def getInputAndLoop(input: String): Unit = {
+    controller.getOutcome() match
+      case Ergebnis.Undecided => {
 
-    if (input.isEmpty) {
-      println("Keine Eingabe. Bitte versuchen Sie es erneut.")
-      getInputAndLoop() // Prompt for input again
-    } else {
-      val char = input.toLowerCase.charAt(
-        0
-      ) // Convert input to lowercase and get the first character
+        if (input.isEmpty) {
+          // Prompt for input again
+          println("Keine Eingabe!")
+          print(
+            "Bitte Hit (h), Stand (s), Undo (u), Redo (r), oder Quit (q) \n> "
+          )
+        } else {
+          val char = input.toLowerCase.charAt(
+            0
+          ) // Convert input to lowercase and get the first character
 
-      char match {
-        case 'q' => controller.remove(this)
-        case 'h' => {
-          controller.hit()
-        }
-        case 's' => {
-          controller.stand()
-        }
-        case 'u' => {
-          controller.undoLastCommand()
-        }
-        case 'r' => {
-          controller.redoLastUndoneCommand()
+          char match {
+            case 'q' => System.exit(0)
+            case 'h' => {
+              controller.hit()
+            }
+            case 's' => {
+              controller.stand()
+            }
+            case 'u' => {
+              controller.undoLastCommand()
+            }
+            case 'r' => {
+              controller.redoLastUndoneCommand()
 
+            }
+            case _ => {
+              println("Falsche Eingabe. Bitte versuchen Sie es erneut.")
+              print(
+                "Bitte Hit (h), Stand (s), Undo (u), Redo (r), oder Quit (q) \n> "
+              )
+              // Prompt for input again
+            }
+          }
         }
-        case _ => {
-          println("Falsche Eingabe. Bitte versuchen Sie es erneut.")
-          getInputAndLoop() // Prompt for input again
-        }
+
       }
-    }
+      case _ => {
+
+        if (input.isEmpty()) {
+          println("Keine Eingabe!")
+          print("Weiterspielen? (y), Undo (u), Redo (r), oder Quit (q) \n> ")
+          // Prompt for input again
+        } else {
+          val char = input.toLowerCase.charAt(
+            0
+          ) // Convert input to lowercase and get the first character
+
+          char match {
+            case 'y' => {
+              controller.nextRound()
+            }
+            case 'u' => {
+              controller.undoLastCommand()
+            }
+            case 'r' => {
+              controller.redoLastUndoneCommand()
+            }
+            case 'q' => controller.remove(this)
+            case _ => {
+              println("Falsche Eingabe")
+              print("Weiterspielen? (y), Undo (u), Redo (r), oder Quit (q) \n> ")
+              // Prompt for input again
+            }
+          }
+        }
+
+      }
+
   }
-    def update: Unit = {
+  def update: Unit = {
     printZwischenStand()
-    controller.table.outcome match
+    controller.getOutcome() match
       case Ergebnis.PlayerWin => {
         println(controller.table.player.name + " hat gewonnen ")
-        nextRound()
+        print("Weiterspielen? (y), Undo (u), Redo (r), oder Quit (q) \n> ")
+
       }
       case Ergebnis.DealerWin => {
         println("Dealer hat gewonnen")
-        nextRound()
+        print("Weiterspielen? (y), Undo (u), Redo (r), oder Quit (q) \n> ")
 
       }
       case Ergebnis.Draw => {
         println("Unentschieden")
-        nextRound()
+        print("Weiterspielen? (y), Undo (u), Redo (r), oder Quit (q) \n> ")
+
       }
-      case Ergebnis.Undecided =>{
-        getInputAndLoop()
+      case Ergebnis.Undecided => {
+        print(
+          "Bitte Hit (h), Stand (s), Undo (u), Redo (r), oder Quit (q) \n> "
+        )
+
       }
 
-  }
+      // getInputAndLoop("")
 
-  def nextRound(): Unit = {
-    print("Weiterspielen? (y), Undo (u), Redo (r), oder Quit (q) \n> ")
-    val input = readLine()
-
-    if (input.isEmpty()) {
-      println("Keine Eingabe. Bitte versuchen Sie es erneut.")
-      nextRound() // Prompt for input again
-    } else {
-      val char = input.toLowerCase.charAt(
-        0
-      ) // Convert input to lowercase and get the first character
-
-      char match {
-        case 'y' => {
-          controller.nextRound()
-        }
-        case 'u' => {
-          controller.undoLastCommand()
-        }
-        case 'r' => {
-          controller.redoLastUndoneCommand()
-        }
-        case 'q' => controller.remove(this)
-        case _ => {
-          println("Falsche Eingabe")
-          nextRound() // Prompt for input again
-        }
-      }
-    }
   }
 
   def printZwischenStand(): Unit = {

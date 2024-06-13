@@ -3,10 +3,14 @@ import scala.collection.mutable.ArrayBuffer
 import Decks.Card
 class Player (private var money:Int,val name :String){
     
-    val hand = new ArrayBuffer[Card]
+    private val hand = new ArrayBuffer[Card]
 
     def addCard(card:Card):Unit ={
         hand.addOne(card)
+    }
+    def removeCard(card:Card):Unit = {
+      val index = hand.indexOf(card)
+      hand.remove(index)
     }
     def clearHand(): Unit = hand.clear()
     

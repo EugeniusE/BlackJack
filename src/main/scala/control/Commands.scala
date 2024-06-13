@@ -9,13 +9,13 @@ trait Command {
 
 class HitCommand(player: Player, controller: Controller) extends Command {
   var card : Option[Card] = None
-  var prevState: Ergebnis = controller.table.outcome
+  var prevState: Ergebnis = controller.getOutcome()
   override def execute(): Try[Unit] = Try{
     card  = Some(controller.drawNewCard())
     player.addCard(card.get)
 
-    if (controller.game.evalStrat.evaluateHand(controller.table.player.getHand()) > 21) {
-     controller.table.outcome = Ergebnis.DealerWin
+    if (controller.evaluateHand(controller.table.player.getHand()) > 21) {
+     controller.setOutcome(Ergebnis.DealerWin) 
     }
     
   }
@@ -24,37 +24,38 @@ class HitCommand(player: Player, controller: Controller) extends Command {
 
     card match{
       case Some(card) =>
-        val index = controller.table.player.hand.indexOf(card)
-        controller.table.player.hand.remove(index)
+        // val index = controller.getPlayerHand().indexOf(card)
+        // controller.table.player.hand.remove(index)
+        controller.table.player.removeCard(card)
       case None => //keine karte entfernen
     }
     card = None
-    controller.table.outcome = prevState
+    controller.setOutcome(prevState)
   }
   
 }
 
 class StandCommand(controller: Controller) extends Command {
   private var dealerInitHand: Option[List[Card]] = None
-  var prevState: Ergebnis = controller.table.outcome
+  var prevState: Ergebnis = controller.getOutcome()
   override def execute(): Try[Unit] = Try{
     dealerInitHand = Some(controller.table.getDealerHand().toList)
 
-    while (controller.game.evalStrat.evaluateHand(controller.table.getDealerHand()) < 17) {
+    while (controller.evaluateHand(controller.table.getDealerHand()) < 17) {
       val card = controller.drawNewCard()
       controller.table.addDealerHand(card)
     }
 
-    val dealerScore = controller.game.evalStrat.evaluateHand(controller.table.getDealerHand())
-    val playerScore = controller.game.evalStrat.evaluateHand(controller.table.player.getHand())
+    val dealerScore = controller.evaluateHand(controller.getDealerHand())
+    val playerScore = controller.evaluateHand(controller.getPlayerHand())
     
 
     if (dealerScore > 21 || dealerScore < playerScore) {
-      controller.table.outcome  = Ergebnis.PlayerWin
+      controller.setOutcome(Ergebnis.PlayerWin) 
     } else if (dealerScore == playerScore) {
-     controller.table.outcome =  Ergebnis.Draw
+     controller.setOutcome(Ergebnis.Draw) 
     } else {
-      controller.table.outcome =  Ergebnis.DealerWin
+      controller.setOutcome(Ergebnis.DealerWin)
     }
 
   }
@@ -62,14 +63,14 @@ class StandCommand(controller: Controller) extends Command {
   override def undo(): Try[Unit] = Try{
     dealerInitHand match{
       case Some(value) =>
-         controller.table.clearDealerhand()
+         controller.clearDealerhand()
          for(card <- value){
-          controller.table.addDealerHand(card)
+          controller.addDealerHand(card)
          }
 
       case None => //kein undo 
     }
     dealerInitHand = None
-    controller.table.outcome = prevState
+    controller.setOutcome(prevState)
   }
 }

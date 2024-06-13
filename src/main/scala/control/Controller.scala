@@ -2,9 +2,10 @@ import Decks.Card
 import Decks.Deck
 import util.Observer
 import util.Observable
+import scala.collection.mutable.ArrayBuffer
 
 enum Ergebnis:
-  case PlayerWin,DealerWin,Draw,Undecided
+  case PlayerWin, DealerWin, Draw, Undecided
 
 class Controller(val game: GameType) extends Observable {
 
@@ -12,6 +13,8 @@ class Controller(val game: GameType) extends Observable {
   private val commandManager = new CommandManager()
 
   def newGame(): Unit = {
+    table.player.clearHand()
+    table.clearDealerhand()
     table.deck = table.deck.shuffle()
     val c1 = drawNewCard()
     val c2 = drawNewCard()
@@ -21,7 +24,7 @@ class Controller(val game: GameType) extends Observable {
   }
 
   def nextRound(): Unit = {
-    table.outcome = Ergebnis.Undecided
+    table.setOutcome(Ergebnis.Undecided)
     table.player.clearHand()
     table.clearDealerhand()
     table.player.addCard(drawNewCard())
@@ -32,10 +35,9 @@ class Controller(val game: GameType) extends Observable {
   def hit(): Unit = {
     // val command = new HitCommand(table.player, this)
     // command.execute()
-    executeCommand(new HitCommand(table.player,this))
-    
+    executeCommand(new HitCommand(table.player, this))
 
-    println(table.outcome)
+    println(table.getOutcome())
     notifyObservers
   }
 
@@ -43,8 +45,8 @@ class Controller(val game: GameType) extends Observable {
     // val command = new StandCommand(this)
     // command.execute()
     executeCommand(new StandCommand(this))
-    
-    println(table.outcome)
+
+    println(table.getOutcome())
     notifyObservers
   }
 
@@ -52,12 +54,15 @@ class Controller(val game: GameType) extends Observable {
     if (table.deck.size == 0) {
       table.deck = DeckFactory(FactoryType.StandartDeck).createDeck()
     }
+    
 
     val (card, remainingDeck) = table.deck.pullFromTop()
     table.deck = remainingDeck
     card
   }
-    def executeCommand(command: Command): Unit = {
+  def evaluateHand(hand: ArrayBuffer[Card]): Int =
+      game.evalStrat.evaluateHand(hand)
+  def executeCommand(command: Command): Unit = {
     commandManager.executeCommand(command)
   }
 
@@ -70,6 +75,14 @@ class Controller(val game: GameType) extends Observable {
     commandManager.redoLastUndoneCommand()
     notifyObservers
   }
+  def getOutcome(): Ergebnis = {
+    table.getOutcome()
+  }
+  def setOutcome(e: Ergebnis): Unit = table.setOutcome(e)
+  def getDealerHand(): ArrayBuffer[Card] = table.getDealerHand()
+
+  def addDealerHand(card: Card): Unit = table.addDealerHand(card)
+
+  def clearDealerhand(): Unit = table.clearDealerhand()
+  def getPlayerHand(): ArrayBuffer[Card] = table.getPlayerHand()
 }
-
-

@@ -52,13 +52,13 @@ class CommandTestSpec extends AnyWordSpec with Matchers {
     "undoing when doing nothing" should {
         "do nothing when hit and stand" in{
             val controller = new Controller(game)
-            val iph = controller.table.player.hand
+            val iph = controller.getPlayerHand()
             val idh = controller.table.getDealerHand()
             val hitCommand = new HitCommand(controller.table.player,controller)
             val standCommand = new StandCommand(controller)
             hitCommand.undo()
             standCommand.undo()
-            iph shouldEqual controller.table.player.hand
+            iph shouldEqual controller.getPlayerHand()
             idh shouldEqual controller.table.getDealerHand()
         }
         
