@@ -54,7 +54,7 @@ class CommandTestSpec extends AnyWordSpec with Matchers {
             val controller = new Controller(game)
             val iph = controller.getPlayerHand()
             val idh = controller.table.getDealerHand()
-            val hitCommand = new HitCommand(controller.table.player,controller)
+            val hitCommand = new HitCommand(controller)
             val standCommand = new StandCommand(controller)
             hitCommand.undo()
             standCommand.undo()

@@ -142,9 +142,9 @@ class GUI(controller: Controller) extends JFXApp3 with util.Observer {
 
   private def updateScores(): Unit = {
     playerScoreLabel.text =
-      s"Player Score: ${controller.game.evalStrat.evaluateHand(controller.getPlayerHand())}"
+      s"Player Score: ${controller.evaluateHand(controller.getPlayerHand())}"
     dealerScoreLabel.text =
-      s"Dealer Score: ${controller.game.evalStrat.evaluateHand(controller.getDealerHand())}"
+      s"Dealer Score: ${controller.evaluateHand(controller.getDealerHand())}"
   }
 
   def makeButtons(): (Seq[Button], Seq[Button]) = {
