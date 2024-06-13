@@ -13,7 +13,7 @@ class Controller(val game: GameType) extends ControllerInterface {
   private val commandManager = new CommandManager()
 
   override def newGame(): Unit = {
-    table.player.clearHand()
+    table.clearPlayerHand()
     table.clearDealerhand()
     table.setDeck(table.getDeck().shuffle())
     val c1 = drawNewCard()
@@ -51,14 +51,12 @@ class Controller(val game: GameType) extends ControllerInterface {
   }
 
   override def drawNewCard(): Card = {
-    if (table.deck.size == 0) {
-      table.deck = DeckFactory.apply(game.deckFactoryType)
+    if (table.getDeck().size == 0) {
+      table.setDeck(DeckFactory.apply(game.deckFactoryType))
     }
     
 
-    val (card, remainingDeck) = table.deck.pullFromTop()
-    table.deck = remainingDeck
-    card
+    table.drawNewCard()
   }
   override def evaluateHand(hand: ArrayBuffer[Card]): Int =
       game.evalStrat.evaluateHand(hand)

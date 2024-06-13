@@ -2,19 +2,19 @@ import Decks.Deck
 import Decks.Card
 import scala.collection.mutable.ArrayBuffer
 import org.hamcrest.Factory
-import Ergebnis.PlayerWin
+import Ergebnis._
 
 class Table(game: GameType) extends TableInterface {
 
-  var deck =
+  private var deck =
     DeckFactory.apply(game.deckFactoryType) // Deck factory zum erstellen von verschiedenen arten von Decks
-  var outcome = Ergebnis.Undecided
+  private var outcome = Ergebnis.Undecided
   // var deck = DeckFactory.createDeck()
-  val dealerHand = new ArrayBuffer[Card]
+  private val dealerHand = new ArrayBuffer[Card]
 
-  val player = new Player(game.player.getMoney, game.player.name)
+  private val player = new Player(game.player.getMoney, game.player.name)
 
-  var playerBet = 0
+  private var playerBet = 0
 
   def getDealerHand(): ArrayBuffer[Card] = dealerHand
 
@@ -31,5 +31,10 @@ class Table(game: GameType) extends TableInterface {
   def setDeck(deckP: Deck): Unit = deck = deckP
 
   def getPlayerName(): String = player.name
+  def drawNewCard():Card = {
+    val (card, remainingDeck) = deck.pullFromTop()
+    deck = remainingDeck
+    card
+  }
 
 }
