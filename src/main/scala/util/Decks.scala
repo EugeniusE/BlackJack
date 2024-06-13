@@ -73,8 +73,8 @@ enum FactoryType:
 object DeckFactory{
 def apply(factoryKind: FactoryType) = factoryKind match{
 
-  case FactoryType.SixDecks => new SixDeckGame()
-  case FactoryType.StandartDeck => new StandardDeckFactory()
+  case FactoryType.SixDecks => new SixDeckGame().createDeck()
+  case FactoryType.StandartDeck => new StandardDeckFactory().createDeck()
 
 }
 

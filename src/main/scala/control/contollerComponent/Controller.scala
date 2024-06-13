@@ -52,7 +52,7 @@ class Controller(val game: GameType) extends ControllerInterface {
 
   override def drawNewCard(): Card = {
     if (table.deck.size == 0) {
-      table.deck = DeckFactory(FactoryType.StandartDeck).createDeck().shuffle()
+      table.deck = DeckFactory.apply(game.deckFactoryType)
     }
     
 

@@ -7,8 +7,7 @@ import Ergebnis.PlayerWin
 class Table(game: GameType) extends TableInterface {
 
   var deck =
-    DeckFactory(FactoryType.StandartDeck)
-      .createDeck() // Deck factory zum erstellen von verschiedenen arten von Decks
+    DeckFactory.apply(game.deckFactoryType) // Deck factory zum erstellen von verschiedenen arten von Decks
   var outcome = Ergebnis.Undecided
   // var deck = DeckFactory.createDeck()
   val dealerHand = new ArrayBuffer[Card]

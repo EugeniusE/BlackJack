@@ -11,6 +11,7 @@ import java.io.FileInputStream
 import java.io.InputStream
 import javafx.css.Style
 import javafx.stage.WindowEvent
+import scalafx.scene.layout.StackPane
 
 class GUI(controller: Controller) extends JFXApp3 with util.Observer {
   val style1: String =
@@ -22,6 +23,7 @@ class GUI(controller: Controller) extends JFXApp3 with util.Observer {
   private val dealerCardImages = new HBox()
   private var playerScoreLabel: Label = _
   private var dealerScoreLabel: Label = _
+  private val remainingCardImages = new StackPane(){alignment = Pos.TOP_RIGHT}
 
   override def start(): Unit = {
     playerScoreLabel = new Label("Player Score: 0") { style = style1 }
@@ -84,12 +86,17 @@ class GUI(controller: Controller) extends JFXApp3 with util.Observer {
         () => // wichtig fals der andere thread aufruft sonst error wegen thread verletzung
           stage.scene().root = new VBox {
             style = "-fx-background-color: green;"
-            prefWidth = 1400
-            prefHeight = 600
+            prefWidth = 1630
+            prefHeight = 900
             alignment = Pos.Center
             spacing = 10
             children = Seq(
-              new Label("Welcome to Blackjack!") {},
+              new HBox{
+                alignment = Pos.TOP_CENTER
+                spacing = 500
+                children = Seq(new Label("Black Jack !!!!"),remainingCardImages)
+              },
+              new Label(s"Remaining Cards : ${controller.table.getDeck().size}"),
               playerCardImages,
               playerScoreLabel,
               dealerCardImages,
@@ -107,6 +114,7 @@ class GUI(controller: Controller) extends JFXApp3 with util.Observer {
           }
 
           updateCardImages()
+          updateRemainingCardImages()
           updateScores()
       }
     }
@@ -190,5 +198,32 @@ class GUI(controller: Controller) extends JFXApp3 with util.Observer {
     )
 
     (continueButtons, nextRoundButtons)
+  }
+  private def updateRemainingCardImages(): Unit = {
+    remainingCardImages.children.clear()
+
+    // Load the card back image once
+    val inputStream: InputStream = new FileInputStream(
+      "src/main/scala/resources/cards2.0/cardBack.png"
+    )
+    val cardBackImage = new Image(inputStream)
+
+    // Create a single ImageView instance for the card back image
+    val cardBackImageView = new ImageView(cardBackImage) {
+      fitHeight = 200
+      fitWidth = 140
+    }
+
+    // Add multiple instances of the ImageView to the StackPane
+    controller.table.getDeck().getCards.zipWithIndex.foreach {
+      case (_, index) =>
+        val cardImage = new ImageView(cardBackImage) {
+          fitHeight = cardBackImageView.fitHeight()
+          fitWidth = cardBackImageView.fitWidth()
+          translateY =
+            index * 10 // Adjust this value to control the vertical stacking
+        }
+        remainingCardImages.children.add(cardImage)
+    }
   }
 }

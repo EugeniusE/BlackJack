@@ -14,6 +14,7 @@ object Main{
   // val controller = new Controller(evalStrat)
   val gameBuilder = new StandardGameBuilder
   gameBuilder.setPlayer("Spieler1", 500)
+  gameBuilder.setDeckFactoryType(FactoryType.StandartDeck)
   val game = gameBuilder.build()
   val controller = new Controller(game)
 
