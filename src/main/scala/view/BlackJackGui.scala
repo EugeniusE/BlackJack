@@ -23,7 +23,9 @@ class GUI(controller: Controller) extends JFXApp3 with util.Observer {
   private val dealerCardImages = new HBox()
   private var playerScoreLabel: Label = _
   private var dealerScoreLabel: Label = _
-  private val remainingCardImages = new StackPane(){alignment = Pos.TOP_RIGHT}
+  private val remainingCardImages = new StackPane() {
+    alignment = Pos.TOP_RIGHT
+  }
 
   override def start(): Unit = {
     playerScoreLabel = new Label("Player Score: 0") { style = style1 }
@@ -91,10 +93,11 @@ class GUI(controller: Controller) extends JFXApp3 with util.Observer {
             alignment = Pos.Center
             spacing = 10
             children = Seq(
-              new HBox{
+              new HBox {
                 alignment = Pos.TOP_CENTER
                 spacing = 500
-                children = Seq(new Label("Black Jack !!!!"),remainingCardImages)
+                children =
+                  Seq(new Label("Black Jack !!!!"), remainingCardImages)
               },
               new Label(s"Remaining Cards : ${controller.getDeck().size}"),
               playerCardImages,
@@ -147,7 +150,6 @@ class GUI(controller: Controller) extends JFXApp3 with util.Observer {
       dealerCardImages.children.add(cardImage)
     }
   }
-
   private def updateScores(): Unit = {
     playerScoreLabel.text =
       s"Player Score: ${controller.evaluateHand(controller.getPlayerHand())}"
@@ -215,15 +217,14 @@ class GUI(controller: Controller) extends JFXApp3 with util.Observer {
     }
 
     // Add multiple instances of the ImageView to the StackPane
-    controller.getDeck().getCards.zipWithIndex.foreach {
-      case (_, index) =>
-        val cardImage = new ImageView(cardBackImage) {
-          fitHeight = cardBackImageView.fitHeight()
-          fitWidth = cardBackImageView.fitWidth()
-          translateY =
-            index * 10 // Adjust this value to control the vertical stacking
-        }
-        remainingCardImages.children.add(cardImage)
+    controller.getDeck().getCards.zipWithIndex.foreach { case (_, index) =>
+      val cardImage = new ImageView(cardBackImage) {
+        fitHeight = cardBackImageView.fitHeight()
+        fitWidth = cardBackImageView.fitWidth()
+        translateY =
+          index * 10 // Adjust this value to control the vertical stacking
+      }
+      remainingCardImages.children.add(cardImage)
     }
   }
 }
