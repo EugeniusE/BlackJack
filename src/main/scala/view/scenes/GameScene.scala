@@ -108,8 +108,8 @@ case class GameScene(
     Platform.runLater {
       root = new VBox {
         style = "-fx-background-color: green;"
-        prefWidth = 1400
-        prefHeight = 600
+        prefWidth = windowWidth
+        prefHeight = windowHeight
         alignment = Pos.Center
         spacing = 10
         children = Seq(

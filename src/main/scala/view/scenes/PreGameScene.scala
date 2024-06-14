@@ -17,6 +17,7 @@ import java.io.FileInputStream
 import java.io.InputStream
 import javafx.css.Style
 import javafx.stage.WindowEvent
+import scalafx.beans.property.DoubleProperty
 
 case class PreGameScene(
   controller: Controller,
@@ -25,7 +26,11 @@ case class PreGameScene(
   onClickStartGameButton: () => Unit = () => println("Start Game")
 ) extends Scene(windowWidth, windowHeight) {
 
-  val iconImage = new ImageView(new Image(new FileInputStream(s"src/main/scala/resources/Zeichnung.png")))
+  val iconImage = new ImageView(new Image(new FileInputStream(s"src/main/scala/resources/Zeichnung.png"))){
+    fitHeight = 300
+    fitWidth = 150
+  }
+    
 
   val startGameBtn: Button = new Button("Start Game") {
     onAction = (_: ActionEvent) => {

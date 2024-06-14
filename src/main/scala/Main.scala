@@ -28,8 +28,6 @@ object Main{
     guiThread.setDaemon(true)
     guiThread.start()
 
-
-    controller.newGame()
     
     // Add onCloseRequest handler
     

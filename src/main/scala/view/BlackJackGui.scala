@@ -24,8 +24,8 @@ class GUI(controller: Controller) extends JFXApp3 with util.Observer {
   private var gameScene: GameScene = uninitialized
   private var resultScene: ResultScene = uninitialized
 
-  private val windowWidth = 1440
-  private val windowHeight = 960
+  private val windowWidth = 1500
+  private val windowHeight = 800
 
   private val minWindowWidth = 500
   private val minWindowHeight = 300
@@ -37,9 +37,11 @@ class GUI(controller: Controller) extends JFXApp3 with util.Observer {
 
     //val iconImage = new Image(getClass.getResourceAsStream("/Users/simonkann/Documents/Se/BlackJack/src/main/scala/resources/icon.png"))
     stage = new JFXApp3.PrimaryStage {
-      resizable = false
-      title = "Blackjack"
+      height = windowHeight
+      width = windowWidth
       scene = preGameScene
+      resizable = true
+      title = "Blackjack"
       minWidth = minWindowWidth
       minHeight = minWindowHeight
       //icons += iconImage
@@ -50,13 +52,14 @@ class GUI(controller: Controller) extends JFXApp3 with util.Observer {
         System.exit(0)
       }
     }
+    controller.newGame()
   }
 
   def update: Unit = {
-    Platform.runLater{
+     Platform.runLater{
       if(gameScene != null){
         gameScene.updateGameUI()
       }
-    }
+     }
   }
 }
