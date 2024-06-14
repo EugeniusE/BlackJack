@@ -52,7 +52,7 @@ class GUI(controller: Controller) extends JFXApp3 with util.Observer {
     }
   }
 
-  override def update: Unit = {
+  def update: Unit = {
     Platform.runLater{
       if(gameScene != null){
         gameScene.updateGameUI()

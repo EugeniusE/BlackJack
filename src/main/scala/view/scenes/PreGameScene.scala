@@ -8,7 +8,6 @@ import scalafx.scene.control.{Button, Label}
 import scalafx.application.JFXApp3
 import scalafx.application.Platform
 import scalafx.scene.Scene
-import scalafx.scene.control.{Button, Label}
 import scalafx.scene.image.{Image, ImageView}
 import scalafx.scene.layout.{HBox, VBox}
 import scalafx.geometry.Pos
@@ -25,6 +24,8 @@ case class PreGameScene(
   windowHeight: Double,
   onClickStartGameButton: () => Unit = () => println("Start Game")
 ) extends Scene(windowWidth, windowHeight) {
+
+  val iconImage = new ImageView(new Image(new FileInputStream(s"src/main/scala/resources/Zeichnung.png")))
 
   val startGameBtn: Button = new Button("Start Game") {
     onAction = (_: ActionEvent) => {
@@ -48,6 +49,12 @@ case class PreGameScene(
         alignment = Pos.Center
         children = Seq(
           new Label("Welcome to Blackjack!")
+        )
+      },
+      new HBox {
+        alignment = Pos.Center
+        children = Seq(
+          iconImage
         )
       },
       new HBox {
