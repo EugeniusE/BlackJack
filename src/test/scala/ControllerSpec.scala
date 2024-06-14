@@ -17,9 +17,9 @@ class ControllerSpec extends AnyWordSpec {
         controller.remove(tui)
         controller.newGame()
 
-        controller.table.deck.size should be > 0
-        controller.table.player.getHand() should not be empty
-        controller.table.getDealerHand() should not be empty
+        controller.getDeck().size should be > 0
+        controller.getPlayerHand() should not be empty
+        controller.getDealerHand() should not be empty
         controller.subscribers.length shouldEqual 0
       }
     }
@@ -29,9 +29,9 @@ class ControllerSpec extends AnyWordSpec {
       val controller = new Controller(game)
       controller.newGame()
       controller.nextRound()
-        controller.table.deck.size should be > 0
-        controller.table.player.getHand() should not be empty
-        controller.table.getDealerHand() should not be empty
+        controller.getDeck().size should be > 0
+        controller.getPlayerHand() should not be empty
+        controller.getDealerHand() should not be empty
       }
     } 
 
@@ -39,50 +39,50 @@ class ControllerSpec extends AnyWordSpec {
       "add a card to the player's hand" in {
         val controller = new Controller(game)
         controller.newGame()
-        val initialHandSize = controller.table.player.getHand().size
+        val initialHandSize = controller.getPlayerHand().size
 
         controller.hit()
 
-        controller.table.player.getHand().size shouldEqual initialHandSize + 1
+        controller.getPlayerHand().size shouldEqual initialHandSize + 1
       }
       "return dealer win" in {
         val controller = new Controller(game)
         controller.newGame()
-        controller.table.player.addCard(Card(Rank.Ten,Suite.Spade))
-        controller.table.player.addCard(Card(Rank.Queen,Suite.Spade))
-        controller.table.player.addCard(Card(Rank.Jack,Suite.Spade))
+        controller.addPlayerHand(Card(Rank.Ten,Suite.Spade))
+        controller.addPlayerHand(Card(Rank.Queen,Suite.Spade))
+        controller.addPlayerHand(Card(Rank.Jack,Suite.Spade))
         controller.hit()
         controller.getOutcome() shouldEqual Ergebnis.DealerWin
-
+        
       }
     }
 
     "standing" should {
       "return the correct Ergebnis PlayerWin" in {
         val controller = new Controller(game)
-        controller.table.player.addCard(new Card(Rank.Ace, Suite.Spade))
-        controller.table.player.addCard(new Card(Rank.Nine, Suite.Heart))
-        controller.table.addDealerHand(new Card(Rank.Ten, Suite.Club))
-        controller.table.addDealerHand(new Card(Rank.Ten, Suite.Club))
-        controller.table.addDealerHand(new Card(Rank.Five, Suite.Club))
+        controller.addPlayerHand(new Card(Rank.Ace, Suite.Spade))
+        controller.addPlayerHand(new Card(Rank.Nine, Suite.Heart))
+        controller.addDealerHand(new Card(Rank.Ten, Suite.Club))
+        controller.addDealerHand(new Card(Rank.Ten, Suite.Club))
+        controller.addDealerHand(new Card(Rank.Five, Suite.Club))
 
         controller.stand()
         controller.getOutcome() shouldEqual Ergebnis.PlayerWin
       }
       "return the correct Ergebnis DealerWin" in {
         val controller = new Controller(game)
-        controller.table.player.addCard(new Card(Rank.Ten, Suite.Spade))
-        controller.table.addDealerHand(new Card(Rank.Nine, Suite.Heart))
-        controller.table.addDealerHand(new Card(Rank.Ten, Suite.Club))
+        controller.addPlayerHand(new Card(Rank.Ten, Suite.Spade))
+        controller.addDealerHand(new Card(Rank.Nine, Suite.Heart))
+        controller.addDealerHand(new Card(Rank.Ten, Suite.Club))
         controller.stand()
         controller.getOutcome() shouldEqual Ergebnis.DealerWin
       }
       "return the correct Ergebnis Draw" in {
         val controller = new Controller(game)
-        controller.table.player.addCard(new Card(Rank.Ten, Suite.Spade))
-        controller.table.player.addCard(new Card(Rank.Eight, Suite.Spade))
-        controller.table.addDealerHand(new Card(Rank.Ten, Suite.Heart))
-        controller.table.addDealerHand(new Card(Rank.Eight, Suite.Club))
+        controller.addPlayerHand(new Card(Rank.Ten, Suite.Spade))
+        controller.addPlayerHand(new Card(Rank.Eight, Suite.Spade))
+        controller.addDealerHand(new Card(Rank.Ten, Suite.Heart))
+        controller.addDealerHand(new Card(Rank.Eight, Suite.Club))
         controller.stand()
         controller.getOutcome() shouldEqual Ergebnis.Draw
       }
@@ -100,14 +100,14 @@ class ControllerSpec extends AnyWordSpec {
     "Dealer hand " should{
         "Be empty " in {
             val controller = new Controller(game)
-            controller.table.clearDealerhand()
-            controller.table.getDealerHand().size shouldEqual 0
+            controller.clearDealerhand()
+            controller.getDealerHand().size shouldEqual 0
         }
         "get Cards" in {
           val controller = new Controller(game)
-          controller.table.player.addCard(new Card(Rank.Ace, Suite.Spade))
+          controller.addPlayerHand((new Card(Rank.Ace, Suite.Spade)))
           controller.stand()
-          controller.table.getDealerHand().size should  be > 1
+          controller.getDealerHand().size should  be > 1
         }
     }
 
@@ -118,7 +118,7 @@ class ControllerSpec extends AnyWordSpec {
             for(_<-0 to 52){
                 c.drawNewCard()
             }
-        c.table.deck.size shouldEqual 51
+        c.getDeck().size shouldEqual 51
 
       }
     }
