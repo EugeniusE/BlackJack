@@ -11,6 +11,8 @@ import java.io.FileInputStream
 import java.io.InputStream
 import javafx.stage.WindowEvent
 import scala.compiletime.uninitialized
+import scalafx.scene.image.Image
+import scalafx.scene.ImageCursor
 
 class GUI(controller: Controller) extends JFXApp3 with util.Observer {
   controller.add(this)
@@ -24,22 +26,13 @@ class GUI(controller: Controller) extends JFXApp3 with util.Observer {
 
   private val minWindowWidth = 500
   private val minWindowHeight = 300
+  private val cursorImage = new Image(new FileInputStream("src/main/scala/resources/Chip.png"))
 
   override def start(): Unit = {
-    preGameScene = PreGameScene(
-      controller,
-      windowWidth,
-      windowHeight,
-      () => stage.setScene(gameScene)
-    )
-    gameScene = GameScene(
-      controller,
-      windowWidth,
-      windowHeight,
-      () => stage.setScene(resultScene)
-    )
-    resultScene =
-      ResultScene(windowWidth, windowHeight, () => stage.setScene(preGameScene))
+    preGameScene = PreGameScene(controller, windowWidth, windowHeight, () => stage.setScene(gameScene))
+    gameScene = GameScene(controller, windowWidth, windowHeight, () => stage.setScene(resultScene))
+    gameScene.setCursor(new ImageCursor(cursorImage))
+    resultScene = ResultScene(windowWidth, windowHeight, () => stage.setScene(preGameScene))
 
     // val iconImage = new Image(getClass.getResourceAsStream("/Users/simonkann/Documents/Se/BlackJack/src/main/scala/resources/icon.png"))
     stage = new JFXApp3.PrimaryStage {
