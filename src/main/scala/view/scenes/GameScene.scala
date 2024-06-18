@@ -81,7 +81,7 @@ case class GameScene(
       style = "-fx-background-color: green;"
       alignment = Pos.TopCenter// Adjust spacing between elements as needed
       padding = Insets(10)
-      spacing = 50
+      spacing = 300
 
       children = Seq(
         new VBox {
