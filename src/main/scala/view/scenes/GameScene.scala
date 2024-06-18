@@ -9,6 +9,7 @@ import scalafx.event.ActionEvent
 import scala.compiletime.uninitialized
 import javafx.stage.WindowEvent
 import scalafx.geometry.Side.Top
+import javax.swing.GroupLayout.Alignment
 
 case class GameScene(
     controller: Controller,
@@ -112,6 +113,10 @@ case class GameScene(
               children = Seq(quitBtn)
             }
           )
+        },
+        new VBox{ // box zum einfügen rechts Wetten und so
+          alignment = Pos.BASELINE_RIGHT
+          children += new Label("Top Right")
         }
       )
     }
