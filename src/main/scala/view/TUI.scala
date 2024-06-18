@@ -2,7 +2,7 @@ import scala.io.StdIn.readLine
 import util.Observer
 import scala.io.StdIn
 
-class TUI(controller: Controller) extends Observer {
+class TUI(controller: ControllerInterface) extends Observer {
 
   var log: String = ""
 
@@ -90,7 +90,7 @@ class TUI(controller: Controller) extends Observer {
     printZwischenStand()
     controller.getOutcome() match
       case Ergebnis.PlayerWin => {
-        println(controller.table.player.name + " hat gewonnen ")
+        println(controller.getPlayerName() + " hat gewonnen ")
         print("Weiterspielen? (y), Undo (u), Redo (r), oder Quit (q) \n> ")
 
       }
@@ -116,20 +116,20 @@ class TUI(controller: Controller) extends Observer {
   }
 
   def printZwischenStand(): Unit = {
-    println(controller.table.player.name + " :")
-    println(HandToString.print_ascii_cards(controller.table.player.getHand()))
+    println(controller.getPlayerName() + " :")
+    println(HandToString.print_ascii_cards(controller.getPlayerHand()))
     println(
-      "Score: " + controller.game.evalStrat.evaluateHand(
-        controller.table.player.getHand()
+      "Score: " + controller.evaluateHand(
+        controller.getPlayerHand()
       )
     )
     println("%50s".format(" ").replace(" ", "="))
 
     println("Dealer: ")
-    println(HandToString.print_ascii_cards(controller.table.getDealerHand()))
+    println(HandToString.print_ascii_cards(controller.getDealerHand()))
     println(
-      "Score: " + controller.game.evalStrat.evaluateHand(
-        controller.table.getDealerHand()
+      "Score: " + controller.evaluateHand(
+        controller.getDealerHand()
       )
     )
     println("%50s".format(" ").replace(" ", "="))

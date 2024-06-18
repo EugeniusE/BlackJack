@@ -17,13 +17,13 @@ class CommandTestSpec extends AnyWordSpec with Matchers {
 
         // Perform some actions (for example, hitting)
         controller.hit()
-        val initialPlayerHandSize = controller.table.player.getHand().size
+        val initialPlayerHandSize = controller.getPlayerHand().size
         controller.hit()
         // Undo the action
         controller.undoLastCommand()
 
         // Assert that the player's hand size is restored to the initial size
-        controller.table.player.getHand().size should be (initialPlayerHandSize)
+        controller.getPlayerHand().size should be (initialPlayerHandSize)
       }
      }
 
@@ -36,7 +36,7 @@ class CommandTestSpec extends AnyWordSpec with Matchers {
         controller.hit()
 
         // Store the player's hand size after hitting
-        val handSizeAfterHit = controller.table.player.getHand().size
+        val handSizeAfterHit = controller.getPlayerHand().size
 
         // Undo the action
         controller.undoLastCommand()
@@ -45,7 +45,7 @@ class CommandTestSpec extends AnyWordSpec with Matchers {
         controller.redoLastUndoneCommand()
 
         // Assert that the player's hand size is restored to the size after hitting
-        controller.table.player.getHand().size should be(handSizeAfterHit)
+        controller.getPlayerHand().size should be(handSizeAfterHit)
       }
     }
 
@@ -53,13 +53,13 @@ class CommandTestSpec extends AnyWordSpec with Matchers {
         "do nothing when hit and stand" in{
             val controller = new Controller(game)
             val iph = controller.getPlayerHand()
-            val idh = controller.table.getDealerHand()
-            val hitCommand = new HitCommand(controller.table.player,controller)
+            val idh = controller.getDealerHand()
+            val hitCommand = new HitCommand(controller)
             val standCommand = new StandCommand(controller)
             hitCommand.undo()
             standCommand.undo()
             iph shouldEqual controller.getPlayerHand()
-            idh shouldEqual controller.table.getDealerHand()
+            idh shouldEqual controller.getDealerHand()
         }
         
     }
@@ -70,12 +70,12 @@ class CommandTestSpec extends AnyWordSpec with Matchers {
           gameBuilder.setDeckFactoryType(FactoryType.StandartDeck)
             val controller = new Controller(game)   
             controller.newGame()
-            val initialDealerHand = controller.table.getDealerHand()
+            val initialDealerHand = controller.getDealerHand()
             controller.stand() // Execute stand command
             controller.undoLastCommand() // Undo the stand command
 
             // Verify that the dealer's hand is restored to its initial state
-            controller.table.getDealerHand().toList shouldEqual initialDealerHand
+            controller.getDealerHand().toList shouldEqual initialDealerHand
         }
     }
   }

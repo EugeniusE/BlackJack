@@ -10,15 +10,10 @@ import javax.print.DocFlavor.INPUT_STREAM
 import java.io.FileInputStream
 import java.io.InputStream
 import javafx.stage.WindowEvent
-import scala.compiletime.uninitialized
-import scalafx.scene.image.Image
 
 class GUI(controller: Controller) extends JFXApp3 with util.Observer {
   controller.add(this)
 
-  //private var preGameScene: PreGameScene = _
-  //private var gameScene: GameScene = _
-  //private var resultScene: ResultScene = _
 
   private var preGameScene: PreGameScene = uninitialized
   private var gameScene: GameScene = uninitialized
@@ -42,11 +37,6 @@ class GUI(controller: Controller) extends JFXApp3 with util.Observer {
       scene = preGameScene
       resizable = true
       title = "Blackjack"
-      minWidth = minWindowWidth
-      minHeight = minWindowHeight
-      //icons += iconImage
-
-      // override close button function
       onCloseRequest = (e: WindowEvent) => {
         println("Window closed")
         System.exit(0)
@@ -55,11 +45,6 @@ class GUI(controller: Controller) extends JFXApp3 with util.Observer {
     controller.newGame()
   }
 
-  def update: Unit = {
-     Platform.runLater{
-      if(gameScene != null){
-        gameScene.updateGameUI()
       }
      }
   }
-}

@@ -48,7 +48,7 @@ class CardsValueTestSpec extends AnyWordSpec with Matchers {
     }
   }
   "6Decks Deck" should {
-    val deck = DeckFactory(FactoryType.SixDecks).createDeck()
+    val deck = DeckFactory.apply(FactoryType.SixDecks)
     "have size 52 * 6" in {
       deck.size should be(52 * 6)
     }
