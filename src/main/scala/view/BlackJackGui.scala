@@ -9,186 +9,57 @@ import scalafx.Includes._
 import javax.print.DocFlavor.INPUT_STREAM
 import java.io.FileInputStream
 import java.io.InputStream
-import javafx.css.Style
 import javafx.stage.WindowEvent
+import scala.compiletime.uninitialized
+import scalafx.scene.image.Image
 
 class GUI(controller: Controller) extends JFXApp3 with util.Observer {
-  val style1: String =
-    "-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: white;"
+  controller.add(this)
 
-  private var continueButtons: Seq[Button] = _
-  private var nextRoundButtons: Seq[Button] = _
-  private val playerCardImages = new HBox()
-  private val dealerCardImages = new HBox()
-  private var playerScoreLabel: Label = _
-  private var dealerScoreLabel: Label = _
+  //private var preGameScene: PreGameScene = _
+  //private var gameScene: GameScene = _
+  //private var resultScene: ResultScene = _
+
+  private var preGameScene: PreGameScene = uninitialized
+  private var gameScene: GameScene = uninitialized
+  private var resultScene: ResultScene = uninitialized
+
+  private val windowWidth = 1500
+  private val windowHeight = 800
+
+  private val minWindowWidth = 500
+  private val minWindowHeight = 300
 
   override def start(): Unit = {
-    playerScoreLabel = new Label("Player Score: 0") { style = style1 }
-    dealerScoreLabel = new Label("Dealer Score: 0") { style = style1 }
+    preGameScene = PreGameScene(controller, windowWidth, windowHeight, () => stage.setScene(gameScene))
+    gameScene = GameScene(controller, windowWidth, windowHeight, () => stage.setScene(resultScene))
+    resultScene = ResultScene(windowWidth, windowHeight, () => stage.setScene(preGameScene))
 
-    val (continueBtns, nextRoundBtns) = makeButtons()
-    continueButtons = continueBtns
-    nextRoundButtons = nextRoundBtns
-
+    //val iconImage = new Image(getClass.getResourceAsStream("/Users/simonkann/Documents/Se/BlackJack/src/main/scala/resources/icon.png"))
     stage = new JFXApp3.PrimaryStage {
+      height = windowHeight
+      width = windowWidth
+      scene = preGameScene
+      resizable = true
       title = "Blackjack"
-      scene = new Scene {
-        root = new VBox {
-          prefWidth = 1400
-          prefHeight = 600
-          alignment = Pos.Center
-          spacing = 10
-          children = Seq(
-            new Label("Welcome to Blackjack!"),
-            playerCardImages,
-            // playerScoreLabel,
-            dealerCardImages,
-            // dealerScoreLabel,
-            new Button("Start Game") {
-              onAction = _ => {
-                controller.newGame()
-              }
-            }
-          )
-        }
-      }
+      minWidth = minWindowWidth
+      minHeight = minWindowHeight
+      //icons += iconImage
+
+      // override close button function
       onCloseRequest = (e: WindowEvent) => {
         println("Window closed")
         System.exit(0)
       }
     }
+    controller.newGame()
   }
 
-  override def update: Unit = {
-
-    updateGameUI()
-
-  }
-
-  private def updateGameUI(): Unit = {
-
-    val (message, buttons) = controller.getOutcome() match {
-      case Ergebnis.Undecided =>
-        ("Game is ongoing, make your move.", continueButtons)
-      case Ergebnis.DealerWin =>
-        ("Dealer wins!", nextRoundButtons)
-      case Ergebnis.PlayerWin =>
-        (s"${controller.table.player.name} wins!", nextRoundButtons)
-      case Ergebnis.Draw =>
-        ("It's a draw!", nextRoundButtons)
-    }
-
-    if (stage != null && stage.scene() != null) {
-      Platform.runLater {
-        () => // wichtig fals der andere thread aufruft sonst error wegen thread verletzung
-          stage.scene().root = new VBox {
-            style = "-fx-background-color: green;"
-            prefWidth = 1400
-            prefHeight = 600
-            alignment = Pos.Center
-            spacing = 10
-            children = Seq(
-              new Label("Welcome to Blackjack!") {},
-              playerCardImages,
-              playerScoreLabel,
-              dealerCardImages,
-              dealerScoreLabel,
-              new Label(message) {
-                style =
-                  "-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: red;"
-              },
-              new HBox {
-                alignment = Pos.Center
-                spacing = 10
-                children = buttons
-              }
-            ) // ++ buttons
-          }
-
-          updateCardImages()
-          updateScores()
+  def update: Unit = {
+     Platform.runLater{
+      if(gameScene != null){
+        gameScene.updateGameUI()
       }
-    }
-
-  }
-
-  private def updateCardImages(): Unit = {
-    playerCardImages.children.clear()
-    dealerCardImages.children.clear()
-
-    controller.getPlayerHand().foreach { card =>
-      val inputStream: InputStream = new FileInputStream(
-        s"src/main/scala/resources/cards2.0/${cardPath(card)}.png"
-      )
-      val cardImage = new ImageView(new Image(inputStream)) {
-        fitHeight = 200
-        fitWidth = 140
-      }
-      playerCardImages.children.add(cardImage)
-    }
-
-    controller.getDealerHand().foreach { card =>
-      val inputStream: InputStream = new FileInputStream(
-        s"src/main/scala/resources/cards2.0/${cardPath(card)}.png"
-      )
-      val cardImage = new ImageView(new Image(inputStream)) {
-        fitHeight = 200
-        fitWidth = 140
-      }
-      dealerCardImages.children.add(cardImage)
-    }
-  }
-
-  private def updateScores(): Unit = {
-    playerScoreLabel.text =
-      s"Player Score: ${controller.game.evalStrat.evaluateHand(controller.getPlayerHand())}"
-    dealerScoreLabel.text =
-      s"Dealer Score: ${controller.game.evalStrat.evaluateHand(controller.getDealerHand())}"
-  }
-
-  def makeButtons(): (Seq[Button], Seq[Button]) = {
-    val nextRoundButtons: Seq[Button] = Seq(
-      new Button("Next Round") {
-        onAction = _ => {
-          controller.nextRound()
-        }
-      },
-      new Button("Undo") {
-        onAction = _ => {
-          controller.undoLastCommand()
-        }
-      },
-      new Button("Redo") {
-        onAction = _ => {
-          controller.redoLastUndoneCommand()
-        }
-      }
-    )
-
-    val continueButtons: Seq[Button] = Seq(
-      new Button("Hit") {
-        onAction = _ => {
-          controller.hit()
-        }
-      },
-      new Button("Stand") {
-        onAction = _ => {
-          controller.stand()
-        }
-      },
-      new Button("Undo") {
-        onAction = _ => {
-          controller.undoLastCommand()
-        }
-      },
-      new Button("Redo") {
-        onAction = _ => {
-          controller.redoLastUndoneCommand()
-        }
-      }
-    )
-
-    (continueButtons, nextRoundButtons)
+     }
   }
 }
