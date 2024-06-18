@@ -17,6 +17,7 @@ import scalafx.event.ActionEvent
 import scala.compiletime.uninitialized
 import scalafx.scene.layout.{BorderPane, StackPane}
 import java.awt.Color
+import scalafx.geometry.Pos.TopLeft
 
 case class GameScene(
     controller: Controller,
@@ -44,7 +45,7 @@ case class GameScene(
 
   private var continueButtons: Seq[Button] = uninitialized
   private var nextRoundButtons: Seq[Button] = uninitialized
-
+  private var remainingCardImages = new StackPane()
   val quitBtn: Button = new Button("Quit") {
     onAction = (_: ActionEvent) => onClickQuitBtn()
   }
@@ -88,14 +89,15 @@ case class GameScene(
         prefWidth = windowWidth
         prefHeight = windowHeight
 
-        top = new StackPane {
+        top = new VBox {
           alignment = Pos.TopLeft
-          children += new Label("Top Left Label") {
-            style =
-              "-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: yellow;"
-            padding = Insets(10)
-          }
-          //children+= 
+          children = Seq(
+            new Label("Remaining Cards") {
+              style = "-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: yellow;"
+              padding = Insets(10)
+            },
+            remainingCardImages // Add remainingCardImages here
+          )
         }
 
         center = new VBox {
@@ -124,6 +126,7 @@ case class GameScene(
       }
       updateCardImages()
       updateScores()
+      updateRemainingCardImages()
     }
   }
 
@@ -163,6 +166,8 @@ case class GameScene(
 
   def update(): Unit = {
     updateGameUI()
+    updateCardImages()
+    updateRemainingCardImages()
   }
 
   continueButtons = Seq(
@@ -231,7 +236,7 @@ case class GameScene(
         preserveRatio = true
         smooth = true
       }
-        children.add(new Label("Hit") {
+        children.add(new Label("Redo") {
           style = "-fx-text-fill: white; -fx-font-weight: bold;"
         })
       }
@@ -243,4 +248,32 @@ case class GameScene(
       }
     }
   )
+  private def updateRemainingCardImages(): Unit = {
+    remainingCardImages.children.clear()
+    remainingCardImages.alignment = TopLeft
+
+    // Load the card back image once
+    val inputStream: InputStream = new FileInputStream(
+      "src/main/scala/resources/cards2.0/cardBack.png"
+    )
+    val cardBackImage = new Image(inputStream)
+
+    // Create a single ImageView instance for the card back image
+    val cardBackImageView = new ImageView(cardBackImage) {
+      fitHeight = 200
+      fitWidth = 140
+    }
+
+    // Add multiple instances of the ImageView to the StackPane
+    controller.getDeck().getCards.zipWithIndex.foreach {
+      case (_, index) =>
+        val cardImage = new ImageView(cardBackImage) {
+          fitHeight = cardBackImageView.fitHeight()
+          fitWidth = cardBackImageView.fitWidth()
+          translateY =
+            index * 5 // Adjust this value to control the vertical stacking
+        }
+        remainingCardImages.children.add(cardImage)
+    }
+  }
 }
