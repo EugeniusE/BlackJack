@@ -10,6 +10,8 @@ import scala.compiletime.uninitialized
 import javafx.stage.WindowEvent
 import scalafx.geometry.Side.Top
 import javax.swing.GroupLayout.Alignment
+import scalafx.scene.layout.BorderPane
+import scalafx.scene.layout.GridPane
 
 case class GameScene(
     controller: Controller,
@@ -73,10 +75,13 @@ case class GameScene(
     }
 
      Platform.runLater {
-    root = new StackPane() {
+    root = new HBox() {
+      prefHeight = windowHeight
+      prefWidth = windowWidth
       style = "-fx-background-color: green;"
-      alignment = Pos.TOP_LEFT// Adjust spacing between elements as needed
+      alignment = Pos.TopCenter// Adjust spacing between elements as needed
       padding = Insets(10)
+      spacing = 50
 
       children = Seq(
         new VBox {

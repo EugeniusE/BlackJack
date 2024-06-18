@@ -26,7 +26,7 @@ class GUI(controller: Controller) extends JFXApp3 with util.Observer {
 
   private val minWindowWidth = 500
   private val minWindowHeight = 300
-  private val cursorImage = new Image(new FileInputStream("src/main/scala/resources/Chip.png"))
+  private val cursorImage = new Image(new FileInputStream(s"src/main/scala/resources/Chip.png"))
 
   override def start(): Unit = {
     preGameScene = PreGameScene(controller, windowWidth, windowHeight, () => stage.setScene(gameScene))
