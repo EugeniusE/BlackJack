@@ -27,8 +27,8 @@ case class PreGameScene(
 ) extends Scene(windowWidth, windowHeight) {
 
   val iconImage = new ImageView(new Image(new FileInputStream(s"src/main/scala/resources/Zeichnung.png"))){
-    fitHeight = 300
-    fitWidth = 150
+    fitHeight = 446
+    fitWidth = 520
   }
     
 

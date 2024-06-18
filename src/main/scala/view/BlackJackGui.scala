@@ -10,10 +10,10 @@ import javax.print.DocFlavor.INPUT_STREAM
 import java.io.FileInputStream
 import java.io.InputStream
 import javafx.stage.WindowEvent
+import scala.compiletime.uninitialized
 
 class GUI(controller: Controller) extends JFXApp3 with util.Observer {
   controller.add(this)
-
 
   private var preGameScene: PreGameScene = uninitialized
   private var gameScene: GameScene = uninitialized
@@ -26,11 +26,22 @@ class GUI(controller: Controller) extends JFXApp3 with util.Observer {
   private val minWindowHeight = 300
 
   override def start(): Unit = {
-    preGameScene = PreGameScene(controller, windowWidth, windowHeight, () => stage.setScene(gameScene))
-    gameScene = GameScene(controller, windowWidth, windowHeight, () => stage.setScene(resultScene))
-    resultScene = ResultScene(windowWidth, windowHeight, () => stage.setScene(preGameScene))
+    preGameScene = PreGameScene(
+      controller,
+      windowWidth,
+      windowHeight,
+      () => stage.setScene(gameScene)
+    )
+    gameScene = GameScene(
+      controller,
+      windowWidth,
+      windowHeight,
+      () => stage.setScene(resultScene)
+    )
+    resultScene =
+      ResultScene(windowWidth, windowHeight, () => stage.setScene(preGameScene))
 
-    //val iconImage = new Image(getClass.getResourceAsStream("/Users/simonkann/Documents/Se/BlackJack/src/main/scala/resources/icon.png"))
+    // val iconImage = new Image(getClass.getResourceAsStream("/Users/simonkann/Documents/Se/BlackJack/src/main/scala/resources/icon.png"))
     stage = new JFXApp3.PrimaryStage {
       height = windowHeight
       width = windowWidth
@@ -44,7 +55,12 @@ class GUI(controller: Controller) extends JFXApp3 with util.Observer {
     }
     controller.newGame()
   }
-
+  def update: Unit = {
+    Platform.runLater {
+      if (gameScene != null) {
+        gameScene.updateGameUI()
       }
-     }
+    }
+
   }
+}
