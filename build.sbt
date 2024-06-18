@@ -9,7 +9,7 @@ lazy val root = (project in file("."))
       "org.scalameta" %% "munit" % "0.7.29",
       "org.scalactic" %% "scalactic" % "3.2.14",
       "org.scalatest" %% "scalatest" % "3.2.14" % Test,
-      "org.scalafx" %% "scalafx" % "16.0.0-R24"
+      "org.scalafx" %% "scalafx" % "16.0.0-R25"
     ),
     libraryDependencies ++= {
       // Determine OS version of JavaFX binaries
