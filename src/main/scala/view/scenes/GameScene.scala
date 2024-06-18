@@ -1,23 +1,14 @@
 import scalafx.scene.control.{Button, Label}
-import scalafx.scene.layout.{HBox, VBox}
+import scalafx.scene.layout.{HBox, VBox, StackPane}
 import scalafx.geometry.{Insets, Pos}
 import scalafx.scene.image.{Image, ImageView}
-import java.io.{FileInputStream, InputStream}
+import java.io.FileInputStream
 import scalafx.application.Platform
-import scalafx.application.JFXApp3
 import scalafx.scene.Scene
-import scalafx.scene.image.{Image, ImageView}
-import scalafx.scene.layout.{HBox, VBox}
-import scalafx.geometry.Pos
-import scalafx.Includes._
-import javax.print.DocFlavor.INPUT_STREAM
-import javafx.css.Style
-import javafx.stage.WindowEvent
 import scalafx.event.ActionEvent
 import scala.compiletime.uninitialized
-import scalafx.scene.layout.{BorderPane, StackPane}
-import java.awt.Color
-import scalafx.geometry.Pos.TopLeft
+import javafx.stage.WindowEvent
+import scalafx.geometry.Side.Top
 
 case class GameScene(
     controller: Controller,
@@ -25,9 +16,7 @@ case class GameScene(
     windowHeight: Double,
     onClickQuitBtn: () => Unit = () => println("Quit")
 ) extends Scene(windowWidth, windowHeight) {
-  val buttonImage = new Image(
-    new FileInputStream("src/main/scala/resources/ButtonBackground.png")
-  )
+  val buttonImage = new Image(new FileInputStream("src/main/scala/resources/ButtonBackground.png"))
   private val playerCardImages = new HBox {
     alignment = Pos.Center
     spacing = 10
@@ -45,11 +34,10 @@ case class GameScene(
 
   private var continueButtons: Seq[Button] = uninitialized
   private var nextRoundButtons: Seq[Button] = uninitialized
-  private var remainingCardImages = new StackPane()
+  private var remainingCardImages = new StackPane(){alignment = Pos.TOP_LEFT}
   val quitBtn: Button = new Button("Quit") {
-    onAction = (_: ActionEvent) => onClickQuitBtn()
+    onAction = _ => onClickQuitBtn()
   }
-
   nextRoundButtons = Seq(
     new Button("Next Round") {
       onAction = _ => {
@@ -83,25 +71,27 @@ case class GameScene(
         ("It's a draw!", nextRoundButtons)
     }
 
-    Platform.runLater {
-      root = new BorderPane {
-        style = "-fx-background-color: green;"
-        prefWidth = windowWidth
-        prefHeight = windowHeight
+     Platform.runLater {
+    root = new StackPane() {
+      style = "-fx-background-color: green;"
+      alignment = Pos.TOP_LEFT// Adjust spacing between elements as needed
+      padding = Insets(10)
 
-        top = new VBox {
-          alignment = Pos.TopLeft
+      children = Seq(
+        new VBox {
+          spacing = 10
+          alignment = Pos.BASELINE_LEFT
           children = Seq(
             new Label("Remaining Cards") {
-              style = "-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: yellow;"
+              style =
+                "-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: yellow;"
               padding = Insets(10)
             },
             remainingCardImages // Add remainingCardImages here
           )
-        }
-
-        center = new VBox {
-          alignment = Pos.Center
+        },
+        new VBox {
+          alignment = Pos.BASELINE_CENTER
           spacing = 10
           children = Seq(
             playerScoreLabel,
@@ -123,10 +113,11 @@ case class GameScene(
             }
           )
         }
-      }
-      updateCardImages()
-      updateScores()
-      updateRemainingCardImages()
+      )
+    }
+    updateCardImages()
+    updateScores()
+    updateRemainingCardImages()
     }
   }
 
@@ -135,7 +126,7 @@ case class GameScene(
     dealerCardImages.children.clear()
 
     controller.getPlayerHand().foreach { card =>
-      val inputStream: InputStream = new FileInputStream(
+      val inputStream = new FileInputStream(
         s"src/main/scala/resources/cards2.0/${cardPath(card)}.png"
       )
       val cardImage = new ImageView(new Image(inputStream)) {
@@ -146,7 +137,7 @@ case class GameScene(
     }
 
     controller.getDealerHand().foreach { card =>
-      val inputStream: InputStream = new FileInputStream(
+      val inputStream = new FileInputStream(
         s"src/main/scala/resources/cards2.0/${cardPath(card)}.png"
       )
       val cardImage = new ImageView(new Image(inputStream)) {
@@ -174,17 +165,17 @@ case class GameScene(
     new Button("Hit") {
       graphic = new StackPane {
         children = new ImageView(buttonImage) {
-        fitWidth = 140
-        fitHeight = 60
-        preserveRatio = true
-        smooth = true
-      }
+          fitWidth = 140
+          fitHeight = 60
+          preserveRatio = true
+          smooth = true
+        }
         children.add(new Label("Hit") {
           style = "-fx-text-fill: white; -fx-font-weight: bold;"
         })
       }
       contentDisplay = scalafx.scene.control.ContentDisplay.GraphicOnly
-      padding = Insets(0) 
+      padding = Insets(0)
       onAction = _ => {
         controller.hit()
         updateGameUI()
@@ -193,17 +184,17 @@ case class GameScene(
     new Button("Stand") {
       graphic = new StackPane {
         children = new ImageView(buttonImage) {
-        fitWidth = 140
-        fitHeight = 60
-        preserveRatio = true
-        smooth = true
-      }
+          fitWidth = 140
+          fitHeight = 60
+          preserveRatio = true
+          smooth = true
+        }
         children.add(new Label("Stand") {
           style = "-fx-text-fill: white; -fx-font-weight: bold;"
         })
       }
       contentDisplay = scalafx.scene.control.ContentDisplay.GraphicOnly
-      padding = Insets(0) 
+      padding = Insets(0)
       onAction = _ => {
         controller.stand()
         updateGameUI()
@@ -212,17 +203,17 @@ case class GameScene(
     new Button("Undo") {
       graphic = new StackPane {
         children = new ImageView(buttonImage) {
-        fitWidth = 140
-        fitHeight = 60
-        preserveRatio = true
-        smooth = true
-      }
+          fitWidth = 140
+          fitHeight = 60
+          preserveRatio = true
+          smooth = true
+        }
         children.add(new Label("Undo") {
           style = "-fx-text-fill: white; -fx-font-weight: bold;"
         })
       }
       contentDisplay = scalafx.scene.control.ContentDisplay.GraphicOnly
-      padding = Insets(0) 
+      padding = Insets(0)
       onAction = _ => {
         controller.undoLastCommand()
         updateGameUI()
@@ -231,29 +222,29 @@ case class GameScene(
     new Button("Redo") {
       graphic = new StackPane {
         children = new ImageView(buttonImage) {
-        fitWidth = 140
-        fitHeight = 60
-        preserveRatio = true
-        smooth = true
-      }
+          fitWidth = 140
+          fitHeight = 60
+          preserveRatio = true
+          smooth = true
+        }
         children.add(new Label("Redo") {
           style = "-fx-text-fill: white; -fx-font-weight: bold;"
         })
       }
       contentDisplay = scalafx.scene.control.ContentDisplay.GraphicOnly
-      padding = Insets(0) 
+      padding = Insets(0)
       onAction = _ => {
         controller.redoLastUndoneCommand()
         updateGameUI()
       }
     }
   )
+
   private def updateRemainingCardImages(): Unit = {
     remainingCardImages.children.clear()
-    remainingCardImages.alignment = TopLeft
 
     // Load the card back image once
-    val inputStream: InputStream = new FileInputStream(
+    val inputStream = new FileInputStream(
       "src/main/scala/resources/cards2.0/cardBack.png"
     )
     val cardBackImage = new Image(inputStream)
@@ -265,15 +256,14 @@ case class GameScene(
     }
 
     // Add multiple instances of the ImageView to the StackPane
-    controller.getDeck().getCards.zipWithIndex.foreach {
-      case (_, index) =>
-        val cardImage = new ImageView(cardBackImage) {
-          fitHeight = cardBackImageView.fitHeight()
-          fitWidth = cardBackImageView.fitWidth()
-          translateY =
-            index * 5 // Adjust this value to control the vertical stacking
-        }
-        remainingCardImages.children.add(cardImage)
+    controller.getDeck().getCards.zipWithIndex.foreach { case (_, index) =>
+      val cardImage = new ImageView(cardBackImage) {
+        fitHeight = cardBackImageView.fitHeight()
+        fitWidth = cardBackImageView.fitWidth()
+        translateY =
+          index * 5 // Adjust this value to control the vertical stacking
+      }
+      remainingCardImages.children.add(cardImage)
     }
   }
 }
