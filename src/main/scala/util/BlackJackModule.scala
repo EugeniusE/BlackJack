@@ -4,6 +4,7 @@ import net.codingwell.scalaguice.ScalaModule
 import com.google.inject.name.Names
 import com.google.inject.{AbstractModule, Provides}
 
+
 class BlackJackModule(game: GameType) extends  AbstractModule with ScalaModule{
 
     override def  configure(): Unit = {
@@ -19,6 +20,10 @@ class BlackJackModule(game: GameType) extends  AbstractModule with ScalaModule{
     @Provides
     def provideTable(game: GameType): Table = new Table(game)
 }
+
+object default {
+    given tableI(using game:GameType) :TableInterface = Table(game)
+} //fragen funktioniert nicht so wegen parameter 
   
 
 

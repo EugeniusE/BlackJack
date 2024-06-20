@@ -6,6 +6,7 @@ import scala.collection.mutable.ArrayBuffer
 import Main.game
 import com.google.inject.Inject
 import com.google.inject.Guice
+import default.tableI
 
 enum Ergebnis:
   case PlayerWin, DealerWin, Draw, Undecided
