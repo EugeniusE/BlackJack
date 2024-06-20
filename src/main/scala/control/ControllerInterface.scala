@@ -3,8 +3,9 @@ import Decks.Deck
 import util.Observer
 import util.Observable
 import scala.collection.mutable.ArrayBuffer
+import Main.game
 
-trait ControllerInterface extends Observable {
+trait ControllerInterface() extends Observable {
   def newGame(): Unit
   def nextRound(): Unit
   def hit(): Unit

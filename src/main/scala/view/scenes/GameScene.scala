@@ -291,4 +291,27 @@ case class GameScene(
       remainingCardImages.children.add(cardImage)
     }
   }
+  def createNewButton(buttonText: String): Button = {
+    val b = new Button {
+      graphic = new StackPane {
+        children = new ImageView(buttonImage) {
+          fitWidth = 140
+          fitHeight = 60
+          preserveRatio = true
+          smooth = true
+        }
+        children.add(new Label(buttonText) {
+          style = "-fx-text-fill: white; -fx-font-weight: bold;"
+        })
+      }
+      contentDisplay = scalafx.scene.control.ContentDisplay.GraphicOnly
+      padding = Insets(0)
+      onAction = _ => {
+        controller.redoLastUndoneCommand()
+        updateGameUI()
+      }
+
+    }
+    b
+  }
 }

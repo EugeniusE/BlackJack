@@ -3,8 +3,9 @@ import Decks.Card
 import scala.collection.mutable.ArrayBuffer
 import org.hamcrest.Factory
 import Ergebnis._
+import com.google.inject.Inject
 
-class Table(game: GameType) extends TableInterface {
+class Table @Inject(game: GameType) extends TableInterface {
 
   private var deck =
     DeckFactory.apply(game.deckFactoryType) // Deck factory zum erstellen von verschiedenen arten von Decks

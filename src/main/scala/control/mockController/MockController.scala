@@ -3,9 +3,10 @@ import Decks.Deck
 import util.Observable
 import scala.collection.mutable.ArrayBuffer
 import Decks.{Suite,Rank}
+import com.google.inject.Inject
 
 
-class MockController extends ControllerInterface {
+class MockController@Inject(game:GameType) extends ControllerInterface() {
   private var outcome: Ergebnis = Ergebnis.Undecided
   private var dealerHand: ArrayBuffer[Card] = ArrayBuffer()
   private var playerHand: ArrayBuffer[Card] = ArrayBuffer()

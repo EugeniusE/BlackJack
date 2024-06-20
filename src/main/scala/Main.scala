@@ -5,8 +5,12 @@ import Decks.Suite._
 import scala.io.StdIn.readLine
 import scalafx.application.Platform
 import scalafx.stage.WindowEvent
+import com.google.inject.Guice
 
 object Main{
+
+
+
   
     // Call the generateField method from the TuiCard object
   val evalStrat =
@@ -16,7 +20,9 @@ object Main{
   gameBuilder.setPlayer("Spieler1", 500)
   gameBuilder.setDeckFactoryType(FactoryType.StandartDeck)
   val game = gameBuilder.build()
-  val controller = new Controller(game)
+  val injector = Guice.createInjector(new BlackJackModule(game))
+
+  val controller = injector.getInstance(classOf[ControllerInterface])
 
     val tui = new TUI(controller)
     val gui = new GUI(controller)
