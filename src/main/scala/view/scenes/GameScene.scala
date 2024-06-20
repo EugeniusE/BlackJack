@@ -14,12 +14,14 @@ import scalafx.scene.layout.BorderPane
 import scalafx.scene.layout.GridPane
 
 case class GameScene(
-    controller: Controller,
+    controller: ControllerInterface,
     windowWidth: Double,
     windowHeight: Double,
     onClickQuitBtn: () => Unit = () => println("Quit")
 ) extends Scene(windowWidth, windowHeight) {
-  val buttonImage = new Image(new FileInputStream("src/main/scala/resources/ButtonBackground.png"))
+  val buttonImage = new Image(
+    new FileInputStream("src/main/scala/resources/ButtonBackground.png")
+  )
   private val playerCardImages = new HBox {
     alignment = Pos.Center
     spacing = 10
@@ -37,9 +39,22 @@ case class GameScene(
 
   private var continueButtons: Seq[Button] = uninitialized
   private var nextRoundButtons: Seq[Button] = uninitialized
-  private var remainingCardImages = new StackPane(){alignment = Pos.TOP_LEFT}
+  private var remainingCardImages = new StackPane() { alignment = Pos.TOP_LEFT }
   val quitBtn: Button = new Button("Quit") {
+    graphic = new StackPane {
+      children = new ImageView(buttonImage) {
+        fitWidth = 140
+        fitHeight = 60
+        preserveRatio = true
+        smooth = true
+      }
+      children.add(new Label("Quit") {
+        style = "-fx-text-fill: white; -fx-font-weight: bold;"
+      })
+    }
     onAction = _ => onClickQuitBtn()
+    contentDisplay = scalafx.scene.control.ContentDisplay.GraphicOnly
+    padding = Insets(0)
   }
   nextRoundButtons = Seq(
     new Button("Next Round") {
@@ -74,60 +89,60 @@ case class GameScene(
         ("It's a draw!", nextRoundButtons)
     }
 
-     Platform.runLater {
-    root = new HBox() {
-      prefHeight = windowHeight
-      prefWidth = windowWidth
-      style = "-fx-background-color: green;"
-      alignment = Pos.TopCenter// Adjust spacing between elements as needed
-      padding = Insets(10)
-      spacing = 300
+    Platform.runLater {
+      root = new HBox() {
+        prefHeight = windowHeight
+        prefWidth = windowWidth
+        style = "-fx-background-color: green;"
+        alignment = Pos.TopCenter // Adjust spacing between elements as needed
+        padding = Insets(10)
+        spacing = 300
 
-      children = Seq(
-        new VBox {
-          spacing = 10
-          alignment = Pos.BASELINE_LEFT
-          children = Seq(
-            new Label("Remaining Cards") {
-              style =
-                "-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: yellow;"
-              padding = Insets(10)
-            },
-            remainingCardImages // Add remainingCardImages here
-          )
-        },
-        new VBox {
-          alignment = Pos.BASELINE_CENTER
-          spacing = 10
-          children = Seq(
-            playerScoreLabel,
-            playerCardImages,
-            dealerCardImages,
-            dealerScoreLabel,
-            new Label(message) {
-              style =
-                "-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: blue;"
-            },
-            new HBox {
-              alignment = Pos.Center
-              spacing = 10
-              children = buttons
-            },
-            new HBox {
-              alignment = Pos.Center
-              children = Seq(quitBtn)
-            }
-          )
-        },
-        new VBox{ // box zum einfügen rechts Wetten und so
-          alignment = Pos.BASELINE_RIGHT
-          children += new Label("Top Right")
-        }
-      )
-    }
-    updateCardImages()
-    updateScores()
-    updateRemainingCardImages()
+        children = Seq(
+          new VBox {
+            spacing = 10
+            alignment = Pos.BASELINE_LEFT
+            children = Seq(
+              new Label("Remaining Cards") {
+                style =
+                  "-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: yellow;"
+                padding = Insets(10)
+              },
+              remainingCardImages // Add remainingCardImages here
+            )
+          },
+          new VBox {
+            alignment = Pos.BASELINE_CENTER
+            spacing = 10
+            children = Seq(
+              playerScoreLabel,
+              playerCardImages,
+              dealerCardImages,
+              dealerScoreLabel,
+              new Label(message) {
+                style =
+                  "-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: blue;"
+              },
+              new HBox {
+                alignment = Pos.Center
+                spacing = 10
+                children = buttons
+              },
+              new HBox {
+                alignment = Pos.Center
+                children = Seq(quitBtn)
+              }
+            )
+          },
+          new VBox { // box zum einfügen rechts Wetten und so
+            alignment = Pos.BASELINE_RIGHT
+            children += new Label("Top Right")
+          }
+        )
+      }
+      updateCardImages()
+      updateScores()
+      updateRemainingCardImages()
     }
   }
 
@@ -160,9 +175,9 @@ case class GameScene(
 
   def updateScores(): Unit = {
     playerScoreLabel.text =
-      s"Player Score: ${controller.game.evalStrat.evaluateHand(controller.getPlayerHand())}"
+      s"Player Score: ${controller.evaluateHand(controller.getPlayerHand())}"
     dealerScoreLabel.text =
-      s"Dealer Score: ${controller.game.evalStrat.evaluateHand(controller.getDealerHand())}"
+      s"Dealer Score: ${controller.evaluateHand(controller.getDealerHand())}"
   }
 
   def update(): Unit = {

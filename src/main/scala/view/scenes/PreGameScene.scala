@@ -20,7 +20,7 @@ import javafx.stage.WindowEvent
 import scalafx.beans.property.DoubleProperty
 
 case class PreGameScene(
-  controller: Controller,
+  controller: ControllerInterface,
   windowWidth: Double,
   windowHeight: Double,
   onClickStartGameButton: () => Unit = () => println("Start Game")

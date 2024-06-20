@@ -14,7 +14,7 @@ import scala.compiletime.uninitialized
 import scalafx.scene.image.Image
 import scalafx.scene.ImageCursor
 
-class GUI(controller: Controller) extends JFXApp3 with util.Observer {
+class GUI(controller: ControllerInterface) extends JFXApp3 with util.Observer {
   controller.add(this)
 
   private var preGameScene: PreGameScene = uninitialized
