@@ -12,6 +12,7 @@ import scalafx.geometry.Side.Top
 import javax.swing.GroupLayout.Alignment
 import scalafx.scene.layout.BorderPane
 import scalafx.scene.layout.GridPane
+import scalafx.scene.layout.Priority
 
 case class GameScene(
     controller: ControllerInterface,
@@ -40,42 +41,6 @@ case class GameScene(
   private var continueButtons: Seq[Button] = uninitialized
   private var nextRoundButtons: Seq[Button] = uninitialized
   private var remainingCardImages = new StackPane() { alignment = Pos.TOP_LEFT }
-  val quitBtn: Button = new Button("Quit") {
-    graphic = new StackPane {
-      children = new ImageView(buttonImage) {
-        fitWidth = 140
-        fitHeight = 60
-        preserveRatio = true
-        smooth = true
-      }
-      children.add(new Label("Quit") {
-        style = "-fx-text-fill: white; -fx-font-weight: bold;"
-      })
-    }
-    onAction = _ => onClickQuitBtn()
-    contentDisplay = scalafx.scene.control.ContentDisplay.GraphicOnly
-    padding = Insets(0)
-  }
-  nextRoundButtons = Seq(
-    new Button("Next Round") {
-      onAction = _ => {
-        controller.nextRound()
-        updateGameUI()
-      }
-    },
-    new Button("Undo") {
-      onAction = _ => {
-        controller.undoLastCommand()
-        updateGameUI()
-      }
-    },
-    new Button("Redo") {
-      onAction = _ => {
-        controller.redoLastUndoneCommand()
-        updateGameUI()
-      }
-    }
-  )
 
   def updateGameUI(): Unit = {
     val (message, buttons) = controller.getOutcome() match {
@@ -90,18 +55,16 @@ case class GameScene(
     }
 
     Platform.runLater {
-      root = new HBox() {
+      root = new BorderPane() { 
+        hgrow = Priority.ALWAYS
         prefHeight = windowHeight
         prefWidth = windowWidth
         style = "-fx-background-color: green;"
-        alignment = Pos.TopCenter // Adjust spacing between elements as needed
         padding = Insets(10)
-        spacing = 300
 
-        children = Seq(
-          new VBox {
+          val rCBox = new VBox {
             spacing = 10
-            alignment = Pos.BASELINE_LEFT
+            alignment = Pos.TopLeft
             children = Seq(
               new Label("Remaining Cards") {
                 style =
@@ -110,9 +73,9 @@ case class GameScene(
               },
               remainingCardImages // Add remainingCardImages here
             )
-          },
-          new VBox {
-            alignment = Pos.BASELINE_CENTER
+          }
+          val mBox = new VBox {
+            alignment = Pos.TopCenter
             spacing = 10
             children = Seq(
               playerScoreLabel,
@@ -133,12 +96,17 @@ case class GameScene(
                 children = Seq(quitBtn)
               }
             )
-          },
-          new VBox { // box zum einfügen rechts Wetten und so
-            alignment = Pos.BASELINE_RIGHT
+          }
+          
+          val RBox = new VBox { // box zum einfügen rechts Wetten und so
+            alignment = Pos.TopRight
             children += new Label("Top Right")
           }
-        )
+        padding = scalafx.geometry.Insets(10)
+        left = rCBox
+        right = RBox
+        center = mBox
+        
       }
       updateCardImages()
       updateScores()
@@ -185,84 +153,46 @@ case class GameScene(
     updateCardImages()
     updateRemainingCardImages()
   }
+  //creation of buttons with utility method for same style
+  val hit = createNewButton("Hit")
+  hit.onAction = _ => {
+    controller.hit()
+    updateGameUI()
+  }
+  val stand = createNewButton("Stand")
+  stand.onAction = _ => {
+    controller.stand()
+    updateGameUI()
+  }
+  val undo = createNewButton("Undo")
+  undo.onAction = _ => {
+    controller.undoLastCommand()
+    updateGameUI()
+  }
+  val redo = createNewButton("Redo")
+  redo.onAction = _ => {
+    controller.undoLastCommand()
+    updateGameUI()
+  }
+  val nextRound = createNewButton("Next Round")
+  nextRound.onAction = _ => {
+    controller.nextRound()
+    updateGameUI()
+  }
+  val quitBtn = createNewButton("quit")
+  quitBtn.onAction = _ =>{onClickQuitBtn()}
+
 
   continueButtons = Seq(
-    new Button("Hit") {
-      graphic = new StackPane {
-        children = new ImageView(buttonImage) {
-          fitWidth = 140
-          fitHeight = 60
-          preserveRatio = true
-          smooth = true
-        }
-        children.add(new Label("Hit") {
-          style = "-fx-text-fill: white; -fx-font-weight: bold;"
-        })
-      }
-      contentDisplay = scalafx.scene.control.ContentDisplay.GraphicOnly
-      padding = Insets(0)
-      onAction = _ => {
-        controller.hit()
-        updateGameUI()
-      }
-    },
-    new Button("Stand") {
-      graphic = new StackPane {
-        children = new ImageView(buttonImage) {
-          fitWidth = 140
-          fitHeight = 60
-          preserveRatio = true
-          smooth = true
-        }
-        children.add(new Label("Stand") {
-          style = "-fx-text-fill: white; -fx-font-weight: bold;"
-        })
-      }
-      contentDisplay = scalafx.scene.control.ContentDisplay.GraphicOnly
-      padding = Insets(0)
-      onAction = _ => {
-        controller.stand()
-        updateGameUI()
-      }
-    },
-    new Button("Undo") {
-      graphic = new StackPane {
-        children = new ImageView(buttonImage) {
-          fitWidth = 140
-          fitHeight = 60
-          preserveRatio = true
-          smooth = true
-        }
-        children.add(new Label("Undo") {
-          style = "-fx-text-fill: white; -fx-font-weight: bold;"
-        })
-      }
-      contentDisplay = scalafx.scene.control.ContentDisplay.GraphicOnly
-      padding = Insets(0)
-      onAction = _ => {
-        controller.undoLastCommand()
-        updateGameUI()
-      }
-    },
-    new Button("Redo") {
-      graphic = new StackPane {
-        children = new ImageView(buttonImage) {
-          fitWidth = 140
-          fitHeight = 60
-          preserveRatio = true
-          smooth = true
-        }
-        children.add(new Label("Redo") {
-          style = "-fx-text-fill: white; -fx-font-weight: bold;"
-        })
-      }
-      contentDisplay = scalafx.scene.control.ContentDisplay.GraphicOnly
-      padding = Insets(0)
-      onAction = _ => {
-        controller.redoLastUndoneCommand()
-        updateGameUI()
-      }
-    }
+    hit,
+    stand,
+    undo,
+    redo
+  )
+  nextRoundButtons = Seq(
+    nextRound,
+    undo,
+    redo
   )
 
   private def updateRemainingCardImages(): Unit = {
@@ -290,5 +220,24 @@ case class GameScene(
       }
       remainingCardImages.children.add(cardImage)
     }
+  }
+  def createNewButton(buttonText: String): Button = {
+    val b = new Button {
+      graphic = new StackPane {
+        children = new ImageView(buttonImage) {
+          fitWidth = 140
+          fitHeight = 60
+          preserveRatio = true
+          smooth = true
+        }
+        children.add(new Label(buttonText) {
+          style = "-fx-text-fill: white; -fx-font-weight: bold;"
+        })
+      }
+      contentDisplay = scalafx.scene.control.ContentDisplay.GraphicOnly
+      padding = Insets(0)
+
+    }
+    b
   }
 }

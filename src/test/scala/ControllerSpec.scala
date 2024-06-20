@@ -93,7 +93,7 @@ class ControllerSpec extends AnyWordSpec {
         val controller = new Controller(game)
         val hand = ArrayBuffer(new Card(Rank.Ace, Suite.Spade), new Card(Rank.Seven, Suite.Heart))
 
-        controller.game.evalStrat.evaluateHand(hand) shouldEqual 18
+        controller.evaluateHand(hand) shouldEqual 18
       }
     }
 

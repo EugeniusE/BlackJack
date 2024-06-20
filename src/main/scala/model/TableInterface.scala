@@ -11,8 +11,11 @@ trait  TableInterface {
     def getOutcome(): Ergebnis 
     def setOutcome(e:Ergebnis):Unit 
     def getPlayerHand(): ArrayBuffer[Card] 
+    def addPlayerHand(card: Card):Unit
     def clearPlayerHand():Unit
+    def removePlayerHand(card:Card):Unit
     def getDeck():Deck
     def setDeck(x:Deck):Unit
     def getPlayerName():String
+    def drawNewCard():Card
 }

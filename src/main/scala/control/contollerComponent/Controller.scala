@@ -3,13 +3,17 @@ import Decks.Deck
 import util.Observer
 import util.Observable
 import scala.collection.mutable.ArrayBuffer
+import Main.game
+import com.google.inject.Inject
+import com.google.inject.Guice
+import default.tableI
 
 enum Ergebnis:
   case PlayerWin, DealerWin, Draw, Undecided
 
-class Controller(val game: GameType) extends ControllerInterface {
+class Controller@Inject(game:GameType) extends ControllerInterface() {
 
-  private val table = new Table(game)
+  private val table = Guice.createInjector(new BlackJackModule(game)).getInstance(classOf[TableInterface]) 
   private val commandManager = new CommandManager()
 
   override def newGame(): Unit = {
