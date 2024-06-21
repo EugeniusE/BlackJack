@@ -20,3 +20,7 @@ For more information on the sbt-dotty plugin, see the
 
 working schedule : main => developer => development
 jede abgabe auf den main branch ; fetures auf den developer branch
+
+
+$ sbt clean coverage test
+$ sbt coverageReport
