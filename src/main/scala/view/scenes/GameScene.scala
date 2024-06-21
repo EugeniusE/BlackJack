@@ -84,7 +84,7 @@ case class GameScene(
               dealerScoreLabel,
               new Label(message) {
                 style =
-                  "-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: blue;"
+                  "-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: grey;"
               },
               new HBox {
                 alignment = Pos.Center

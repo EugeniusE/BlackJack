@@ -25,19 +25,19 @@ object Main{
   val controller = injector.getInstance(classOf[ControllerInterface])
 
     val tui = new TUI(controller)
-    val gui = new GUI(controller)
-    controller.add(gui)
+    //val gui = new GUI(controller)
+    //controller.add(gui)
     controller.add(tui)
 
   def main(args: Array[String]): Unit = {
     var input = "" 
-    val guiThread = new Thread(() => {gui.main(Array.empty)})
-    guiThread.setDaemon(true)
-    guiThread.start()
+    // val guiThread = new Thread(() => {gui.main(Array.empty)})
+    // guiThread.setDaemon(true)
+    // guiThread.start()
 
     
     // Add onCloseRequest handler
-    
+    controller.newGame()
     while(input!= "q"){
      input = readLine()
      if(input!= "q")
