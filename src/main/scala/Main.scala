@@ -44,6 +44,7 @@ object Main{
         tui.getInputAndLoop(input)
     }
     Platform.exit()
+    System.exit(0)
   
 }
 

@@ -98,6 +98,8 @@ case class GameScene(
               alignment = Pos.Center
               spacing = 10
               children = buttons
+              if(controller.getPlayerHand().length <2 )
+                children.add(0,betBtn)
             },
             new HBox {
               alignment = Pos.Center
@@ -203,7 +205,6 @@ case class GameScene(
   continueButtons = Seq(
     hit,
     stand,
-    betBtn,
     undo,
     redo
   )
