@@ -8,11 +8,16 @@ import scalafx.scene.Scene
 import scalafx.event.ActionEvent
 import scala.compiletime.uninitialized
 import javafx.stage.WindowEvent
+import javafx.stage.Stage
 import scalafx.geometry.Side.Top
 import javax.swing.GroupLayout.Alignment
 import scalafx.scene.layout.BorderPane
 import scalafx.scene.layout.GridPane
 import scalafx.scene.layout.Priority
+import scalafx.stage.Modality
+import scalafx.scene.control.TextField
+import scalafx.scene.control.Alert
+import scalafx.scene.control.Alert.AlertType
 
 case class GameScene(
     controller: ControllerInterface,
@@ -23,6 +28,10 @@ case class GameScene(
   val buttonImage = new Image(
     new FileInputStream("src/main/scala/resources/ButtonBackground.png")
   )
+  val playerMoneyLabel = new Label() { style = labelStyle }
+  val playerBetLabel = new Label() { style = labelStyle }
+  val labelStyle =
+    "-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: yellow;"
   private val playerCardImages = new HBox {
     alignment = Pos.Center
     spacing = 10
@@ -55,58 +64,65 @@ case class GameScene(
     }
 
     Platform.runLater {
-      root = new BorderPane() { 
+      root = new BorderPane() {
         hgrow = Priority.ALWAYS
         prefHeight = windowHeight
         prefWidth = windowWidth
         style = "-fx-background-color: green;"
         padding = Insets(10)
 
-          val rCBox = new VBox {
-            spacing = 10
-            alignment = Pos.TopLeft
-            children = Seq(
-              new Label("Remaining Cards") {
-                style =
-                  "-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: yellow;"
-                padding = Insets(10)
-              },
-              remainingCardImages // Add remainingCardImages here
-            )
-          }
-          val mBox = new VBox {
-            alignment = Pos.TopCenter
-            spacing = 10
-            children = Seq(
-              playerScoreLabel,
-              playerCardImages,
-              dealerCardImages,
-              dealerScoreLabel,
-              new Label(message) {
-                style =
-                  "-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: grey;"
-              },
-              new HBox {
-                alignment = Pos.Center
-                spacing = 10
-                children = buttons
-              },
-              new HBox {
-                alignment = Pos.Center
-                children = Seq(quitBtn)
-              }
-            )
-          }
-          
-          val RBox = new VBox { // box zum einfügen rechts Wetten und so
-            alignment = Pos.TopRight
-            children += new Label("Top Right")
-          }
+        val rCBox = new VBox {
+          spacing = 10
+          alignment = Pos.TopLeft
+          children = Seq(
+            new Label("Remaining Cards") {
+              style = labelStyle
+              padding = Insets(10)
+            },
+            remainingCardImages // Add remainingCardImages here
+          )
+        }
+        val mBox = new VBox {
+          alignment = Pos.TopCenter
+          spacing = 10
+          children = Seq(
+            playerScoreLabel,
+            playerCardImages,
+            dealerCardImages,
+            dealerScoreLabel,
+            new Label(message) {
+              style =
+                "-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: grey;"
+            },
+            new HBox {
+              alignment = Pos.Center
+              spacing = 10
+              children = buttons
+            },
+            new HBox {
+              alignment = Pos.Center
+              children = Seq(quitBtn)
+            }
+          )
+        }
+
+        val RBox = new VBox { // box zum einfügen rechts Wetten und so
+          alignment = Pos.TopRight
+          playerBetLabel.setText(s"PlayerBet : ${controller.getBet()}")
+          children += playerBetLabel
+          style = labelStyle
+
+          playerMoneyLabel.setText(
+            s"PlayerMoney: ${controller.getPlayerMoney()}"
+          )
+          children += playerMoneyLabel
+
+        }
         padding = scalafx.geometry.Insets(10)
         left = rCBox
         right = RBox
         center = mBox
-        
+
       }
       updateCardImages()
       updateScores()
@@ -153,7 +169,7 @@ case class GameScene(
     updateCardImages()
     updateRemainingCardImages()
   }
-  //creation of buttons with utility method for same style
+  // creation of buttons with utility method for same style
   val hit = createNewButton("Hit")
   hit.onAction = _ => {
     controller.hit()
@@ -180,12 +196,14 @@ case class GameScene(
     updateGameUI()
   }
   val quitBtn = createNewButton("quit")
-  quitBtn.onAction = _ =>{onClickQuitBtn()}
-
+  quitBtn.onAction = _ => { onClickQuitBtn() }
+  val betBtn = createNewButton("Place Bet")
+  betBtn.onAction = _ => { showBetPopup() }
 
   continueButtons = Seq(
     hit,
     stand,
+    betBtn,
     undo,
     redo
   )
@@ -239,5 +257,47 @@ case class GameScene(
 
     }
     b
+  }
+  // popup window for placing bets
+  def showBetPopup(): Unit = {
+    val dialog = new Stage()
+    dialog.initModality(Modality.ApplicationModal)
+    dialog.setTitle("Place Your Bet")
+
+    val betInput = new TextField { promptText = "Enter Amount to bet" }
+    val submitButton = new Button("Submit") {
+      onAction = _ => {
+        val input = betInput.text.value
+        try {
+          val betAmount = input.toInt
+          controller.betCommand(betAmount)
+          playerBetLabel.setText(s"PlayerBet : ${controller.getBet()}")
+          playerMoneyLabel.setText(s"PlayerMoney : ${controller.getPlayerMoney()}")
+
+          dialog.close()
+        } catch {
+          case _: NumberFormatException =>
+            new Alert(AlertType.Error) {
+              initOwner(dialog)
+              title = "Invalid Input"
+              headerText = "Invalid Bet Amount"
+              contentText = "Please enter a valid number."
+            }.showAndWait()
+        }
+      }
+    }
+
+    val vbox = new VBox {
+      spacing = 10
+      alignment = Pos.Center
+      children = Seq(
+        new Label("Enter the amount you want to bet:"),
+        betInput,
+        submitButton
+      )
+    }
+
+    dialog.setScene(new Scene(vbox, 300, 200))
+    dialog.showAndWait()
   }
 }
