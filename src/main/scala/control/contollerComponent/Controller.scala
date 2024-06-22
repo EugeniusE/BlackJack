@@ -54,7 +54,10 @@ class Controller@Inject(game:GameType) extends ControllerInterface() {
     println(table.getOutcome())
     notifyObservers
   }
-  def betCommand(amount: Int): Unit = executeCommand(new BetCommand(this,amount))
+  def betCommand(amount: Int): Unit ={
+     executeCommand(new BetCommand(this,amount))
+     notifyObservers
+    }
   def setBet(amount: Int): Unit = table.setBet(amount)
   def clearBet(): Unit = table.clearBet()
 

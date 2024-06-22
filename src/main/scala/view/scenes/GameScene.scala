@@ -98,7 +98,7 @@ case class GameScene(
               alignment = Pos.Center
               spacing = 10
               children = buttons
-              if(controller.getPlayerHand().length <2 )
+              if(controller.getPlayerHand().length <2 && controller.getOutcome() == Ergebnis.Undecided)
                 children.add(0,betBtn)
             },
             new HBox {
@@ -189,7 +189,7 @@ case class GameScene(
   }
   val redo = createNewButton("Redo")
   redo.onAction = _ => {
-    controller.undoLastCommand()
+    controller.redoLastUndoneCommand()
     updateGameUI()
   }
   val nextRound = createNewButton("Next Round")
