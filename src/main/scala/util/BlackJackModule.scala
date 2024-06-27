@@ -13,7 +13,7 @@ class BlackJackModule(game: GameType) extends AbstractModule with ScalaModule {
     bind(classOf[ControllerInterface]).to(classOf[Controller])
     bind(classOf[TableInterface]).to(classOf[Table])
     bind(classOf[FileIOInterface]).to(classOf[JSONFileIO])
-    //bind(classOf[FileIOInterface]).to(classOf[XMLFileIO])
+    //bind(classOf[FileIOInterface]).to(classOf[XMLFileIO]) andere möglichkeit
   }
 
   @Provides
