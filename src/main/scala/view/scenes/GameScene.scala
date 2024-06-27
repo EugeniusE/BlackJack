@@ -103,6 +103,7 @@ case class GameScene(
                 children.add(0,betBtn)
             },
             new HBox {
+              spacing = 10
               alignment = Pos.Center
               children = Seq(saveGameBtn, quitBtn)
             }
