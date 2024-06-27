@@ -1,7 +1,7 @@
 import scala.io.StdIn.readLine
 import util.Observer
 import scala.io.StdIn
-
+import control._
 class TUI(controller: ControllerInterface) extends Observer {
 
   var log: String = ""

@@ -1,13 +1,14 @@
+
+
 import scala.collection.mutable.ArrayBuffer
-import Decks.Card
-import Decks.Rank._
-import Decks.Suite._
+import control._
+import util.Decks.{Rank,Suite,Card}
+import util._
 import scala.io.StdIn.readLine
 import scalafx.application.Platform
 import scalafx.stage.WindowEvent
 import com.google.inject.Guice
 import com.google.inject.name.Names
-import model._
 
 object Main {
 
@@ -19,8 +20,7 @@ object Main {
   val injector = Guice.createInjector(new BlackJackModule(game))
 
   // Choose the implementation you want to use (XML or JSON)
-  val fileIO = injector.getInstance(classOf[FileIOInterface], Names.named("JSON"))
-  val controller = new Controller(game, fileIO)
+  val controller = new Controller(game)
 
   val tui = new TUI(controller)
   val gui = new GUI(controller)

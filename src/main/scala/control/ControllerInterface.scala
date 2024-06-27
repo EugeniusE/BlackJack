@@ -1,10 +1,9 @@
-import Decks.Card
-import Decks.Deck
+package control
+
+import util.Decks.{Deck,Card}
 import util.Observer
 import util.Observable
 import scala.collection.mutable.ArrayBuffer
-import Main.game
-import default.tableI
 
 trait ControllerInterface() extends Observable {
   def newGame(): Unit

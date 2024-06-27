@@ -1,14 +1,16 @@
-import Decks._
+package control
+
+import util.* 
+import Decks.Card
 import scala.util.Try
 import scala.collection.mutable.ArrayBuffer
-import Main.controller
 
 trait Command {
   def execute(): Try[Unit]
   def undo(): Try[Unit]
 }
 
-class HitCommand(controller: Controller) extends Command {
+class HitCommand(controller: ControllerInterface) extends Command {
   var card: Option[Card] = None
   var prevState: Ergebnis = controller.getOutcome()
   override def execute(): Try[Unit] = Try {

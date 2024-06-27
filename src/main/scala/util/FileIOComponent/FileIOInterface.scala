@@ -1,6 +1,8 @@
-import TabelComponent.*
+package util
+import model.TableInterface
 
-trait iFileIO{
+
+trait FileIOInterface{
     def load: TableInterface
     def save(gameState: TableInterface): Unit
 }

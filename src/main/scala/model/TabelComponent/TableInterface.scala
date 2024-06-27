@@ -1,7 +1,8 @@
-import scala.collection.mutable.ArrayBuffer
-import Decks.Card
-import Decks.Deck
+package model
 
+import scala.collection.mutable.ArrayBuffer
+import util.Decks.{Card,Deck}
+import control.Ergebnis
 trait TableInterface {
   def getDealerHand(): ArrayBuffer[Card]
   def addDealerHand(card: Card): Unit
@@ -22,4 +23,5 @@ trait TableInterface {
   def setBet(amount:Int):Unit
   def getBet():Int
   def clearBet():Unit
+  def setPlayerMoney(amount:Int):Unit
 }

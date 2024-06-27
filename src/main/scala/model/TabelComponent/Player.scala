@@ -1,6 +1,6 @@
-
+package model
 import scala.collection.mutable.ArrayBuffer
-import Decks.Card
+import util.Decks.Card
 class Player (private var money:Int,val name :String){
     
     private val hand = new ArrayBuffer[Card]
@@ -25,4 +25,5 @@ class Player (private var money:Int,val name :String){
     def decreaseMoney(amount: Int): Unit = {
       money -= amount
     }
+    def setPlayerMoney(amount:Int):Unit = {money = amount}
 }

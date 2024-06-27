@@ -18,6 +18,7 @@ import java.io.InputStream
 import javafx.css.Style
 import javafx.stage.WindowEvent
 import scalafx.beans.property.DoubleProperty
+import control._
 
 case class PreGameScene(
   controller: ControllerInterface,

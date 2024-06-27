@@ -1,8 +1,5 @@
-import Decks.Rank._
+import util.Decks.{Rank,Suite,Card,Deck}
 import scala.collection.mutable.ArrayBuffer
-import Decks.Suite._
-import Decks.Card
-import Decks.Deck
 object HandToString {
 
     

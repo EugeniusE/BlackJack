@@ -18,7 +18,8 @@ import scalafx.stage.Modality
 import scalafx.scene.control.TextField
 import scalafx.scene.control.Alert
 import scalafx.scene.control.Alert.AlertType
-
+import control._
+import util.cardPath
 case class GameScene(
     controller: ControllerInterface,
     windowWidth: Double,
