@@ -7,6 +7,7 @@ import Main.game
 import com.google.inject.Inject
 import com.google.inject.Guice
 import default.tableI
+import model._
 
 enum Ergebnis:
   case PlayerWin, DealerWin, Draw, Undecided
@@ -105,4 +106,25 @@ class Controller@Inject(game:GameType) extends ControllerInterface() {
   override def decreasePlayerMoney(amount: Int): Unit = table.decreasePlayerMoney(amount)
   override def increasePlayerMoney(amount:Int):Unit = table.increasePlayerMoney(amount)
   def getBet(): Int = table.getBet()
+
+    def loadGame(): Unit = {
+    val tableState = fileIO.load
+    setTableState(tableState)
+    notifyObservers()
+  }
+
+  def saveGame(): Unit = {
+    fileIO.save(table)
+  }
+
+  private def setTableState(state: TableInterface): Unit = {
+    table.clearDealerhand()
+    state.getDealerHand().foreach(table.addDealerHand)
+    table.clearPlayerHand()
+    state.getPlayerHand().foreach(table.addPlayerHand)
+    table.setDeck(state.getDeck())
+    table.setPlayerMoney(state.getPlayerMoney())
+    table.setBet(state.getBet())
+    table.setOutcome(state.getOutcome())
+  }
 }

@@ -33,5 +33,8 @@ trait ControllerInterface() extends Observable {
   def increasePlayerMoney(amount: Int): Unit
   def decreasePlayerMoney(amount: Int): Unit
   def getBet():Int
+
+  def saveGame():Unit
+  def loadGame():Unit
 }
 

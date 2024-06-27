@@ -39,6 +39,13 @@ case class PreGameScene(
     }
   }
 
+  val loadGameBtn: Button = new Button("Load Game") {
+    onAction = (_: ActionEvent) => {
+      controller.loadGame()
+      onClickStartGameButton()
+    }
+  }
+
   onKeyPressed = (event) => {
     if (event.code.toString == "ENTER") {
       startGameBtn.fire()
@@ -64,8 +71,10 @@ case class PreGameScene(
       },
       new HBox {
         alignment = Pos.Center
+        spacing = 10
         children = Seq(
-          startGameBtn
+          startGameBtn,
+          loadGameBtn
         )
       }
     )
