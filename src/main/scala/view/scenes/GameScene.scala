@@ -201,7 +201,15 @@ case class GameScene(
   val quitBtn = createNewButton("Quit")
   quitBtn.onAction = _ => { onClickQuitBtn() }
   val saveGameBtn = createNewButton("Save Game")
-  saveGameBtn.onAction = _ => { controller.saveGame() }
+  saveGameBtn.onAction = _ => { controller.saveGame()
+
+    val alert = new Alert(AlertType.Information) {
+    title = "Game Saved"
+    headerText = "Game Saved"
+    contentText = "Your game has been saved successfully."
+    }
+    alert.showAndWait()
+  }
   val betBtn = createNewButton("Place Bet")
   betBtn.onAction = _ => { showBetPopup() }
 
