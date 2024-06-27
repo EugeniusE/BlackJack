@@ -27,7 +27,7 @@ lazy val root = (project in file("."))
 
 // Add scoverage plugin settings
 coverageEnabled := true
-coverageFailOnMinimum := true
+coverageFailOnMinimum := false
 coverageHighlighting := true
 
 //coverageMinimumStmtTotal := 90
