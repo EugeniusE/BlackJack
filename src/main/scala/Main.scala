@@ -37,13 +37,14 @@ object Main{
 
     
     // Add onCloseRequest handler
-    
+   // controller.newGame()
     while(input!= "q"){
      input = readLine()
      if(input!= "q")
         tui.getInputAndLoop(input)
     }
     Platform.exit()
+    System.exit(0)
   
 }
 

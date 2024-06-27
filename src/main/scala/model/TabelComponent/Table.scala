@@ -7,6 +7,13 @@ import com.google.inject.Inject
 
 class Table @Inject(game: GameType) extends TableInterface {
 
+
+  override def clearBet(): Unit = playerBet = 0
+
+  override def setBet(amount: Int): Unit = playerBet = amount
+
+  override def getBet(): Int = playerBet
+
   private var deck =
     DeckFactory.apply(game.deckFactoryType) // Deck factory zum erstellen von verschiedenen arten von Decks
   private var outcome = Ergebnis.Undecided
@@ -37,5 +44,7 @@ class Table @Inject(game: GameType) extends TableInterface {
     deck = remainingDeck
     card
   }
-
+  def getPlayerMoney():Int = player.getMoney
+  def increasePlayerMoney(amount:Int): Unit = player.increaseMoney(amount)
+  def decreasePlayerMoney(amount: Int):Unit = player.decreaseMoney(amount)
 }

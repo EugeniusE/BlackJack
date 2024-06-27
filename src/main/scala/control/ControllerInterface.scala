@@ -4,6 +4,7 @@ import util.Observer
 import util.Observable
 import scala.collection.mutable.ArrayBuffer
 import Main.game
+import default.tableI
 
 trait ControllerInterface() extends Observable {
   def newGame(): Unit
@@ -25,5 +26,12 @@ trait ControllerInterface() extends Observable {
   def removePlayerHand(card: Card): Unit
   def getPlayerName(): String
   def getDeck():Deck
+  def getPlayerMoney(): Int 
+  def betCommand(amount: Int):Unit
+  def setBet(amount: Int):Unit
+  def clearBet():Unit 
+  def increasePlayerMoney(amount: Int): Unit
+  def decreasePlayerMoney(amount: Int): Unit
+  def getBet():Int
 }
 

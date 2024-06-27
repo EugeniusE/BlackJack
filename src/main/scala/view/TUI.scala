@@ -5,6 +5,8 @@ import scala.io.StdIn
 class TUI(controller: ControllerInterface) extends Observer {
 
   var log: String = ""
+  val inputPromt =
+    "Bitte Hit (h), Stand (s), bet(b), Undo (u), Redo (r), oder Quit (q) \n> "
 
   // checkt den aktuellen status nach jeder änderung und gibt dementsprechend auch input output
 
@@ -20,13 +22,12 @@ class TUI(controller: ControllerInterface) extends Observer {
           // Prompt for input again
           println("Keine Eingabe!")
           print(
-            "Bitte Hit (h), Stand (s), Undo (u), Redo (r), oder Quit (q) \n> "
+            "Bitte Hit (h), Stand (s), bet(b + amount), Undo (u), Redo (r), oder Quit (q) \n> "
           )
         } else {
           val char = input.toLowerCase.charAt(
             0
           ) // Convert input to lowercase and get the first character
-
           char match {
             case 'q' => System.exit(0)
             case 'h' => {
@@ -34,6 +35,28 @@ class TUI(controller: ControllerInterface) extends Observer {
             }
             case 's' => {
               controller.stand()
+            }
+            case 'b' => {
+              val iA = input.split("\\s+")
+              if (iA.length == 2) {
+                try {
+                  val betAmount = iA.array(1).toInt
+                  controller.betCommand(betAmount)
+                  println(s"you bet ${betAmount}!")
+                  printZwischenStand()
+                } catch {
+                  case e: NumberFormatException =>
+                    println(
+                      "false Input please enter correctly 'b 100' zB"
+                    )
+                }
+              }
+              else 
+                println("Please Specify amount to bet")
+
+
+              print(inputPromt)
+
             }
             case 'u' => {
               controller.undoLastCommand()
@@ -45,7 +68,7 @@ class TUI(controller: ControllerInterface) extends Observer {
             case _ => {
               println("Falsche Eingabe. Bitte versuchen Sie es erneut.")
               print(
-                "Bitte Hit (h), Stand (s), Undo (u), Redo (r), oder Quit (q) \n> "
+                "Bitte Hit (h), Stand (s), bet(b) Undo (u), Redo (r), oder Quit (q) \n> "
               )
               // Prompt for input again
             }
@@ -77,7 +100,9 @@ class TUI(controller: ControllerInterface) extends Observer {
             case 'q' => controller.remove(this)
             case _ => {
               println("Falsche Eingabe")
-              print("Weiterspielen? (y), Undo (u), Redo (r), oder Quit (q) \n> ")
+              print(
+                "Weiterspielen? (y), Undo (u), Redo (r), oder Quit (q) \n> "
+              )
               // Prompt for input again
             }
           }
@@ -106,7 +131,7 @@ class TUI(controller: ControllerInterface) extends Observer {
       }
       case Ergebnis.Undecided => {
         print(
-          "Bitte Hit (h), Stand (s), Undo (u), Redo (r), oder Quit (q) \n> "
+          "Bitte Hit (h), Stand (s),bet(b) Undo (u), Redo (r), oder Quit (q) \n> "
         )
 
       }
@@ -116,7 +141,11 @@ class TUI(controller: ControllerInterface) extends Observer {
   }
 
   def printZwischenStand(): Unit = {
-    println(controller.getPlayerName() + " :")
+    println(
+      controller.getPlayerName() + " :" + "Money / Score : " + controller
+        .getPlayerMoney()
+    )
+    println("Einsatz : " + controller.getBet())
     println(HandToString.print_ascii_cards(controller.getPlayerHand()))
     println(
       "Score: " + controller.evaluateHand(
