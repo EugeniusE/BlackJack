@@ -1,19 +1,20 @@
-import Decks.Card
-import Decks.Deck
+package control
+import util._
+import model._
+import util.Decks.{Card,Deck}
 import util.Observer
 import util.Observable
 import scala.collection.mutable.ArrayBuffer
-import Main.game
 import com.google.inject.Inject
 import com.google.inject.Guice
-import default.tableI
 
-enum Ergebnis:
+enum Ergebnis :
   case PlayerWin, DealerWin, Draw, Undecided
 
 class Controller@Inject(game:GameType) extends ControllerInterface() {
-
-  private val table = Guice.createInjector(new BlackJackModule(game)).getInstance(classOf[TableInterface]) 
+  private val injector = Guice.createInjector(new BlackJackModule(game))
+  private val table = injector.getInstance(classOf[TableInterface]) 
+  private val fileIO = injector.getInstance(classOf[FileIOInterface])
   private val commandManager = new CommandManager()
 
   override def newGame(): Unit = {
@@ -105,4 +106,25 @@ class Controller@Inject(game:GameType) extends ControllerInterface() {
   override def decreasePlayerMoney(amount: Int): Unit = table.decreasePlayerMoney(amount)
   override def increasePlayerMoney(amount:Int):Unit = table.increasePlayerMoney(amount)
   def getBet(): Int = table.getBet()
+
+    def loadGame(): Unit = {
+    val tableState = fileIO.load
+    setTableState(tableState)
+    notifyObservers
+  }
+
+  def saveGame(): Unit = {
+    fileIO.save(table)
+  }
+
+  private def setTableState(state: TableInterface): Unit = {
+    table.clearDealerhand()
+    state.getDealerHand().foreach(table.addDealerHand)
+    table.clearPlayerHand()
+    state.getPlayerHand().foreach(table.addPlayerHand)
+    table.setDeck(state.getDeck())
+    table.setPlayerMoney(state.getPlayerMoney())
+    table.setBet(state.getBet())
+    table.setOutcome(state.getOutcome())
+  }
 }

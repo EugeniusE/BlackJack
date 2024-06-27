@@ -18,6 +18,7 @@ import java.io.InputStream
 import javafx.css.Style
 import javafx.stage.WindowEvent
 import scalafx.beans.property.DoubleProperty
+import control._
 
 case class PreGameScene(
   controller: ControllerInterface,
@@ -35,6 +36,13 @@ case class PreGameScene(
   val startGameBtn: Button = new Button("Start Game") {
     onAction = (_: ActionEvent) => {
       controller.newGame()
+      onClickStartGameButton()
+    }
+  }
+
+  val loadGameBtn: Button = new Button("Load Game") {
+    onAction = (_: ActionEvent) => {
+      controller.loadGame()
       onClickStartGameButton()
     }
   }
@@ -64,8 +72,10 @@ case class PreGameScene(
       },
       new HBox {
         alignment = Pos.Center
+        spacing = 10
         children = Seq(
-          startGameBtn
+          startGameBtn,
+          loadGameBtn
         )
       }
     )

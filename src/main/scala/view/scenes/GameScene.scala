@@ -18,7 +18,8 @@ import scalafx.stage.Modality
 import scalafx.scene.control.TextField
 import scalafx.scene.control.Alert
 import scalafx.scene.control.Alert.AlertType
-
+import control._
+import util.cardPath
 case class GameScene(
     controller: ControllerInterface,
     windowWidth: Double,
@@ -102,8 +103,9 @@ case class GameScene(
                 children.add(0,betBtn)
             },
             new HBox {
+              spacing = 10
               alignment = Pos.Center
-              children = Seq(quitBtn)
+              children = Seq(saveGameBtn, quitBtn)
             }
           )
         }
@@ -197,8 +199,18 @@ case class GameScene(
     controller.nextRound()
     updateGameUI()
   }
-  val quitBtn = createNewButton("quit")
+  val quitBtn = createNewButton("Quit")
   quitBtn.onAction = _ => { onClickQuitBtn() }
+  val saveGameBtn = createNewButton("Save Game")
+  saveGameBtn.onAction = _ => { controller.saveGame()
+
+    val alert = new Alert(AlertType.Information) {
+    title = "Game Saved"
+    headerText = "Game Saved"
+    contentText = "Your game has been saved successfully."
+    }
+    alert.showAndWait()
+  }
   val betBtn = createNewButton("Place Bet")
   betBtn.onAction = _ => { showBetPopup() }
 
@@ -240,6 +252,7 @@ case class GameScene(
       remainingCardImages.children.add(cardImage)
     }
   }
+
   def createNewButton(buttonText: String): Button = {
     val b = new Button {
       graphic = new StackPane {
@@ -255,10 +268,10 @@ case class GameScene(
       }
       contentDisplay = scalafx.scene.control.ContentDisplay.GraphicOnly
       padding = Insets(0)
-
     }
     b
   }
+
   // popup window for placing bets
   def showBetPopup(): Unit = {
     val dialog = new Stage()
