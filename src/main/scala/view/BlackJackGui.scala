@@ -22,8 +22,8 @@ class GUI(controller: ControllerInterface) extends JFXApp3 with util.Observer {
   private var gameScene: GameScene = uninitialized
   private var resultScene: ResultScene = uninitialized
 
-  private var windowWidth = 1500.0
-  private var windowHeight = 800.0
+  private var windowWidth = 1800.0
+  private var windowHeight = 900.0
 
   private val minWindowWidth = 500.0
   private val minWindowHeight = 300.0
@@ -31,12 +31,12 @@ class GUI(controller: ControllerInterface) extends JFXApp3 with util.Observer {
 
   override def start(): Unit = {
 
-    val screenWidth = Screen.primary.bounds.width
-    val screenHeight = Screen.primary.bounds.height
+    // val screenWidth = Screen.primary.bounds.width
+    // val screenHeight = Screen.primary.bounds.height
 
-    // Calculate preferred window dimensions (adjust as needed)
-     windowWidth = screenWidth * 0.8 // 80% of screen width
-     windowHeight = screenHeight * 0.8 // 80% of screen height
+    // // Calculate preferred window dimensions (adjust as needed)
+    //  windowWidth = screenWidth * 0.8 // 80% of screen width
+    //  windowHeight = screenHeight * 0.8 // 80% of screen height
     preGameScene = PreGameScene(controller, windowWidth, windowHeight, () => stage.setScene(gameScene))
     gameScene = GameScene(controller, windowWidth, windowHeight, () => stage.setScene(resultScene))
     gameScene.setCursor(new ImageCursor(cursorImage))
