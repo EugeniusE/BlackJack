@@ -25,14 +25,16 @@ case class ResultScene(
 
   private val resultLabel: Label = new Label("")
 
-  val playAgainBtn: Button = new Button("Play Again") {
-    onAction = (_: ActionEvent) => onClickPlayAgainButton()
-  }
+  val playAgainBtn: Button = HandToString.createNewButton("Play Again!!")
+    playAgainBtn.onAction = (_: ActionEvent) => onClickPlayAgainButton()
+  
+  
 
   root = new VBox {
     alignment = Pos.Center
     spacing = 10
     padding = Insets(20)
+    style = "-fx-background-color: green;"
     children = Seq(
       resultLabel,
       new HBox {

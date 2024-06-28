@@ -26,9 +26,6 @@ case class GameScene(
     windowHeight: Double,
     onClickQuitBtn: () => Unit = () => println("Quit")
 ) extends Scene(windowWidth, windowHeight) {
-  val buttonImage = new Image(
-    new FileInputStream("src/main/scala/resources/ButtonBackground.png")
-  )
   val playerMoneyLabel = new Label() { style = labelStyle }
   val playerBetLabel = new Label() { style = labelStyle }
   val labelStyle =
@@ -174,34 +171,34 @@ case class GameScene(
     updateRemainingCardImages()
   }
   // creation of buttons with utility method for same style
-  val hit = createNewButton("Hit")
+  val hit = HandToString.createNewButton("Hit")
   hit.onAction = _ => {
     controller.hit()
     updateGameUI()
   }
-  val stand = createNewButton("Stand")
+  val stand = HandToString.createNewButton("Stand")
   stand.onAction = _ => {
     controller.stand()
     updateGameUI()
   }
-  val undo = createNewButton("Undo")
+  val undo = HandToString.createNewButton("Undo")
   undo.onAction = _ => {
     controller.undoLastCommand()
     updateGameUI()
   }
-  val redo = createNewButton("Redo")
+  val redo = HandToString.createNewButton("Redo")
   redo.onAction = _ => {
     controller.redoLastUndoneCommand()
     updateGameUI()
   }
-  val nextRound = createNewButton("Next Round")
+  val nextRound = HandToString.createNewButton("Next Round")
   nextRound.onAction = _ => {
     controller.nextRound()
     updateGameUI()
   }
-  val quitBtn = createNewButton("Quit")
+  val quitBtn = HandToString.createNewButton("Quit")
   quitBtn.onAction = _ => { onClickQuitBtn() }
-  val saveGameBtn = createNewButton("Save Game")
+  val saveGameBtn = HandToString.createNewButton("Save Game")
   saveGameBtn.onAction = _ => { controller.saveGame()
 
     val alert = new Alert(AlertType.Information) {
@@ -211,7 +208,7 @@ case class GameScene(
     }
     alert.showAndWait()
   }
-  val betBtn = createNewButton("Place Bet")
+  val betBtn = HandToString.createNewButton("Place Bet")
   betBtn.onAction = _ => { showBetPopup() }
 
   continueButtons = Seq(
@@ -253,24 +250,24 @@ case class GameScene(
     }
   }
 
-  def createNewButton(buttonText: String): Button = {
-    val b = new Button {
-      graphic = new StackPane {
-        children = new ImageView(buttonImage) {
-          fitWidth = 140
-          fitHeight = 60
-          preserveRatio = true
-          smooth = true
-        }
-        children.add(new Label(buttonText) {
-          style = "-fx-text-fill: white; -fx-font-weight: bold;"
-        })
-      }
-      contentDisplay = scalafx.scene.control.ContentDisplay.GraphicOnly
-      padding = Insets(0)
-    }
-    b
-  }
+  // def createNewButton(buttonText: String): Button = {
+  //   val b = new Button {
+  //     graphic = new StackPane {
+  //       children = new ImageView(buttonImage) {
+  //         fitWidth = 140
+  //         fitHeight = 60
+  //         preserveRatio = true
+  //         smooth = true
+  //       }
+  //       children.add(new Label(buttonText) {
+  //         style = "-fx-text-fill: white; -fx-font-weight: bold;"
+  //       })
+  //     }
+  //     contentDisplay = scalafx.scene.control.ContentDisplay.GraphicOnly
+  //     padding = Insets(0)
+  //   }
+  //   b
+  // }
 
   // popup window for placing bets
   def showBetPopup(): Unit = {

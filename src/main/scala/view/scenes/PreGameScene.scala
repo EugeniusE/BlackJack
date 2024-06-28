@@ -33,19 +33,19 @@ case class PreGameScene(
   }
     
 
-  val startGameBtn: Button = new Button("Start Game") {
-    onAction = (_: ActionEvent) => {
+  val startGameBtn: Button = HandToString.createNewButton("Start Game")
+    startGameBtn.onAction = (_: ActionEvent) => {
       controller.newGame()
       onClickStartGameButton()
     }
-  }
+  
 
-  val loadGameBtn: Button = new Button("Load Game") {
-    onAction = (_: ActionEvent) => {
+  val loadGameBtn: Button = HandToString.createNewButton("Load Game") 
+    loadGameBtn.onAction = (_: ActionEvent) => {
       controller.loadGame()
       onClickStartGameButton()
     }
-  }
+  
 
   onKeyPressed = (event) => {
     if (event.code.toString == "ENTER") {
@@ -57,13 +57,9 @@ case class PreGameScene(
     alignment = Pos.Center
     spacing = 10
     padding = Insets(20)
+    style = "-fx-background-color: green;"
     children = Seq(
-      new HBox {
-        alignment = Pos.Center
-        children = Seq(
-          new Label("Welcome to Blackjack!")
-        )
-      },
+      
       new HBox {
         alignment = Pos.Center
         children = Seq(

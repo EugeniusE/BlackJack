@@ -14,12 +14,11 @@ object Main {
 
   val evalStrat = new StandardEvaluationStrategy // Different evaluation strategies can be chosen here
   val gameBuilder = new StandardGameBuilder
-  gameBuilder.setPlayer("Spieler1", 500)
+  gameBuilder.setPlayer("Spieler1", 500) //setUp player TODO accept input
   gameBuilder.setDeckFactoryType(FactoryType.StandartDeck)
   val game = gameBuilder.build()
   val injector = Guice.createInjector(new BlackJackModule(game))
 
-  // Choose the implementation you want to use (XML or JSON)
   val controller = new Controller(game)
 
   val tui = new TUI(controller)
