@@ -1,106 +1,64 @@
 {
   "dealerHand" : [ {
-    "rank" : "Ace",
-    "suite" : "Spade"
+    "rank" : "Three",
+    "suite" : "Heart"
   } ],
   "playerHand" : [ {
-    "rank" : "Eight",
-    "suite" : "Diamond"
-  }, {
-    "rank" : "Seven",
-    "suite" : "Diamond"
+    "rank" : "Three",
+    "suite" : "Spade"
   } ],
   "deck" : {
     "cards" : [ {
-      "rank" : "Ace",
-      "suite" : "Diamond"
-    }, {
-      "rank" : "Two",
-      "suite" : "Diamond"
+      "rank" : "Jack",
+      "suite" : "Spade"
     }, {
       "rank" : "Four",
-      "suite" : "Spade"
-    }, {
-      "rank" : "Seven",
-      "suite" : "Spade"
-    }, {
-      "rank" : "Six",
-      "suite" : "Spade"
-    }, {
-      "rank" : "Five",
       "suite" : "Club"
     }, {
-      "rank" : "Six",
-      "suite" : "Diamond"
+      "rank" : "Five",
+      "suite" : "Spade"
+    }, {
+      "rank" : "Ace",
+      "suite" : "Spade"
     }, {
       "rank" : "Jack",
-      "suite" : "Diamond"
-    }, {
-      "rank" : "Queen",
-      "suite" : "Club"
-    }, {
-      "rank" : "Nine",
-      "suite" : "Heart"
-    }, {
-      "rank" : "Seven",
-      "suite" : "Club"
-    }, {
-      "rank" : "Five",
-      "suite" : "Heart"
-    }, {
-      "rank" : "Two",
-      "suite" : "Heart"
-    }, {
-      "rank" : "Two",
       "suite" : "Club"
     }, {
       "rank" : "King",
       "suite" : "Diamond"
     }, {
-      "rank" : "Four",
+      "rank" : "Jack",
       "suite" : "Heart"
+    }, {
+      "rank" : "Eight",
+      "suite" : "Spade"
+    }, {
+      "rank" : "Six",
+      "suite" : "Heart"
+    }, {
+      "rank" : "King",
+      "suite" : "Heart"
+    }, {
+      "rank" : "Seven",
+      "suite" : "Heart"
+    }, {
+      "rank" : "Five",
+      "suite" : "Club"
     }, {
       "rank" : "Eight",
       "suite" : "Club"
     }, {
-      "rank" : "Ten",
-      "suite" : "Club"
+      "rank" : "Nine",
+      "suite" : "Diamond"
+    }, {
+      "rank" : "Five",
+      "suite" : "Diamond"
     }, {
       "rank" : "Queen",
       "suite" : "Diamond"
     }, {
-      "rank" : "Ten",
-      "suite" : "Heart"
-    }, {
-      "rank" : "Nine",
-      "suite" : "Diamond"
-    }, {
-      "rank" : "Ten",
-      "suite" : "Diamond"
-    }, {
-      "rank" : "Four",
-      "suite" : "Diamond"
-    }, {
-      "rank" : "Two",
-      "suite" : "Spade"
-    }, {
-      "rank" : "Three",
-      "suite" : "Diamond"
-    }, {
-      "rank" : "Seven",
-      "suite" : "Heart"
-    }, {
-      "rank" : "Jack",
+      "rank" : "King",
       "suite" : "Club"
-    }, {
-      "rank" : "Nine",
-      "suite" : "Spade"
-    }, {
-      "rank" : "King",
-      "suite" : "Spade"
-    }, {
-      "rank" : "King",
-      "suite" : "Heart"
     }, {
       "rank" : "Eight",
       "suite" : "Heart"
@@ -108,49 +66,97 @@
       "rank" : "Ace",
       "suite" : "Club"
     }, {
-      "rank" : "Three",
+      "rank" : "Seven",
       "suite" : "Club"
     }, {
       "rank" : "Six",
       "suite" : "Club"
     }, {
-      "rank" : "Ace",
+      "rank" : "Two",
+      "suite" : "Diamond"
+    }, {
+      "rank" : "Ten",
+      "suite" : "Diamond"
+    }, {
+      "rank" : "Two",
+      "suite" : "Heart"
+    }, {
+      "rank" : "Three",
+      "suite" : "Diamond"
+    }, {
+      "rank" : "Five",
       "suite" : "Heart"
     }, {
       "rank" : "Four",
+      "suite" : "Diamond"
+    }, {
+      "rank" : "Six",
+      "suite" : "Spade"
+    }, {
+      "rank" : "Four",
+      "suite" : "Heart"
+    }, {
+      "rank" : "Ten",
       "suite" : "Club"
     }, {
-      "rank" : "Five",
+      "rank" : "Seven",
+      "suite" : "Diamond"
+    }, {
+      "rank" : "Two",
+      "suite" : "Club"
+    }, {
+      "rank" : "Nine",
+      "suite" : "Club"
+    }, {
+      "rank" : "Four",
+      "suite" : "Spade"
+    }, {
+      "rank" : "Ace",
+      "suite" : "Heart"
+    }, {
+      "rank" : "Ten",
+      "suite" : "Spade"
+    }, {
+      "rank" : "Nine",
+      "suite" : "Heart"
+    }, {
+      "rank" : "Queen",
+      "suite" : "Spade"
+    }, {
+      "rank" : "Three",
+      "suite" : "Club"
+    }, {
+      "rank" : "Queen",
+      "suite" : "Club"
+    }, {
+      "rank" : "Six",
+      "suite" : "Diamond"
+    }, {
+      "rank" : "Seven",
       "suite" : "Spade"
     }, {
       "rank" : "King",
-      "suite" : "Club"
-    }, {
-      "rank" : "Eight",
       "suite" : "Spade"
     }, {
-      "rank" : "Jack",
-      "suite" : "Spade"
+      "rank" : "Ten",
+      "suite" : "Heart"
     }, {
       "rank" : "Queen",
       "suite" : "Heart"
     }, {
       "rank" : "Nine",
-      "suite" : "Club"
-    }, {
-      "rank" : "Queen",
       "suite" : "Spade"
     }, {
-      "rank" : "Six",
-      "suite" : "Heart"
+      "rank" : "Ace",
+      "suite" : "Diamond"
     }, {
-      "rank" : "Three",
+      "rank" : "Jack",
+      "suite" : "Diamond"
+    }, {
+      "rank" : "Two",
       "suite" : "Spade"
     }, {
-      "rank" : "Three",
-      "suite" : "Heart"
-    }, {
-      "rank" : "Five",
+      "rank" : "Eight",
       "suite" : "Diamond"
     } ]
   },

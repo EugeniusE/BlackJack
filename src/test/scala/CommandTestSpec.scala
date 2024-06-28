@@ -5,7 +5,10 @@ import org.hamcrest.Matcher
 import scala.util.Try
 import scala.util.Failure
 import scala.util.Success
-import Decks.Deck
+import util.Decks.Deck
+import control._
+import util._
+import model._
 
 class CommandTestSpec extends AnyWordSpec with Matchers {
   val game = new GameType(new StandardEvaluationStrategy,FactoryType.StandartDeck,new Player(500,"Spieler1"))

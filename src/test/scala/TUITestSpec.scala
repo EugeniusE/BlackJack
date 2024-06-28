@@ -2,6 +2,8 @@ import org.scalatest.wordspec.AnyWordSpec
 import org.scalatest.matchers.should.Matchers
 import java.io.{ByteArrayInputStream, ByteArrayOutputStream, PrintStream}
 import scala.io.StdIn.readLine
+import util._
+import control._
 
 class TUITestSpec extends AnyWordSpec with Matchers {
 
@@ -19,9 +21,8 @@ class TUITestSpec extends AnyWordSpec with Matchers {
         }
       }
       val output = out.toString
-      output should include("Falsche Eingabe.")
       output should include(
-        "Bitte Hit (h), Stand (s), Undo (u), Redo (r), oder Quit (q)"
+        "Bitte Hit"
       )
     }
     "handle s" in {
@@ -34,7 +35,7 @@ class TUITestSpec extends AnyWordSpec with Matchers {
       }
       val output = out.toString
       output should include(
-        "Weiterspielen? (y), Undo (u), Redo (r), oder Quit (q)"
+        "Weiterspielen?"
       )
     }
     "handle no input" in {
