@@ -20,6 +20,9 @@ import scalafx.scene.control.Alert
 import scalafx.scene.control.Alert.AlertType
 import control._
 import util.cardPath
+import HandToString.createNewButton
+import scalafx.scene.control.DialogPane
+import scalafx.scene.input.KeyCode.Enter
 case class GameScene(
     controller: ControllerInterface,
     windowWidth: Double,
@@ -29,7 +32,7 @@ case class GameScene(
   val playerMoneyLabel = new Label() { style = labelStyle }
   val playerBetLabel = new Label() { style = labelStyle }
   val labelStyle =
-    "-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: yellow;"
+    "-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: white;"
   private val playerCardImages = new HBox {
     alignment = Pos.Center
     spacing = 10
@@ -39,10 +42,10 @@ case class GameScene(
     spacing = 10
   }
   private val playerScoreLabel = new Label("Player Score: 0") {
-    style = "-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: white;"
+    style = labelStyle
   }
   private val dealerScoreLabel = new Label("Dealer Score: 0") {
-    style = "-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: white;"
+    style = labelStyle
   }
 
   private var continueButtons: Seq[Button] = uninitialized
@@ -54,11 +57,11 @@ case class GameScene(
       case Ergebnis.Undecided =>
         ("Game is ongoing, make your move.", continueButtons)
       case Ergebnis.DealerWin =>
-        ("Dealer wins!", nextRoundButtons)
+        (s"Dealer wins : ${controller.getPlayerName()} loses ${controller.getBet()} €", nextRoundButtons)
       case Ergebnis.PlayerWin =>
-        (s"${controller.getPlayerName()} wins!", nextRoundButtons)
+        (s"${controller.getPlayerName()} wins! ${controller.getBet()} €", nextRoundButtons)
       case Ergebnis.Draw =>
-        ("It's a draw!", nextRoundButtons)
+        ("It's a draw! No money is lost or gained", nextRoundButtons)
     }
 
     Platform.runLater {
@@ -90,14 +93,17 @@ case class GameScene(
             dealerScoreLabel,
             new Label(message) {
               style =
-                "-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: grey;"
+                "-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: white;" + "-fx-border-color: Red; -fx-border-width: 2; -fx-padding: 5;"
             },
             new HBox {
               alignment = Pos.Center
               spacing = 10
               children = buttons
-              if(controller.getPlayerHand().length <2 && controller.getOutcome() == Ergebnis.Undecided)
-                children.add(0,betBtn)
+              if (
+                controller.getPlayerHand().length < 2 && controller
+                  .getOutcome() == Ergebnis.Undecided
+              )
+                children.add(0, betBtn)
             },
             new HBox {
               spacing = 10
@@ -199,13 +205,14 @@ case class GameScene(
   val quitBtn = HandToString.createNewButton("Quit")
   quitBtn.onAction = _ => { onClickQuitBtn() }
   val saveGameBtn = HandToString.createNewButton("Save Game")
-  saveGameBtn.onAction = _ => { controller.saveGame()
+  saveGameBtn.onAction = _ => {
+    controller.saveGame()
 
     val alert = new Alert(AlertType.Information) {
-    title = "Game Saved"
-    headerText = "Game Saved"
-    contentText = "Your game has been saved successfully."
+      title = "Game Saved"
+      contentText = "Your game has been saved successfully."
     }
+    alert.dialogPane().setStyle(labelStyle + "-fx-background-color: green;")
     alert.showAndWait()
   }
   val betBtn = HandToString.createNewButton("Place Bet")
@@ -274,41 +281,48 @@ case class GameScene(
     val dialog = new Stage()
     dialog.initModality(Modality.ApplicationModal)
     dialog.setTitle("Place Your Bet")
+    val betInput = new TextField {
+      promptText = "Enter Amount to bet"
+      style = labelStyle + "-fx-background-color: green;"
+    }
+    val submitButton = createNewButton("Submit")
+    submitButton.onAction = _ => {
+      val input = betInput.text.value
+      try {
+        val betAmount = input.toInt
+        controller.betCommand(betAmount)
+        playerBetLabel.setText(s"PlayerBet : ${controller.getBet()}")
+        playerMoneyLabel.setText(
+          s"PlayerMoney : ${controller.getPlayerMoney()}"
+        )
 
-    val betInput = new TextField { promptText = "Enter Amount to bet" }
-    val submitButton = new Button("Submit") {
-      onAction = _ => {
-        val input = betInput.text.value
-        try {
-          val betAmount = input.toInt
-          controller.betCommand(betAmount)
-          playerBetLabel.setText(s"PlayerBet : ${controller.getBet()}")
-          playerMoneyLabel.setText(s"PlayerMoney : ${controller.getPlayerMoney()}")
+        dialog.close()
+      } catch {
+        case _: NumberFormatException =>
+          new Alert(AlertType.Error) {
+            initOwner(dialog)
+            title = "Invalid Input"
+            contentText = "Please enter a valid number."
+            dialogPane().setStyle(
+              labelStyle + "-fx-background-color: green;"
+            )
+          }.showAndWait()
 
-          dialog.close()
-        } catch {
-          case _: NumberFormatException =>
-            new Alert(AlertType.Error) {
-              initOwner(dialog)
-              title = "Invalid Input"
-              headerText = "Invalid Bet Amount"
-              contentText = "Please enter a valid number."
-            }.showAndWait()
-        }
       }
     }
 
     val vbox = new VBox {
       spacing = 10
       alignment = Pos.Center
+      style = "-fx-background-color: green;"
       children = Seq(
-        new Label("Enter the amount you want to bet:"),
+        new Label("Enter the amount you want to bet:"){style = labelStyle},
         betInput,
         submitButton
       )
     }
 
-    dialog.setScene(new Scene(vbox, 300, 200))
+    dialog.setScene(new Scene(vbox, 475, 240))
     dialog.showAndWait()
   }
 }
