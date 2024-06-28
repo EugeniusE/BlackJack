@@ -22,8 +22,8 @@ class GUI(controller: ControllerInterface) extends JFXApp3 with util.Observer {
   private var gameScene: GameScene = uninitialized
   private var resultScene: ResultScene = uninitialized
 
-  private var windowWidth = 1700.0
-  private var windowHeight = 900.0
+  private var windowWidth = 1200.0
+  private var windowHeight = 740.0
 
   private val minWindowWidth = 500.0
   private val minWindowHeight = 300.0
@@ -32,8 +32,8 @@ class GUI(controller: ControllerInterface) extends JFXApp3 with util.Observer {
   )
 
   override def start(): Unit = {
-    windowWidth = Screen.primary.bounds.width * 0.85
-    windowHeight = Screen.primary.bounds.height * 0.85
+    // windowWidth = Screen.primary.bounds.width * 0.85 //if you want screen scaleing
+    // windowHeight = Screen.primary.bounds.height * 0.85
 
     preGameScene = PreGameScene(
       controller,
