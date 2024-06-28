@@ -18,7 +18,7 @@ This is a normal sbt project. You can compile code with `sbt compile`, run it wi
 
 ## How to play
 
-![Zeichnung](src\main\scala\resources\GUI.png)
+![Zeichnung](src/main/scala/resources/GUI.png)
 
 ### The red box is your Genereal information.
 
