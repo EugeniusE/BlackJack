@@ -13,6 +13,7 @@ import javafx.stage.WindowEvent
 import scala.compiletime.uninitialized
 import scalafx.scene.image.Image
 import scalafx.scene.ImageCursor
+import control.ControllerInterface
 
 class GUI(controller: ControllerInterface) extends JFXApp3 with util.Observer {
   controller.add(this)

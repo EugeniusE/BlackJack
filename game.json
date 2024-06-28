@@ -1,0 +1,166 @@
+{
+  "dealerHand" : [ {
+    "rank" : "Three",
+    "suite" : "Heart"
+  } ],
+  "playerHand" : [ {
+    "rank" : "Three",
+    "suite" : "Spade"
+  } ],
+  "deck" : {
+    "cards" : [ {
+      "rank" : "Jack",
+      "suite" : "Spade"
+    }, {
+      "rank" : "Four",
+      "suite" : "Club"
+    }, {
+      "rank" : "Five",
+      "suite" : "Spade"
+    }, {
+      "rank" : "Ace",
+      "suite" : "Spade"
+    }, {
+      "rank" : "Jack",
+      "suite" : "Club"
+    }, {
+      "rank" : "King",
+      "suite" : "Diamond"
+    }, {
+      "rank" : "Jack",
+      "suite" : "Heart"
+    }, {
+      "rank" : "Eight",
+      "suite" : "Spade"
+    }, {
+      "rank" : "Six",
+      "suite" : "Heart"
+    }, {
+      "rank" : "King",
+      "suite" : "Heart"
+    }, {
+      "rank" : "Seven",
+      "suite" : "Heart"
+    }, {
+      "rank" : "Five",
+      "suite" : "Club"
+    }, {
+      "rank" : "Eight",
+      "suite" : "Club"
+    }, {
+      "rank" : "Nine",
+      "suite" : "Diamond"
+    }, {
+      "rank" : "Five",
+      "suite" : "Diamond"
+    }, {
+      "rank" : "Queen",
+      "suite" : "Diamond"
+    }, {
+      "rank" : "King",
+      "suite" : "Club"
+    }, {
+      "rank" : "Eight",
+      "suite" : "Heart"
+    }, {
+      "rank" : "Ace",
+      "suite" : "Club"
+    }, {
+      "rank" : "Seven",
+      "suite" : "Club"
+    }, {
+      "rank" : "Six",
+      "suite" : "Club"
+    }, {
+      "rank" : "Two",
+      "suite" : "Diamond"
+    }, {
+      "rank" : "Ten",
+      "suite" : "Diamond"
+    }, {
+      "rank" : "Two",
+      "suite" : "Heart"
+    }, {
+      "rank" : "Three",
+      "suite" : "Diamond"
+    }, {
+      "rank" : "Five",
+      "suite" : "Heart"
+    }, {
+      "rank" : "Four",
+      "suite" : "Diamond"
+    }, {
+      "rank" : "Six",
+      "suite" : "Spade"
+    }, {
+      "rank" : "Four",
+      "suite" : "Heart"
+    }, {
+      "rank" : "Ten",
+      "suite" : "Club"
+    }, {
+      "rank" : "Seven",
+      "suite" : "Diamond"
+    }, {
+      "rank" : "Two",
+      "suite" : "Club"
+    }, {
+      "rank" : "Nine",
+      "suite" : "Club"
+    }, {
+      "rank" : "Four",
+      "suite" : "Spade"
+    }, {
+      "rank" : "Ace",
+      "suite" : "Heart"
+    }, {
+      "rank" : "Ten",
+      "suite" : "Spade"
+    }, {
+      "rank" : "Nine",
+      "suite" : "Heart"
+    }, {
+      "rank" : "Queen",
+      "suite" : "Spade"
+    }, {
+      "rank" : "Three",
+      "suite" : "Club"
+    }, {
+      "rank" : "Queen",
+      "suite" : "Club"
+    }, {
+      "rank" : "Six",
+      "suite" : "Diamond"
+    }, {
+      "rank" : "Seven",
+      "suite" : "Spade"
+    }, {
+      "rank" : "King",
+      "suite" : "Spade"
+    }, {
+      "rank" : "Ten",
+      "suite" : "Heart"
+    }, {
+      "rank" : "Queen",
+      "suite" : "Heart"
+    }, {
+      "rank" : "Nine",
+      "suite" : "Spade"
+    }, {
+      "rank" : "Ace",
+      "suite" : "Diamond"
+    }, {
+      "rank" : "Jack",
+      "suite" : "Diamond"
+    }, {
+      "rank" : "Two",
+      "suite" : "Spade"
+    }, {
+      "rank" : "Eight",
+      "suite" : "Diamond"
+    } ]
+  },
+  "playerMoney" : 500,
+  "bet" : 0,
+  "outcome" : "Undecided"
+}

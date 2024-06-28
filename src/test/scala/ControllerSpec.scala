@@ -1,10 +1,10 @@
 import org.scalatest.wordspec.AnyWordSpec
 import org.scalatest.matchers.should.Matchers._
 import scala.collection.mutable.ArrayBuffer
-import Decks.Card
-import Decks.Rank
-import Decks.Suite
-
+import util.Decks.{Card,Rank,Suite}
+import util._
+import control._
+import model.Player
 class ControllerSpec extends AnyWordSpec {
   val game = new GameType(new StandardEvaluationStrategy,FactoryType.StandartDeck,new Player(500,"Spieler1"))
   "A Controller" when {

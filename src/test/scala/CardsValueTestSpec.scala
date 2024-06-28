@@ -1,10 +1,10 @@
 import org.scalatest.wordspec.AnyWordSpec
 import org.scalatest.matchers.should.Matchers
-import Decks.Rank._
-import Decks.Suite._
+import util._
 import org.scalatest.prop.TableDrivenPropertyChecks._
-import Decks.Card
-
+import util.Decks.Rank._
+import util.Decks.Suite._
+import util.Decks.Card
 class CardsValueTestSpec extends AnyWordSpec with Matchers {
   "Path" should {
 

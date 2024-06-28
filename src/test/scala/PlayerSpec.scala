@@ -1,8 +1,8 @@
 import org.scalatest.wordspec.AnyWordSpec
 import org.scalatest.matchers.should.Matchers._
-import Decks.Card
-import Decks.Rank
-import Decks.Suite
+import util.Decks.{Card,Rank,Suite}
+import model.Player
+
 
 class PlayerSpec extends AnyWordSpec {
   "A Player" when {

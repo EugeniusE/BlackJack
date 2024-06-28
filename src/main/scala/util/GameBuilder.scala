@@ -1,5 +1,7 @@
+package util
 
-import Decks.Deck
+
+import model._
 import com.google.inject.Inject
 
 

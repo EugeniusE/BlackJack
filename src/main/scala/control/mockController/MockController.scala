@@ -1,12 +1,27 @@
-import Decks.Card
-import Decks.Deck
+package control
+
+import util._
+import util.Decks._
+import model._
+import util.Decks.{Card, Deck}
+import util.Observer
 import util.Observable
 import scala.collection.mutable.ArrayBuffer
-import Decks.{Suite,Rank}
 import com.google.inject.Inject
+import com.google.inject.Guice
 
+class MockController @Inject (game: GameType) extends ControllerInterface() {
+  def increasePlayerMoney(amount: Int): Unit = ()
+  def decreasePlayerMoney(amount: Int): Unit = ()
+  def loadGame(): Unit = ???
+  def saveGame(): Unit = ???
+  def clearBet(): Unit = ()
+  def getBet(): Int = 0
+  def setBet(amount: Int): Unit = ???
 
-class MockController@Inject(game:GameType) extends ControllerInterface() {
+  def betCommand(amount: Int): Unit = ()
+  override def getPlayerMoney(): Int = ???
+
   private var outcome: Ergebnis = Ergebnis.Undecided
   private var dealerHand: ArrayBuffer[Card] = ArrayBuffer()
   private var playerHand: ArrayBuffer[Card] = ArrayBuffer()

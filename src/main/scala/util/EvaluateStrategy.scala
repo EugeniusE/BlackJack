@@ -1,7 +1,8 @@
-import scala.collection.mutable.ArrayBuffer
-import Decks.Card
-import Decks.Rank._
+package util
 
+import scala.collection.mutable.ArrayBuffer
+import util.Decks.Card
+import util.Decks.Rank._
 
 trait EvaluationStrategy {
   def evaluateHand(hand: ArrayBuffer[Card]): Int
