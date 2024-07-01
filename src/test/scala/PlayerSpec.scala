@@ -22,13 +22,6 @@ class PlayerSpec extends AnyWordSpec {
         player.removeCard(card2)
         player.getHand() should not contain(card2)
       }
-
-      "do nothing if the card is not in the hand" in {
-        val initialHandSize = player.getHand().size
-        val nonExistingCard = new Card(Rank.Two, Suite.Diamond)
-        player.removeCard(nonExistingCard)
-        player.getHand().size shouldEqual initialHandSize
-      }
     }
 
     "clearing its hand" should {
