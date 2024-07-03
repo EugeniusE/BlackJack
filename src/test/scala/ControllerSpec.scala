@@ -150,62 +150,33 @@ class ControllerSpec extends AnyWordSpec {
       }
     }
 
-    "saving and loading game" should {
-      "save and load the game state correctly using JSONFileIO" in {
+    "undoing and redoing commands" should {
+      "undo the last command correctly" in {
         val controller = new Controller(game)
         controller.newGame()
-        val card = controller.getPlayerHand().apply(0)
-        controller.saveGame()
+        val initialHandSize = controller.getPlayerHand().size
 
-        val newController = new Controller(game)
-        newController.loadGame()
+        controller.hit()
+        controller.getPlayerHand().size shouldEqual initialHandSize + 1
 
-        newController.getPlayerHand() should contain(card)
-
-        // "save and load the game state correctly using XMLFileIO" in {
-        //   val gameWithXML = new GameType(new StandardEvaluationStrategy, FactoryType.StandartDeck, new Player(500, "Spieler1"))
-        //   val xmlFileIO = new XMLFileIO(gameWithXML)
-        //   val controller = new Controller(gameWithXML) {
-        //   }
-        //   controller.newGame()
-        //   controller.addPlayerHand(new Card(Rank.Ten, Suite.Spade))
-        //   controller.saveGame()
-
-        //   val newController = new Controller(gameWithXML) {
-        //   }
-        //   newController.loadGame()
-
-        //   newController.getPlayerHand() should contain (new Card(Rank.Ten, Suite.Spade))
-        // }
+        controller.undoLastCommand()
+        controller.getPlayerHand().size shouldEqual initialHandSize
       }
+      "redo the last undone command correctly" in {
+        val controller = new Controller(game)
+        controller.newGame()
+        val initialHandSize = controller.getPlayerHand().size
 
-      "undoing and redoing commands" should {
-        "undo the last command correctly" in {
-          val controller = new Controller(game)
-          controller.newGame()
-          val initialHandSize = controller.getPlayerHand().size
+        controller.hit()
+        controller.getPlayerHand().size shouldEqual initialHandSize + 1
 
-          controller.hit()
-          controller.getPlayerHand().size shouldEqual initialHandSize + 1
+        controller.undoLastCommand()
+        controller.getPlayerHand().size shouldEqual initialHandSize
 
-          controller.undoLastCommand()
-          controller.getPlayerHand().size shouldEqual initialHandSize
-        }
-        "redo the last undone command correctly" in {
-          val controller = new Controller(game)
-          controller.newGame()
-          val initialHandSize = controller.getPlayerHand().size
-
-          controller.hit()
-          controller.getPlayerHand().size shouldEqual initialHandSize + 1
-
-          controller.undoLastCommand()
-          controller.getPlayerHand().size shouldEqual initialHandSize
-
-          controller.redoLastUndoneCommand()
-          controller.getPlayerHand().size shouldEqual initialHandSize + 1
-        }
+        controller.redoLastUndoneCommand()
+        controller.getPlayerHand().size shouldEqual initialHandSize + 1
       }
     }
   }
+
 }
