@@ -7,6 +7,8 @@ Test Status
 ## Coverage 
 
 Coverage Status [![Coverage Status](https://coveralls.io/repos/github/EugeniusE/BlackJack/badge.svg?branch=main)](https://coveralls.io/github/EugeniusE/BlackJack?branch=main)
+
+
 for checking locally use ./runCoverage in root 
 
 ## sbt project compiled with Scala 3
