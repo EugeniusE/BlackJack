@@ -7,7 +7,11 @@ import control._
 import model.Player
 
 class ControllerSpec extends AnyWordSpec {
-  val game = new GameType(new StandardEvaluationStrategy, FactoryType.StandartDeck, new Player(500, "Spieler1"))
+  val game = new GameType(
+    new StandardEvaluationStrategy,
+    FactoryType.StandartDeck,
+    new Player(500, "Spieler1")
+  )
 
   "A Controller" when {
 
@@ -91,7 +95,10 @@ class ControllerSpec extends AnyWordSpec {
     "evaluating hand" should {
       "correctly evaluate the hand value" in {
         val controller = new Controller(game)
-        val hand = ArrayBuffer(new Card(Rank.Ace, Suite.Spade), new Card(Rank.Seven, Suite.Heart))
+        val hand = ArrayBuffer(
+          new Card(Rank.Ace, Suite.Spade),
+          new Card(Rank.Seven, Suite.Heart)
+        )
 
         controller.evaluateHand(hand) shouldEqual 18
       }
@@ -123,7 +130,10 @@ class ControllerSpec extends AnyWordSpec {
 
     "A high stakes Game" should {
       val eval = new HighStakes
-      val hand = ArrayBuffer(new Card(Rank.Ace, Suite.Spade), new Card(Rank.Ace, Suite.Spade))
+      val hand = ArrayBuffer(
+        new Card(Rank.Ace, Suite.Spade),
+        new Card(Rank.Ace, Suite.Spade)
+      )
       "evaluate 2 aces as 22" in {
         eval.evaluateHand(hand) shouldEqual 22
       }
@@ -144,59 +154,57 @@ class ControllerSpec extends AnyWordSpec {
       "save and load the game state correctly using JSONFileIO" in {
         val controller = new Controller(game)
         controller.newGame()
-        controller.addPlayerHand(new Card(Rank.Ten, Suite.Spade))
+        val card = controller.getPlayerHand().apply(0)
         controller.saveGame()
 
         val newController = new Controller(game)
         newController.loadGame()
 
-        newController.getPlayerHand() should contain (new Card(Rank.Ten, Suite.Spade))
+        newController.getPlayerHand() should contain(card)
+
+        // "save and load the game state correctly using XMLFileIO" in {
+        //   val gameWithXML = new GameType(new StandardEvaluationStrategy, FactoryType.StandartDeck, new Player(500, "Spieler1"))
+        //   val xmlFileIO = new XMLFileIO(gameWithXML)
+        //   val controller = new Controller(gameWithXML) {
+        //   }
+        //   controller.newGame()
+        //   controller.addPlayerHand(new Card(Rank.Ten, Suite.Spade))
+        //   controller.saveGame()
+
+        //   val newController = new Controller(gameWithXML) {
+        //   }
+        //   newController.loadGame()
+
+        //   newController.getPlayerHand() should contain (new Card(Rank.Ten, Suite.Spade))
+        // }
       }
 
-      // "save and load the game state correctly using XMLFileIO" in {
-      //   val gameWithXML = new GameType(new StandardEvaluationStrategy, FactoryType.StandartDeck, new Player(500, "Spieler1"))
-      //   val xmlFileIO = new XMLFileIO(gameWithXML)
-      //   val controller = new Controller(gameWithXML) {
-      //     override val fileIO = xmlFileIO
-      //   }
-      //   controller.newGame()
-      //   controller.addPlayerHand(new Card(Rank.Ten, Suite.Spade))
-      //   controller.saveGame()
+      "undoing and redoing commands" should {
+        "undo the last command correctly" in {
+          val controller = new Controller(game)
+          controller.newGame()
+          val initialHandSize = controller.getPlayerHand().size
 
-      //   val newController = new Controller(gameWithXML) {
-      //     override val fileIO = xmlFileIO
-      //   }
-      //   newController.loadGame()
+          controller.hit()
+          controller.getPlayerHand().size shouldEqual initialHandSize + 1
 
-      //   newController.getPlayerHand() should contain (new Card(Rank.Ten, Suite.Spade))
-      // }
-    }
+          controller.undoLastCommand()
+          controller.getPlayerHand().size shouldEqual initialHandSize
+        }
+        "redo the last undone command correctly" in {
+          val controller = new Controller(game)
+          controller.newGame()
+          val initialHandSize = controller.getPlayerHand().size
 
-    "undoing and redoing commands" should {
-      "undo the last command correctly" in {
-        val controller = new Controller(game)
-        controller.newGame()
-        val initialHandSize = controller.getPlayerHand().size
+          controller.hit()
+          controller.getPlayerHand().size shouldEqual initialHandSize + 1
 
-        controller.hit()
-        controller.getPlayerHand().size shouldEqual initialHandSize + 1
+          controller.undoLastCommand()
+          controller.getPlayerHand().size shouldEqual initialHandSize
 
-        controller.undoLastCommand()
-        controller.getPlayerHand().size shouldEqual initialHandSize
-      }
-      "redo the last undone command correctly" in {
-        val controller = new Controller(game)
-        controller.newGame()
-        val initialHandSize = controller.getPlayerHand().size
-
-        controller.hit()
-        controller.getPlayerHand().size shouldEqual initialHandSize + 1
-
-        controller.undoLastCommand()
-        controller.getPlayerHand().size shouldEqual initialHandSize
-
-        controller.redoLastUndoneCommand()
-        controller.getPlayerHand().size shouldEqual initialHandSize + 1
+          controller.redoLastUndoneCommand()
+          controller.getPlayerHand().size shouldEqual initialHandSize + 1
+        }
       }
     }
   }
