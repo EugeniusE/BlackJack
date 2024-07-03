@@ -65,7 +65,6 @@ class GUI(controller: ControllerInterface) extends JFXApp3 with util.Observer {
     )
     resultScene.setCursor(new ImageCursor(cursorImage))
 
-    // val iconImage = new Image(getClass.getResourceAsStream("/Users/simonkann/Documents/Se/BlackJack/src/main/scala/resources/icon.png"))
     stage = new JFXApp3.PrimaryStage {
       height = windowHeight
       width = windowWidth
