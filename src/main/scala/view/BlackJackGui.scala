@@ -44,6 +44,7 @@ class GUI(controller: ControllerInterface) extends JFXApp3 with util.Observer {
         stage.sizeToScene()
       }
     )
+    preGameScene.setCursor(new ImageCursor(cursorImage))
     gameScene = GameScene(
       controller,
       windowWidth,
@@ -62,6 +63,7 @@ class GUI(controller: ControllerInterface) extends JFXApp3 with util.Observer {
         stage.sizeToScene()
       }
     )
+    resultScene.setCursor(new ImageCursor(cursorImage))
 
     // val iconImage = new Image(getClass.getResourceAsStream("/Users/simonkann/Documents/Se/BlackJack/src/main/scala/resources/icon.png"))
     stage = new JFXApp3.PrimaryStage {
