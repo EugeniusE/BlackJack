@@ -16,6 +16,7 @@ object Main {
   val gameBuilder = new StandardGameBuilder
   gameBuilder.setPlayer("Spieler1", 500) //setUp player TODO accept input
   gameBuilder.setDeckFactoryType(FactoryType.StandartDeck)
+  gameBuilder.setEvaluationStrategy(evalStrat)
   val game = gameBuilder.build()
   val injector = Guice.createInjector(new BlackJackModule(game))
 

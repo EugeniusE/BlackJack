@@ -6,9 +6,10 @@ Test Status
 [![BuildStatus](https://github.com/EugeniusE/BlackJack/actions/workflows/scala.yml/badge.svg)](https://github.com/EugeniusE/BlackJack/actions/workflows/scala.yml)
 ## Coverage 
 
-Coverage Status [![Coverage Status](https://coveralls.io/repos/github/EugeniusE/BlackJack/badge.svg?branch=main)](https://coveralls.io/github/EugeniusE/BlackJack?branch=main)
+Coverage Status  [![Coverage Status](https://coveralls.io/repos/github/EugeniusE/BlackJack/badge.svg?branch=main)](https://coveralls.io/github/EugeniusE/BlackJack?branch=main)
 
-for checking locally use ./runCoverage in root 
+
+for checking locally use ./runCoverage in root of project
 
 ## sbt project compiled with Scala 3
 
