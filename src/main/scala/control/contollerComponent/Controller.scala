@@ -14,7 +14,7 @@ enum Ergebnis :
 class Controller@Inject(game:GameType) extends ControllerInterface() {
   private val injector = Guice.createInjector(new BlackJackModule(game))
   private val table = injector.getInstance(classOf[TableInterface]) 
-  private val fileIO = injector.getInstance(classOf[FileIOInterface])
+  val fileIO = injector.getInstance(classOf[FileIOInterface])
   private val commandManager = new CommandManager()
 
   override def newGame(): Unit = {

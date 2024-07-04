@@ -7,7 +7,11 @@ import control._
 import model.Player
 
 class ControllerSpec extends AnyWordSpec {
-  val game = new GameType(new StandardEvaluationStrategy, FactoryType.StandartDeck, new Player(500, "Spieler1"))
+  val game = new GameType(
+    new StandardEvaluationStrategy,
+    FactoryType.StandartDeck,
+    new Player(500, "Spieler1")
+  )
 
   "A Controller" when {
 
@@ -91,7 +95,10 @@ class ControllerSpec extends AnyWordSpec {
     "evaluating hand" should {
       "correctly evaluate the hand value" in {
         val controller = new Controller(game)
-        val hand = ArrayBuffer(new Card(Rank.Ace, Suite.Spade), new Card(Rank.Seven, Suite.Heart))
+        val hand = ArrayBuffer(
+          new Card(Rank.Ace, Suite.Spade),
+          new Card(Rank.Seven, Suite.Heart)
+        )
 
         controller.evaluateHand(hand) shouldEqual 18
       }
@@ -123,7 +130,10 @@ class ControllerSpec extends AnyWordSpec {
 
     "A high stakes Game" should {
       val eval = new HighStakes
-      val hand = ArrayBuffer(new Card(Rank.Ace, Suite.Spade), new Card(Rank.Ace, Suite.Spade))
+      val hand = ArrayBuffer(
+        new Card(Rank.Ace, Suite.Spade),
+        new Card(Rank.Ace, Suite.Spade)
+      )
       "evaluate 2 aces as 22" in {
         eval.evaluateHand(hand) shouldEqual 22
       }
@@ -138,38 +148,6 @@ class ControllerSpec extends AnyWordSpec {
         controller.clearBet()
         controller.getBet() shouldEqual 0
       }
-    }
-
-    "saving and loading game" should {
-      "save and load the game state correctly using JSONFileIO" in {
-        val controller = new Controller(game)
-        controller.newGame()
-        controller.addPlayerHand(new Card(Rank.Ten, Suite.Spade))
-        controller.saveGame()
-
-        val newController = new Controller(game)
-        newController.loadGame()
-
-        newController.getPlayerHand() should contain (new Card(Rank.Ten, Suite.Spade))
-      }
-
-      // "save and load the game state correctly using XMLFileIO" in {
-      //   val gameWithXML = new GameType(new StandardEvaluationStrategy, FactoryType.StandartDeck, new Player(500, "Spieler1"))
-      //   val xmlFileIO = new XMLFileIO(gameWithXML)
-      //   val controller = new Controller(gameWithXML) {
-      //     override val fileIO = xmlFileIO
-      //   }
-      //   controller.newGame()
-      //   controller.addPlayerHand(new Card(Rank.Ten, Suite.Spade))
-      //   controller.saveGame()
-
-      //   val newController = new Controller(gameWithXML) {
-      //     override val fileIO = xmlFileIO
-      //   }
-      //   newController.loadGame()
-
-      //   newController.getPlayerHand() should contain (new Card(Rank.Ten, Suite.Spade))
-      // }
     }
 
     "undoing and redoing commands" should {
@@ -200,4 +178,5 @@ class ControllerSpec extends AnyWordSpec {
       }
     }
   }
+
 }

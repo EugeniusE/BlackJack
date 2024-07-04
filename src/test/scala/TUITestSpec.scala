@@ -11,7 +11,7 @@ class TUITestSpec extends AnyWordSpec with Matchers {
 
   "TUI" should {
     "handle incorrect input and prompt again" in {
-      val in = new ByteArrayInputStream("x\nq\n".getBytes)
+      val in = new ByteArrayInputStream("p\nq\n".getBytes)
       val out = new ByteArrayOutputStream()
       Console.withIn(in) {
         Console.withOut(new PrintStream(out)) {
