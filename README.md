@@ -46,3 +46,30 @@ The reamaining cards are displayed on the left
 
 ## Development
 
+
+## Docker mit GUI
+### build docker image
+docker build -t blackjack:v2 .
+
+### check and set correct display
+echo $DISPLAY
+export DISPLAY=:0
+
+### run in xquartz terminal & check if prefrences -> security -> Allow connections from network clients is on
+xhost +
+
+### check ip adress of your host machine
+ip=$(ifconfig en0 | grep inet | awk '$1=="inet" {print $2}')
+echo $ip
+
+### run docker container
+docker run --name blackjack -e DISPLAY=$ip:0 -v /tmp/.X11-unix:/tmp/.X11-unix -it blackjack:v2 /bin/bash
+
+### run sbt application
+sbt -Djava.awt.headless=false -Dawt.useSystemAAFontSettings=lcd -Dsun.java2d.xrender=true run
+
+### run docker again 
+docker start -i blackjack
+
+### play again
+sbt run
