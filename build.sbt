@@ -12,7 +12,10 @@ lazy val root = (project in file("."))
       "org.scalafx" %% "scalafx" % "16.0.0-R25",
       "net.codingwell" %% "scala-guice" % "7.0.0",
       "org.scala-lang.modules" %% "scala-xml" % "2.3.0",
-      "com.typesafe.play" %% "play-json" % "2.10.5"
+      "com.typesafe.play" %% "play-json" % "2.10.5",
+      "org.openjfx" % "javafx-base" % "17.0.2",
+      "org.openjfx" % "javafx-graphics" % "17.0.2",
+      "org.openjfx" % "javafx-controls" % "17.0.2"
     ),
     libraryDependencies ++= {
       // Determine OS version of JavaFX binaries
